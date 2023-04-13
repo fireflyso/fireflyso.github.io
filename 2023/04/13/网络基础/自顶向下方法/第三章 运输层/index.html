@@ -1,0 +1,355 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>自顶向下方法 -- 第三章 运输层 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[TOC] 概述与运输层服务 运输层为不同主机上的进程提供逻辑通信功能，是在端系统而不是路由器中实现的 运输层从应用程序中接收到报文转换为运输层分组（报文段segment），一般是将应用报文划分为较小的块，为每个块加上运输层的协议信息，然后将这些报文段传递给网络层，网络层将其封装为网络层分组（数据报）向目的地发送，注意网络路由器仅作用与该数据报的网络层字段不检查运输层报文字段，接收端从网络层数据报">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自顶向下方法 -- 第三章 运输层">
+<meta property="og:url" content="http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E8%BF%90%E8%BE%93%E5%B1%82/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="[TOC] 概述与运输层服务 运输层为不同主机上的进程提供逻辑通信功能，是在端系统而不是路由器中实现的 运输层从应用程序中接收到报文转换为运输层分组（报文段segment），一般是将应用报文划分为较小的块，为每个块加上运输层的协议信息，然后将这些报文段传递给网络层，网络层将其封装为网络层分组（数据报）向目的地发送，注意网络路由器仅作用与该数据报的网络层字段不检查运输层报文字段，接收端从网络层数据报">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:21:17.153Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.805Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="网络基础">
+<meta property="article:tag" content="自顶向下方法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E8%BF%90%E8%BE%93%E5%B1%82/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '自顶向下方法 -- 第三章 运输层',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">自顶向下方法 -- 第三章 运输层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:21:17.153Z" title="发表于 2023-04-13 11:21:17">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.805Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/">自顶向下方法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>16分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="自顶向下方法 -- 第三章 运输层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[TOC]</p>
+<h1 id="概述与运输层服务"><a href="#概述与运输层服务" class="headerlink" title="概述与运输层服务"></a>概述与运输层服务</h1><p><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-07/%E8%BF%90%E8%BE%93%E5%B1%82.png" alt="image"></p>
+<p>运输层为不同主机上的进程提供逻辑通信功能，是在端系统而不是路由器中实现的</p>
+<p>运输层从应用程序中接收到报文转换为运输层分组（报文段segment），一般是将应用报文划分为较小的块，为每个块加上运输层的协议信息，然后将这些报文段传递给网络层，网络层将其封装为网络层分组（数据报）向目的地发送，注意网络路由器仅作用与该数据报的网络层字段不检查运输层报文字段，接收端从网络层数据报中提取运输层报文并上交给运输层，运输层处理收到的报文后再交给应用进程使用</p>
+<h2 id="运输层和网络层的关系"><a href="#运输层和网络层的关系" class="headerlink" title="运输层和网络层的关系"></a>运输层和网络层的关系</h2><p>这里书中举了一个例子：两个远房亲戚家族通信，家族A让小刘统一负责收发信件，家族B让小张负责收发信件，于是两个家族里面的人都只合负责收发信件的小刘小张打交道就行，邮政服务将信件从一个家族送往另一个家族，而不是具体的一个人到另一个人</p>
+<ul>
+<li>  应用层报文 = 信封里的内容</li>
+<li>  进程 = 家族里的亲戚</li>
+<li>  主机（端系统） = 家族</li>
+<li>  运输层协议 = 小刘和小张</li>
+<li>  网络层协议 = 邮政服务（包括邮车）</li>
+</ul>
+<p>在这里小刘和小张都是在各自家里工作的，他们不参与到邮件的分拣和传输，类似的运输层协议值工作在端系统中</p>
+<p>运输层中最常用的两个协议，UDP和TCP</p>
+<h1 id="多路复用与多路分解"><a href="#多路复用与多路分解" class="headerlink" title="多路复用与多路分解"></a>多路复用与多路分解</h1><p>设备上运行多个服务需要进行网络通信，建立了多个socket连接，这个时候需要将对应的数据通过对应的socket进行传输，运输层报文中有几个字段用来标识对应的套接字</p>
+<ul>
+<li>  发送端主机从不同的套接字中收集数据块，并为他们封装上标识信息，然后将报文段传递到网络层，这个过程叫做多路复用</li>
+<li>  对应的目标主机接收到报文段之后，通过首部标识将他们分发到对应的套接字，这个过程叫做多路分解</li>
+</ul>
+<p>看一下具体的工作流程：</p>
+<ul>
+<li>  套接字有唯一标识符</li>
+<li>每个报文段有特殊字段来指示需要交付的套接字，这个特殊字段是源端口号和目的端口号，端口号是一个16bit的数，也就是0-65535，0-1023范围的端口号为周知端口号，是受限制的，比如HTTP使用80，HTTPs使用443<br>  <img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/%E7%AB%AF%E5%8F%A3%E5%8F%B7.png" alt="image"></li>
+</ul>
+<h2 id="UDP的多路复用与分解"><a href="#UDP的多路复用与分解" class="headerlink" title="UDP的多路复用与分解"></a>UDP的多路复用与分解</h2><p>UDP的套接字是一个二元组（目的ip，目的端口号），所以当不同来源ip和不同来源端口号的两个拥有相同二元组信息时，这两个报文段将通过相同的套接字定向到相同的目的进程</p>
+<h2 id="TCP的多路复用与分解"><a href="#TCP的多路复用与分解" class="headerlink" title="TCP的多路复用与分解"></a>TCP的多路复用与分解</h2><p>TCP套接字是一个四元组（源IP，源端口，目的IP，目的端口），需要这四个信息完全匹配时才会被放到同一个套接字进程中，也就是不同的源IP和端口的报文将被定向到两个不同的套接字</p>
+<h2 id="web服务器与TCP"><a href="#web服务器与TCP" class="headerlink" title="web服务器与TCP"></a>web服务器与TCP</h2><p>例如一台端口80上运行Apache的服务器，当客户端发来报文段时（由于源ip和端口不同）会创建对应的HTTP进程，每个进程有自己的套接字，通过这些套接字可以接收和响应HTTP请求；实际上目前高性能的web服务器一般使用一个进程多线程的方式（线程对应套接字）</p>
+<p>如果客户与服务器建使用持续HTTP则整个生命周期会使用同一个套接字，如果使用非持续的HTTP，则每次请求/响应后都要重新创建套接字</p>
+<h1 id="无连接运输：UDP"><a href="#无连接运输：UDP" class="headerlink" title="无连接运输：UDP"></a>无连接运输：UDP</h1><p>最简单的运输层协议是什么，即UDP，由于应用层和网络层之间实在无法直接通信，网络层把报文送达后目的主机不知道该把报文给哪个应用进程，所以最少要求运输层要实现多路复用与分解，而UDP就是这样的协议（还有少量的差错检测）</p>
+<p>DNS通常使用UDP的应用层协议，当DNS应用程序想要进行一次查询时，它构建一个DNS查询报文交给UDP，UDP封装后丢给网络层，然后就开始等待目的主机的响应，如果没有响应要么会向另一个服务器发一次查询要么就通知应用程序不能获得响应</p>
+<p>UDP优势：</p>
+<ul>
+<li>  希望对应用层有更精细的控制，前面说道TCP有一个拥塞控制机制，会系统的调度报文的发送，而UDP简单粗暴（这个行为比较自私，大家都得不到好，大佬们已经提出了面向所有数据源的自适应拥塞控制，这个机制也导致UDP的优势减小）</li>
+<li>  无需连接建立，TCP三次握手带来建立连接的时延，UDP速度更快，这个应该是DNS采用UDP的主要原因</li>
+<li>  无连接状态，TCP需要维护连接状态，带来更多的资源开销</li>
+<li>  分组首部开销，TCP首部占用20字节，UDP占用8字节</li>
+<li>  开发者可以通过自定义检查机制来基于UDP完成可靠数据传输，只是实现起来比较繁琐，也不可能达到TCP那样的稳定性</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/%E6%B5%81%E8%A1%8C%E5%BA%94%E7%94%A8%E7%9A%84%E8%BF%90%E8%BE%93%E5%8D%8F%E8%AE%AE.png" alt="image"><br>这里单独说一下SNMP也是使用的UDP，网络管理应用程序一般要在网络处于重压的时候运行，这个时候很难建立TCP的稳定传输</p>
+<h2 id="UDP报文段结构"><a href="#UDP报文段结构" class="headerlink" title="UDP报文段结构"></a>UDP报文段结构</h2><p><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/UDP.png" alt="image"></p>
+<ul>
+<li>  4个字段每个字段都是两个字节，所以UDP的首部占用8字节</li>
+<li>  长度字段记录UDP报文段中的字节数（包括首部）</li>
+<li>  检验和：接收方使用检验和来检查报文段是否出现差错</li>
+</ul>
+<h2 id="UDP检验和"><a href="#UDP检验和" class="headerlink" title="UDP检验和"></a>UDP检验和</h2><ul>
+<li>  检验和通过补码反码的方式来对数据进行校验，具体过程没看懂，先不纠结</li>
+<li>  UDP为什么要提供检验和，主要是不能保证传输过程中的协议都有差错检测，所以自己进行了实现，但是UDP对于差错的处理很糟糕，要么丢弃受损报文段，要么给应用程序提出警告</li>
+</ul>
+<h1 id="可靠数据传输原理"><a href="#可靠数据传输原理" class="headerlink" title="可靠数据传输原理"></a>可靠数据传输原理</h1><p>在不可靠的底层系统上构建可靠数据传输协议是一个困难的任务，这里将展开探索具体的实现逻辑</p>
+<h2 id="构造可靠数据传输协议"><a href="#构造可靠数据传输协议" class="headerlink" title="构造可靠数据传输协议"></a>构造可靠数据传输协议</h2><h3 id="可靠信道的可靠数据传输：rdt1-0"><a href="#可靠信道的可靠数据传输：rdt1-0" class="headerlink" title="可靠信道的可靠数据传输：rdt1.0"></a>可靠信道的可靠数据传输：rdt1.0</h3><p><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%931.png" alt="image"><br>从最简单的模型来，假设底层信道的可靠传输时，这个时候没什么要做的，就是把应用层传过来的数据封装一下然后丢给下层，书上引入十个名词来解释给我看吐了</p>
+<h3 id="经具有比特差错信道的可靠数据传输：rdt2-0"><a href="#经具有比特差错信道的可靠数据传输：rdt2-0" class="headerlink" title="经具有比特差错信道的可靠数据传输：rdt2.0"></a>经具有比特差错信道的可靠数据传输：rdt2.0</h3><p>实际上我们都知道底层传输是可靠的，和人类的行为类似，两个人通过bb机交流的时候，如果听到了会说收到收到，没听到就让人重复，数据报文传输也使用类似的方式叫做自动重传请求（ARQ）协议</p>
+<ul>
+<li>  差错检测：为了确定收到的内容是否和发送内容一致，需要差错检测和纠错技术（后面的章节会详细讲），数据报文中需要一些额外的比特来记录这个技术需要的信息</li>
+<li>  接收方反馈：接收方验证完差错之后给发送方反馈“肯定确认”ACK和“否定确认”NAK</li>
+<li>  重传：发送方收到接收方的NAK时重新传输该分组数据</li>
+<li>  停等：发送方发出分组后要等待接收方的反馈信号，这个过程中不会发送新的数据分组</li>
+</ul>
+<p>现在我们要考虑另一个问题，如果接收方反馈数据（ACK和NAK）出现了受损该如何处理</p>
+<ul>
+<li>  从人类角度出发，发送方收到了一个看不懂的反馈数据时，让接收方再说一次收到没有，问题是这个“再说一次你收到没有”这个数据出现受损，进入一个死循环，这种方式不可取</li>
+<li>  第二种方式，增加足够的检验和比特，让发送方不仅可以检测差错还可以恢复差错，如果底层是只有可能产生差错不会丢失分组的信道，这个方法可以解决问题</li>
+<li>第三种是，发送方收到含糊的反馈时，直接重新发送当前分组，引入冗余分组，冗余分组的根本困难在于接收方不知道收到的分组是新的还是一次重传<br>  解决这个问题的办法是为数据分组加上编号，这样接收方通过对比编号就知道是否为冗余分组，发送方会一直发送冗余分组直到收到正确的ACK；对于非停等协议情况，就需要接收方明确的标识反馈对应的分组，这样发送方就能确认各个分组的传输情况</li>
+</ul>
+<h3 id="既有比特差错也有丢包的情况：rdt3-0"><a href="#既有比特差错也有丢包的情况：rdt3-0" class="headerlink" title="既有比特差错也有丢包的情况：rdt3.0"></a>既有比特差错也有丢包的情况：rdt3.0</h3><p><em>“从发送方的观点来看，重传是一种万能灵药。发送方不知道是一个数据分组丢失，还 是一个ACK丢失，或者只是该分组或ACK过度延时。在所有这些情况下，动作是同样 的:重传。”</em></p>
+<p>所以解决丢包的方法也是重传，发送方在一个时间阈值下没有收到接收方的ACK则重传数据</p>
+<p>比特交替协议：分组需要在0和1之间交替（1个比特即可表达出来）<br><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/%E6%AF%94%E7%89%B9%E4%BA%A4%E6%9B%BF%E5%8D%8F%E8%AE%AE.png" alt="image"></p>
+<h2 id="流水线可靠传输协议"><a href="#流水线可靠传输协议" class="headerlink" title="流水线可靠传输协议"></a>流水线可靠传输协议</h2><p>停等的方式效率很低，带宽利用率只有万分之2.7（大多数时间都在网络层传输数据），所以采取流水线的方式，即允许发送方发送多个分组而不用等待确认<br><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/%E5%88%86%E7%BB%84%E6%B5%81%E6%B0%B4%E7%BA%BF.png" alt="image"></p>
+<ul>
+<li>  比特交替不行了，需要扩大编号存储空间</li>
+<li>  发送方需要缓存那些未被确认的分组，接收方也许也需要缓存已正确接收的分组（取决于差错恢复策略）</li>
+<li>  解决流水线差错恢复的两种方法：回退N步和选择重传</li>
+</ul>
+<h3 id="回退N步（Go-Back-N-GBN）"><a href="#回退N步（Go-Back-N-GBN）" class="headerlink" title="回退N步（Go Back N GBN）"></a>回退N步（Go Back N GBN）</h3><p><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/%E5%9B%9E%E9%80%80N%E6%AD%A5.png" alt="image"><br>上面的图片颜色有点不对劲，从左到右，分别是已经发送且确认、已发送未确认、待发送、不可用，需要注意的是这个是指分组序号，这个序号是存储在分组首部的一个数据，TCP中序号字段长度为32比特，也就是总共可用的序号为[0, 2^32-1]，而上面的比特交替由于只有一个比特[0, 1]</p>
+<p>N被叫做窗口长度，有个问题是：为什么要限制这个发送未被确认和待发送的长度为N不让它占满所有序号呢，后面会解释，这里还不知道</p>
+<ul>
+<li>  上层调用的时候要判断窗口是否已满，未满则放进去发送，满了就要告诉上层让他过一会再试，或者有一个同步机制让上层仅在窗口不满时才调用send方法</li>
+<li>  GBN累计确认：收到序号n的ACK时表明包括n在内的之前的分组都已经收到了，后面会解释原理</li>
+<li>  超时事件：这里是为N个分组共享定时器，一个分组被确认这个定时器都会被重置，当然如果没有等待确认的分组时这个定时器被停止，如果超时则所有待确认的分组都会被重发</li>
+</ul>
+<p>GBN的接收方逻辑被设置得很简单：如果正确接收了一个序号为n的分组，检查上次交付给上层的分组序号为n-1，则发送n的ACK并把n中的数据取出来交付给上层，所有其他情况丢弃该分组</p>
+<p>也就是说接收方会丢弃所有失序的分组，哪怕这个分组是正确接收，这里就是为了简单的设计，如果对这个n进行缓存等待n-1分组被正确的接收，这个设计的复杂度就高了，先前说了发送方是为N个分组统一设置的定时器，所以整个是批量进行重发的</p>
+<h3 id="选择重传"><a href="#选择重传" class="headerlink" title="选择重传"></a>选择重传</h3><p>回退N步的代价太高了，一个分组丢失，所有后面的分组都被重传</p>
+<p>太累了，下次再看这个的实现逻辑！（晚上要吃火锅，爽到）</p>
+<h1 id="面向链接的运输：TCP"><a href="#面向链接的运输：TCP" class="headerlink" title="面向链接的运输：TCP"></a>面向链接的运输：TCP</h1><p>已经了解了可靠数据传输的基本原理，接下来看看TCP如何做的</p>
+<h2 id="TCP连接"><a href="#TCP连接" class="headerlink" title="TCP连接"></a>TCP连接</h2><p><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/TCP%E7%BC%93%E5%AD%98.png" alt="image"><br>最大报文长度（Maximum Segment Size, MSS）：由于TCP的报文长度是受限于网络层IP协议报文长度的，再往下的以太网协议长度为1500，TCP和IP的首部一般都是20，所以这个MSS一般是1460</p>
+<h2 id="报文段结构"><a href="#报文段结构" class="headerlink" title="报文段结构"></a>报文段结构</h2><p><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/TCP%E6%8A%A5%E6%96%87%E6%AE%B5.png" alt="image"></p>
+<ul>
+<li>  两个端口号和UDP一样</li>
+<li>  序号和确认号是发送方和接收方用来进行数据确认的，上面说过了</li>
+<li>  16比特的接收窗口字段，用于流量控制，后面会讲</li>
+<li>  4比特的首部长度字段，TCP首部有一些可选字段导致不是定长的，这个字段就是用来记录首部长度的，比较奇怪的是4比特最多能表示16，而TCP首部的最大长度为32，通常长度是20</li>
+<li>  可选与变长的选项字段：用于发送方和接收方协商最大报文的长度（MSS）</li>
+<li>6比特的标志字段<ul>
+<li>  ACK</li>
+<li>  RST、SYN和FIN比特用于连接的建立和拆除</li>
+<li>  CWR和ECE服务于拥塞控制</li>
+<li>  PSH用于标记将数据推送给应用层（实践中未使用）</li>
+<li>  URG指示报文段里存在着被发送端上层实体置为紧急的数据（实践中未使用）</li>
+</ul>
+</li>
+</ul>
+<h3 id="序号和确认号"><a href="#序号和确认号" class="headerlink" title="序号和确认号"></a>序号和确认号</h3><ul>
+<li>  序号：加入发送的数据流有500000字节，MSS为1000字节，那么第一个报文段分配序列号0，第二个分配序列号1000，是以数据流字节的编号作为序号</li>
+<li>确认号：<ul>
+<li>  简单的模型下接收方收到0-1000的数据后，给发送方发送一个报文其中确认号为1001，表示需要发送方从1001开始发送数据</li>
+<li>  实际上发送方和接收方是相互传输数据的，假设A收到了B发送的0-555的字节，A在等待B数据流中556及之后的字节，A往B发送报文（A向B传输数据，不单是ACK）的时候就会在确认号中写556</li>
+<li>  另外A收到了0-555，又收到了888-1000，但是由于中间的字节缺失，A到B的下一个报文的确认号仍然是556，这叫累积确认</li>
+<li>  上面的例子中，888-1000的字节该怎么处理，TCP没有进行规定，可以直接丢弃也可以等待中间缺失的报文，这个交给编程人员去进行实现，一般不会丢弃这样效率更高</li>
+<li>  另外为了避免端口号上之前建立过连接，起始序号一般是随机产生的，避免网络中存在之前的报文段被新的连接使用</li>
+</ul>
+</li>
+</ul>
+<h3 id="Telnet：序号和确认号的一个学习案例"><a href="#Telnet：序号和确认号的一个学习案例" class="headerlink" title="Telnet：序号和确认号的一个学习案例"></a>Telnet：序号和确认号的一个学习案例</h3><p><img src="https://raw.githubusercontent.com/fireflyso/Img/master/2021-08/telnet.png" alt="image"><br>telnet是基于TCP的远程登录应用层协议，但是由于是明文传输，现在大家都用ssh，telnet一般用来测试目标主机上的某个端口是否可用</p>
+<p>简单说一下流程：TCP连接建立之后，A向B发送了一个数据字符串C，这个时候给它分配了序号为42，确认号79（这里还没有接收过数据，这个确认号只是告诉B如果要发送数据序号从79开始），然后B接收到字符串C并且向A发送回显字符串C，序号为79（A指定的），确认号为43（告诉A如果要发送数据从43开始），A再次向B发送报文，这次没有数据，序号仍然为43，确认号为80（告诉B 79及之前的数据收到了），这是一个单纯的确认报文</p>
+<p>上面第二次通信，也就是B发送数据给A的时候，将确认号43放到了数据报文中而不是用一个单独的确认报文，这叫做捎带</p>
+<h2 id="往返时间与超时"><a href="#往返时间与超时" class="headerlink" title="往返时间与超时"></a>往返时间与超时</h2><p>TCP使用超时/重传的机制来处理报文丢失的问题</p>
+<h3 id="估计往返时"><a href="#估计往返时" class="headerlink" title="估计往返时"></a>估计往返时</h3><p>超时时间该如何指定呢，由于网络信道每时每刻都在变化，很难得到一个通用的值，大多数TCP采用的方法是，在某个时间点上取一次RTT，之后再随机的取获取RTT，然后通过函数来动态更新往返时间，具体公式有些复杂不必纠结</p>
+<h3 id="超时间隔"><a href="#超时间隔" class="headerlink" title="超时间隔"></a>超时间隔</h3><p>获取到一个趋近实际的往返时间之后，超时时间又该如何设置呢，肯定要大于往返时间，大太多会使得重发的效率低，大太少又会导致频繁的重发，这里也是带入往返时间进行函数动态评估，另外如果发生超时这这个超时的间隔会翻倍</p>
+<h2 id="可靠数据传输"><a href="#可靠数据传输" class="headerlink" title="可靠数据传输"></a>可靠数据传输</h2><ul>
+<li>  超时时间加倍：通过这个加倍的规则，可以粗略的实现拥塞控制，也就是认为网络堵塞的时候将重传频率降低，避免整个系统越发恶化</li>
+<li>  快速重传：超时重传的问题之一，如果超时周期比较长，那一个报文丢失后重传的间隔也长，有一个机制来解决这个问题，冗余ACK，比如有abcd四个报文，其中a已经确认收到，b丢失，而c和d都收到，这个时候接收方不会发送一个对b的否定，而是重复发送对a的ACK，当接收方收到三个相同的ACK时，说明它之后的数据很可能是丢失了，不会再等到定时器过期（超市间隔），直接重传被认为丢失的报文段‘</li>
+</ul>
+<h3 id="回退N还是选择重传"><a href="#回退N还是选择重传" class="headerlink" title="回退N还是选择重传"></a>回退N还是选择重传</h3><p>TCP发送方仅需维持已发送但未被确认的字节的最小序号（SendBase）和下一个要发送的字节序号（NextSeqNum），看起来很想一个GBN，实际还是有些区别，TCP允许接收方有选择的确认失序报文段，而不是单纯的累计确认，和选择重传结合起来（跳过已被确认的报文段），TCP的差错恢复机制是GBN和SR的混合体</p>
+<h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><p>TCP连接两端的主机都会设置一个接收缓存（正确有序的字节），应用层服务会从缓存里面读取数据，但是如果传输速度太快，但是应用层服务读取比较慢（服务可能在处理别的工作），可能会导致缓存溢出，TCP为解决这个问题提供了流量控制服务</p>
+<p>注意流量控制服务是为了防止传输速度过快缓存溢出，而之前提到的拥塞控制是为了保持整个底层信道的通畅，虽然都是主动的限速操作，但是意义完全不同</p>
+<p>实现的逻辑：有一个前置设定是接受方会丢弃所有无序的报文，这个时候发送方会跟踪接收方缓存中的两个变量，第一个是LastByteRcvd最后确认接受到的字节，第二个LastByteRead应用最后一次读取的字节，然后保证发送窗口中发送未确认的报文大小小于LastByteRcvd-LastByteRead</p>
+<h2 id="TCP连接管理"><a href="#TCP连接管理" class="headerlink" title="TCP连接管理"></a>TCP连接管理</h2><h3 id="三次握手的详解"><a href="#三次握手的详解" class="headerlink" title="三次握手的详解"></a>三次握手的详解</h3><ul>
+<li>  第一步是客户端发送一个SYN被标记为1的报文，叫做SYN报文，并随机初始化序号（为避免SYN泛洪攻击，这个随机的方式也有说道）</li>
+<li>  第二步服务器收到SYN报文，会为该TCP分配缓存和变量，并向客户端发送允许连接的报文，该报文中SYN为1，确认号为客户端SYN序号加一（不是序号本身），服务端初始化一个序号，这个报文叫做SYNACK</li>
+<li>  第三步客户端收到SYNACK，同样为TCP分配缓存和变量，再向服务器发送一个对SYNACK的确认报文（这个是为了向服务器表达自己的TCP资源准备好了），这个时候SYN为0，同样确认号为服务器初始化的序号加一</li>
+</ul>
+<p>后面会讲为什么是三次而不是两次，之后的通信中SYN都是0</p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p>累了，以后再看</p>
+<h1 id="拥塞控制原理"><a href="#拥塞控制原理" class="headerlink" title="拥塞控制原理"></a>拥塞控制原理</h1><p>上面我们讨论可靠传输的实现原理，主要原因就是底层的传输是不可靠的，而之前也讲过，网络拥塞导致的路由器缓存溢出是丢包最常见的原因，这里会对拥塞做进一步的探索</p>
+<h2 id="拥塞控制的方法"><a href="#拥塞控制的方法" class="headerlink" title="拥塞控制的方法"></a>拥塞控制的方法</h2><p>拥塞控制需要先了解底层网络的拥塞情况，两种情景下对拥塞情况的探知方式</p>
+<ul>
+<li>端到端：底层不为运输层提供拥塞信息的支持<ul>
+<li>  超时</li>
+<li>  3次冗余确认</li>
+<li>  往返时延的变化</li>
+</ul>
+</li>
+<li>网络辅助：<ul>
+<li>  网络路由器直接向发送发反馈信息，表示自己拥塞了</li>
+<li>  路由器给分组数据中加入拥塞的标识，接收方收到带有标识的分组后会告诉发送方网络拥塞</li>
+</ul>
+</li>
+</ul>
+<h1 id="TCP拥塞控制"><a href="#TCP拥塞控制" class="headerlink" title="TCP拥塞控制"></a>TCP拥塞控制</h1><p>TCP让发送方根据所感知到的网络拥塞程度来限制其发送流量的速度，核心问题：</p>
+<ul>
+<li>  如何限制流量发送速度</li>
+<li>  如何感知传输路径上的拥塞情况</li>
+<li>  出现拥塞时速率调整的算法</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E8%BF%90%E8%BE%93%E5%B1%82/">http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E8%BF%90%E8%BE%93%E5%B1%82/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a><a class="post-meta__tags" href="/tags/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/">自顶向下方法</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82/" title="自顶向下方法 -- 第二章 应用层"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">自顶向下方法 -- 第二章 应用层</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%A6%82%E8%AE%BA/" title="自顶向下方法 -- 第一章 概论"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">自顶向下方法 -- 第一章 概论</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%A6%82%E8%AE%BA/" title="自顶向下方法 -- 第一章 概论"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">自顶向下方法 -- 第一章 概论</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%9B%A0%E7%89%B9%E7%BD%91/" title="自顶向下方法 -- 第一章 计算机网络与因特网"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">自顶向下方法 -- 第一章 计算机网络与因特网</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82/" title="自顶向下方法 -- 第二章 应用层"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">自顶向下方法 -- 第二章 应用层</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%96%B9%E6%B3%95/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E7%BD%91%E7%BB%9C%E5%B1%82-%E6%95%B0%E6%8D%AE%E5%B9%B3%E9%9D%A2/" title="自顶向下方法 -- 第四章 网络层-数据平面"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">自顶向下方法 -- 第四章 网络层-数据平面</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/DNS/" title="网络基础 -- DNS"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- DNS</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/HTTP/" title="网络基础 -- HTTP"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- HTTP</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0%E4%B8%8E%E8%BF%90%E8%BE%93%E5%B1%82%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.</span> <span class="toc-text">概述与运输层服务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%BE%93%E5%B1%82%E5%92%8C%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">1.1.</span> <span class="toc-text">运输层和网络层的关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%8E%E5%A4%9A%E8%B7%AF%E5%88%86%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text">多路复用与多路分解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP%E7%9A%84%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%8E%E5%88%86%E8%A7%A3"><span class="toc-number">2.1.</span> <span class="toc-text">UDP的多路复用与分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E7%9A%84%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%8E%E5%88%86%E8%A7%A3"><span class="toc-number">2.2.</span> <span class="toc-text">TCP的多路复用与分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8ETCP"><span class="toc-number">2.3.</span> <span class="toc-text">web服务器与TCP</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A0%E8%BF%9E%E6%8E%A5%E8%BF%90%E8%BE%93%EF%BC%9AUDP"><span class="toc-number">3.</span> <span class="toc-text">无连接运输：UDP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP%E6%8A%A5%E6%96%87%E6%AE%B5%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">UDP报文段结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP%E6%A3%80%E9%AA%8C%E5%92%8C"><span class="toc-number">3.2.</span> <span class="toc-text">UDP检验和</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">可靠数据传输原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.1.</span> <span class="toc-text">构造可靠数据传输协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E9%9D%A0%E4%BF%A1%E9%81%93%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%EF%BC%9Ardt1-0"><span class="toc-number">4.1.1.</span> <span class="toc-text">可靠信道的可靠数据传输：rdt1.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%8F%E5%85%B7%E6%9C%89%E6%AF%94%E7%89%B9%E5%B7%AE%E9%94%99%E4%BF%A1%E9%81%93%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%EF%BC%9Ardt2-0"><span class="toc-number">4.1.2.</span> <span class="toc-text">经具有比特差错信道的可靠数据传输：rdt2.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A2%E6%9C%89%E6%AF%94%E7%89%B9%E5%B7%AE%E9%94%99%E4%B9%9F%E6%9C%89%E4%B8%A2%E5%8C%85%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%9Ardt3-0"><span class="toc-number">4.1.3.</span> <span class="toc-text">既有比特差错也有丢包的情况：rdt3.0</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.2.</span> <span class="toc-text">流水线可靠传输协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E9%80%80N%E6%AD%A5%EF%BC%88Go-Back-N-GBN%EF%BC%89"><span class="toc-number">4.2.1.</span> <span class="toc-text">回退N步（Go Back N GBN）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E9%87%8D%E4%BC%A0"><span class="toc-number">4.2.2.</span> <span class="toc-text">选择重传</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E9%93%BE%E6%8E%A5%E7%9A%84%E8%BF%90%E8%BE%93%EF%BC%9ATCP"><span class="toc-number">5.</span> <span class="toc-text">面向链接的运输：TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E8%BF%9E%E6%8E%A5"><span class="toc-number">5.1.</span> <span class="toc-text">TCP连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E6%AE%B5%E7%BB%93%E6%9E%84"><span class="toc-number">5.2.</span> <span class="toc-text">报文段结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E5%8F%B7%E5%92%8C%E7%A1%AE%E8%AE%A4%E5%8F%B7"><span class="toc-number">5.2.1.</span> <span class="toc-text">序号和确认号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Telnet%EF%BC%9A%E5%BA%8F%E5%8F%B7%E5%92%8C%E7%A1%AE%E8%AE%A4%E5%8F%B7%E7%9A%84%E4%B8%80%E4%B8%AA%E5%AD%A6%E4%B9%A0%E6%A1%88%E4%BE%8B"><span class="toc-number">5.2.2.</span> <span class="toc-text">Telnet：序号和确认号的一个学习案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%80%E8%BF%94%E6%97%B6%E9%97%B4%E4%B8%8E%E8%B6%85%E6%97%B6"><span class="toc-number">5.3.</span> <span class="toc-text">往返时间与超时</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%B0%E8%AE%A1%E5%BE%80%E8%BF%94%E6%97%B6"><span class="toc-number">5.3.1.</span> <span class="toc-text">估计往返时</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E9%97%B4%E9%9A%94"><span class="toc-number">5.3.2.</span> <span class="toc-text">超时间隔</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93"><span class="toc-number">5.4.</span> <span class="toc-text">可靠数据传输</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E9%80%80N%E8%BF%98%E6%98%AF%E9%80%89%E6%8B%A9%E9%87%8D%E4%BC%A0"><span class="toc-number">5.4.1.</span> <span class="toc-text">回退N还是选择重传</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-number">5.5.</span> <span class="toc-text">流量控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86"><span class="toc-number">5.6.</span> <span class="toc-text">TCP连接管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E7%9A%84%E8%AF%A6%E8%A7%A3"><span class="toc-number">5.6.1.</span> <span class="toc-text">三次握手的详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">5.6.2.</span> <span class="toc-text">四次挥手</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86"><span class="toc-number">6.</span> <span class="toc-text">拥塞控制原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">6.1.</span> <span class="toc-text">拥塞控制的方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-number">7.</span> <span class="toc-text">TCP拥塞控制</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

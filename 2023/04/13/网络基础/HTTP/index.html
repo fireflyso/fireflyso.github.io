@@ -1,0 +1,321 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>网络基础 -- HTTP | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、基础概念URIURI包含URL和URN（不是很明白这是什么，后面在看看）    URI（Uniform Resource Identifier，统一资源标识符）   URL（Uniform Resource Locator，统一资源定位符）   URN（Uniform Resource Name，统一资源名称）  请求和响应   请求   响应  二、HTTP方法从上面的请求报文中能看到在第一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络基础 -- HTTP">
+<meta property="og:url" content="http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/HTTP/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="一、基础概念URIURI包含URL和URN（不是很明白这是什么，后面在看看）    URI（Uniform Resource Identifier，统一资源标识符）   URL（Uniform Resource Locator，统一资源定位符）   URN（Uniform Resource Name，统一资源名称）  请求和响应   请求   响应  二、HTTP方法从上面的请求报文中能看到在第一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:21:17.795Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.791Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="网络基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/HTTP/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '网络基础 -- HTTP',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">网络基础 -- HTTP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:21:17.795Z" title="发表于 2023-04-13 11:21:17">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.791Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="网络基础 -- HTTP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="一、基础概念"><a href="#一、基础概念" class="headerlink" title="一、基础概念"></a>一、基础概念</h2><h3 id="URI"><a href="#URI" class="headerlink" title="URI"></a>URI</h3><p>URI包含URL和URN（不是很明白这是什么，后面在看看）</p>
+<ul>
+<li>  URI（Uniform Resource Identifier，统一资源标识符）</li>
+<li>  URL（Uniform Resource Locator，统一资源定位符）</li>
+<li>  URN（Uniform Resource Name，统一资源名称）</li>
+</ul>
+<h3 id="请求和响应"><a href="#请求和响应" class="headerlink" title="请求和响应"></a>请求和响应</h3><ul>
+<li>  请求</li>
+<li>  响应</li>
+</ul>
+<h2 id="二、HTTP方法"><a href="#二、HTTP方法" class="headerlink" title="二、HTTP方法"></a>二、HTTP方法</h2><p>从上面的请求报文中能看到在第一行开头就是方法字段</p>
+<ul>
+<li>  GET：获取资源，目前使用最多的方法</li>
+<li>  HEAD：获取报文首部，和GET类似，只是不返回报文实体主体部分，多用于确认url的有效性以及资源更新的日期等（大概意思是只返回了请求资源的描述信息而不要内容）</li>
+<li>  POST：传输实体，主要用来传输数据，get主要用来获取资源，很多时候请求中包含了用户数据，当然也可以把数据都拼接到get的url中，但是这样会暴露用户信息，关于get和post后面还会详细说明</li>
+<li>  PUT：上传文件，该方法自身不带验证机制，任何人都可以上传文件，存在安全问题，一般不会去使用</li>
+<li>  PATCH:对资源进行部分修改，没见过</li>
+<li>  DELETE:和put的作用相反，删除文件，同样不带验证机制</li>
+<li>  OPTIONS：查询支持的方法，查询服务器接口支持的方法，以前写PHP的时候post类型的请求会先发起一个options然后才进行post的真正请求</li>
+<li>  CONNECT:要求在与代理服务器进行通信时建立隧道</li>
+<li>  TRACE:追踪路径</li>
+</ul>
+<h2 id="三、HTTP状态码"><a href="#三、HTTP状态码" class="headerlink" title="三、HTTP状态码"></a>三、HTTP状态码</h2><ul>
+<li>1XX：信息性状态码，接受请求正在处理<ul>
+<li>  100 Continue：一切正常，客户端可以继续发送请求或者忽略这个响应</li>
+</ul>
+</li>
+<li>2XX：成功，请求正常处理完毕<ul>
+<li>  200 OK</li>
+<li>  204 No Content :请求已经处理成功，但返回的响应报文不包含实体的主体部分（字面意思，没有返回内容），有的请求只是需要像服务器发送一个信息而不需要服务器返回数据。</li>
+<li>  206 Partial Content:客户端进行了范围请求，而服务器返回了对应内容。</li>
+</ul>
+</li>
+<li>3XX : 重定向<ul>
+<li>  301 Moved Permanently：永久性重定向</li>
+<li>  302 Found：临时性重定向</li>
+<li>  303 See Other : 相比302，303明确指出客户端应该使用get方法（据说大多数的浏览器在301和302下都会把post改成get，而http协议规定他俩是不能改请求方法的）</li>
+<li>  304 Not Modified : 如果请求报文首部包含一些条件（If-Match,If-Modified-Since等），如果不满足条件，则服务器返回304（==这个好像是有关缓存策略的，后面应该会有详细的说明==）</li>
+<li>  307 Temporary Redirect : 临时重定向，与302类似，要求浏览器不要把post改为get</li>
+</ul>
+</li>
+<li>4XX：客户端错误<ul>
+<li>  400 Bad Request：请求报文中存在语法错误（经常是请求方法不对post和get没和接口对应好）</li>
+<li>  401 Unauthorized：缺乏身份认证信息或者认证失败</li>
+<li>  403 Forbidden：身份认证成功了，但是对资源没有访问的权限</li>
+<li>  404 Not Found</li>
+</ul>
+</li>
+<li>5XX：服务器错误<ul>
+<li>  500 Internal Server Error：这个可能就是服务器上对应的程序出错了</li>
+<li>  503 Service Unavailable：服务器宕机，一般是暂时性的，不知道程序怎么判断是不是暂时性的</li>
+</ul>
+</li>
+</ul>
+<h2 id="四、具体应用"><a href="#四、具体应用" class="headerlink" title="四、具体应用"></a>四、具体应用</h2><ul>
+<li>连接管理<ul>
+<li>长连接和短连接<ul>
+<li>  长连接就是一次连接里面可以进行多次的http通信，在http1.1版本开始默认都是长连接，如果要断开则有客户端或者服务器中的一方发出Connectioin : close;</li>
+<li>  短连接就没什么好说的，基本是历史的尘埃了，在1.1以前如果需要使用长连接要标明Connection：Keep-Alive</li>
+</ul>
+</li>
+<li>  流水线：默认情况下请求是要按顺序来的，上一个请求得到响应后新的请求才能被发出去，但考虑到现实情况下的网络延迟和带宽限制，这样效率可能会很低，流水线是指在同一个长链接中发出连续的请求而不用等待响应返回</li>
+</ul>
+</li>
+<li>Cookie：<br>  为了让http协议尽可能的简单，他本身是没有状态的，1.1引入Cookie来保存状态信息。Cookie是服务器发送到客户端的部分保存在浏览器中的数据，后续的每次请求中都会带上Cookie数据，这样服务器和客户端之间实现了一对一，不然只有客户端知道服务器，而服务器不知道请求来自哪个客户端，Cookie解决这个问题的同时也导致请求消耗资源增多<ul>
+<li>  用途：会话管理（登录状态、购物车）、个性化设置、浏览器行为跟踪</li>
+<li>  创建过程：服务器发送的响应报文中包含Set-Cookie字段，客户端得到响应报文后将Cookie内容保存到浏览器中，之后客户端再对这个服务器发起请求的时候就会把Cookie数据带上</li>
+<li>  生命周期：会话期cookie在浏览器关闭后就被删除，而设置了expires之后（有时候登录一个网站时会问你要不要记住登录信息）cookie会被写入硬盘</li>
+<li>  JavaScript：通document.cookie属性可以在js中创建cookie和访问非HttpOnly标记的cookie</li>
+<li>  HttpOnly：标记之后可以避免被通过js脚本的方式来窃取cookie信息，能一定程度上提高安全性</li>
+<li>  Secure：标记Secure之后cookie信息只能通过HTTPS加密传输（反向来看就是走http协议的网站不能用这个属性），且即使加密之后也是不能保证信息安全的，总的来说敏感信息就不应该被放到cookie里面</li>
+<li>  session：除了将用户信息通过cookie存在客户端以外，还可以利用session存到服务器端，比如用户登录完后就把信息存到redis里面，然后把key放到cookie中返回给客户端，之后的通信都只要传递这个key就行了，服务器拿到key就能从Redis里面找到对应的内容；这里要注意session ID的安全性，可以通过经常更新或者重新验证的方式来提高安全性</li>
+<li>  浏览器禁用cookie：这个时候就不能用cookie了，只能通过上面说的session的方式，session的ID也不能通过cookie来传递了，使用URL重写技术，将ID作为URL参数进行传递</li>
+<li>cookie和session的选择：<ul>
+<li>  cookie只能存储ASCII码字符串，而session是可以存储任何类型的数据的（可以存储到任何的数据库或者内存中）</li>
+<li>  cookie存在客户端容易被查看，解决方式是进行加密，然后到服务器端进行解密</li>
+<li>  其实总的来说session在各个方面都是要优于cookie的，但是必须要考虑一个现实的问题，cookie占用的是用户的存储空间，而session占用服务器存储，对大型网站来说这个开销将非常大，所以要根据内容的敏感性来决定存储方式</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>缓存：<ul>
+<li>  优点是能缓解服务器压力，而且一般缓存可能放到客户端或者分布式的缓存服务器，物理位置更近读取更快</li>
+<li>实现方式：<ul>
+<li>  代理服务器进行缓存</li>
+<li>  客户端进行缓存</li>
+</ul>
+</li>
+<li>Cache-Control:控制缓存<ul>
+<li>  Cache-Control:no-store 完全禁止缓存</li>
+<li>  no-cache:强制确认缓存，让缓存服务器必须先向服务器确认资源的有效性</li>
+<li>  private和public：私有和公有，私有内容只能被单独的用户使用，一般存储在用户浏览器；而公有就是大家都能使用，一般存储到缓存服务器</li>
+<li>  缓存过期机制：请求中加入一个max-age指令，告诉缓存服务器验证缓存存在的时间是否小于这个时间，如果成了那就能接受该缓存内容；如果是响应报文中的max-age则表示缓存在缓存服务器中保存的时间，客户端收到这个参数可以自己去判断是否接受这个缓存数据</li>
+</ul>
+</li>
+<li>  缓存的验证机制：资源用一个唯一标识ETag来标记，缓存服务器向服务器验证缓存内容是否最新的时候就对比两个资源的ETag就行，这里如果两个资源的ETag是匹配的，服务器返回304 Not Modified就是前面讲状态码中说到的报文条件验证满足</li>
+</ul>
+</li>
+<li>  内容编码：将返回数据的实体进行压缩再传输，浏览器发送的Accept-Encoding首部其中包含了他所支持的压缩算法以及各自的优先级，常见的内容编码：gzip、compress、deflate、identity</li>
+<li>范围请求：如果出现网络中断，而服务器值发送了另一部分的数据，范围请求可以使得客户端只请求没有得到的那部分数据（估计这个是断点续传的底层实现原理）<ul>
+<li>  range：在请求报文中添加Range指定请求的范围，请求成功服务器会返回206 Partial Content，不支持范围请求时服务器返回200</li>
+</ul>
+</li>
+<li>  虚拟主机：HTTP/1.1使用虚拟主机可以使得一台服务器拥有多个域名，在逻辑上可以看成多个服务器</li>
+<li>通信数据转发<ul>
+<li>  代理：主要目的–缓存、负载均衡、访问控制、日志记录</li>
+<li>  网关：网关服务器是将HTTP转化为其他协议进行通信，从而请求其它非HTTP服务器的服务</li>
+<li>  隧道：使用SSL等加密手段在客户端和服务器之间建立一条安全的通信线路</li>
+</ul>
+</li>
+</ul>
+<h2 id="HTTP-2-0"><a href="#HTTP-2-0" class="headerlink" title="HTTP/2.0"></a>HTTP/2.0</h2><ul>
+<li>1.X的缺陷<ul>
+<li>  对并发没有好的处理方案（通过使用多个连接来实现）</li>
+<li>  不会压缩请求和响应的首部，浪费流量降低效率</li>
+<li>  不支持有效的资源优先级，致使地城TCP链接的利用率低下</li>
+</ul>
+</li>
+<li>  二进制分帧层：2.0将报文分成headers帧和DATA帧，他们都是二进制格式</li>
+<li>  服务端推送：请求一个资源是，会把相关的资源一起发送给客户端（js、css之类的资源）</li>
+<li>  首部压缩：1.1的时候首部含有大量信息，且每次都要重新发送；2.0要求客户端和服务器同时维护一个包含之前见过的首部字段表，避免重复传输，同时还使用Huffman编码对首部字段进行压缩</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/HTTP/">http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/HTTP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/https%E5%8A%A0%E5%AF%86%E9%80%9A%E8%AE%AF/" title="网络基础 -- https加密通讯"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">网络基础 -- https加密通讯</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" title="网络基础 -- 网络基础"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">网络基础 -- 网络基础</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/DNS/" title="网络基础 -- DNS"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- DNS</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/SSH%E5%8E%9F%E7%90%86/" title="网络基础 -- SSH原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- SSH原理</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/https%E5%8A%A0%E5%AF%86%E9%80%9A%E8%AE%AF/" title="网络基础 -- https加密通讯"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- https加密通讯</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E4%BA%92%E8%81%94%E7%BD%91%E5%8D%8F%E8%AE%AE--%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B/" title="网络基础 -- 互联网协议--五层模型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- 互联网协议--五层模型</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" title="网络基础 -- 网络基础"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- 网络基础</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/WAN%E3%80%81LAN%E3%80%81ETH%E6%8E%A5%E5%8F%A3/" title="名词解释 -- WAN、LAN、ETH接口"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">名词解释 -- WAN、LAN、ETH接口</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">一、基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#URI"><span class="toc-number">1.1.</span> <span class="toc-text">URI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94"><span class="toc-number">1.2.</span> <span class="toc-text">请求和响应</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81HTTP%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">二、HTTP方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81HTTP%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">三、HTTP状态码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%85%B7%E4%BD%93%E5%BA%94%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">四、具体应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-2-0"><span class="toc-number">5.</span> <span class="toc-text">HTTP&#x2F;2.0</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

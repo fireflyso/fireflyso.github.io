@@ -1,0 +1,291 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机操作系统 -- 深入理解计算机系统 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="第一章：计算机系统漫游1.1 约定   本次分享的内容涉及到的计算机的一些机制都以现在世界上现存的典型协议进行描述，不对一些为特殊场景下进行定制的协议进行阐述，例如我们会认为文本字符在计算机上的表示是通过基础的ASCII标准，涉及到字符存储时不去对别的标准原理进行介绍。   由于第一章里面直接对整个系统的运行进行了笼统的介绍，涉及的内容太多，所有笔记中指名道姓提及本书后续某章会详细讲解的内容和问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机操作系统 -- 深入理解计算机系统">
+<meta property="og:url" content="http://example.com/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="第一章：计算机系统漫游1.1 约定   本次分享的内容涉及到的计算机的一些机制都以现在世界上现存的典型协议进行描述，不对一些为特殊场景下进行定制的协议进行阐述，例如我们会认为文本字符在计算机上的表示是通过基础的ASCII标准，涉及到字符存储时不去对别的标准原理进行介绍。   由于第一章里面直接对整个系统的运行进行了笼统的介绍，涉及的内容太多，所有笔记中指名道姓提及本书后续某章会详细讲解的内容和问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:21:35.819Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.947Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="计算机操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机操作系统 -- 深入理解计算机系统',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机操作系统 -- 深入理解计算机系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:21:35.819Z" title="发表于 2023-04-13 11:21:35">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.947Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">计算机操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机操作系统 -- 深入理解计算机系统"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="第一章：计算机系统漫游"><a href="#第一章：计算机系统漫游" class="headerlink" title="第一章：计算机系统漫游"></a>第一章：计算机系统漫游</h1><h2 id="1-1-约定"><a href="#1-1-约定" class="headerlink" title="1.1 约定"></a>1.1 约定</h2><ul>
+<li>  本次分享的内容涉及到的计算机的一些机制都以现在世界上现存的典型协议进行描述，不对一些为特殊场景下进行定制的协议进行阐述，例如我们会认为文本字符在计算机上的表示是通过基础的ASCII标准，涉及到字符存储时不去对别的标准原理进行介绍。</li>
+<li>  由于第一章里面直接对整个系统的运行进行了笼统的介绍，涉及的内容太多，<font color="red">所有笔记中指名道姓提及本书后续某章会详细讲解的内容和问题，朋友们就别问了，免得大家都尴尬 ：）</font></li>
+</ul>
+<h2 id="1-2概述"><a href="#1-2概述" class="headerlink" title="1.2概述"></a>1.2概述</h2><p>本章我们试图去简单的介绍一个最基本的hello world程序的运行原理，实际上，这一整本书就是在详细的描述这一程序运行过程中计算机各个模块之间的配合调度,以下为hello.c文件内容</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+&#123;
+    printf(&quot;hello world\n&quot;);
+    return 0;
+&#125;
+</code></pre>
+<h2 id="1-3-hello-world生命周期"><a href="#1-3-hello-world生命周期" class="headerlink" title="1.3 hello world生命周期"></a>1.3 hello world生命周期</h2><h3 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h3><p>上面的hello.c文件在磁盘上是以一串byte格式进行的存储，当我们用文本工具打开时会翻译为方便人类阅读的格式</p>
+<ul>
+<li>编码（把人类字符翻译为byte数据的过程）：<ul>
+<li>  ASCII：这里也简单的对ASCII编码进行介绍，每一个字符都被翻译为一个唯一与其对应的整数值，也就是一个byte（byte 的取值范围为 1000 0000 到 0111 1111）</li>
+<li>  Unicode：为了解决ASCII码不能容积而产生的编码标准，通常占用两个字节</li>
+<li>  UTF8：为了解决Unicode造成的空间浪费，UTF-8编码把一个Unicode字符根据不同的数字大小编码成1-6个字节，汉字通常是3个字节（所以UTF8天生兼容了远古时期的ASCII码数据）</li>
+<li>  关于汉字的存储，在txt的格式下汉字其实也只是占用了一个字节，这里有一帮哥们为了节省空间为汉字做了一个汉字库（16*16库需求282.5KB磁盘空间），真正存储的时候是存储了汉字在该库里面的地址（内码）</li>
+</ul>
+</li>
+<li>  计算机中数据的存储：所有的信息都是以一串byte方式进行的存储。</li>
+</ul>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>hello.c是高级语言（C语言），需要先转化为一系列低级机器语言指令（存储到hello文件中），这个过程叫编译，编译的工具叫编译器驱动程序。<br><img src="/img/17359.octet-stream" alt="image"><br>为何要了解编译过程和原理（<font color="red">细节本书第六章会讲</font>，这里受篇幅所限我就不展开讲了，就当我知道：）:</p>
+<ul>
+<li>  优化程序性能</li>
+<li>  理解链接是出现的错误</li>
+<li>  避免安全漏洞</li>
+</ul>
+<p>由于不同的语言有不同的运行环境，这个地方不好统一详尽的介绍，旭禄只对Java的运行过程有过一些探索，如果大家有兴趣，推荐《深入理解java虚拟机》</p>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>运行是指，处理器读取磁盘上编译后的文件hello到内存并逐一的解释内存中的指令的过程。</p>
+<p>为了能解释运行的过程，我们要先了解下计算机的硬件组成</p>
+<h2 id="1-4-计算机硬件组成"><a href="#1-4-计算机硬件组成" class="headerlink" title="1.4 计算机硬件组成"></a>1.4 计算机硬件组成</h2><h3 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h3><p>用于连接计算机各个组件的通信管道，通常被设计为传输定长的字节块，系统中字长为4字节的就是我们所说的32位计算机，字长为8字节的是64位计算机。</p>
+<h3 id="IO设备"><a href="#IO设备" class="headerlink" title="IO设备"></a>IO设备</h3><p>输入输出设备，典型的IO设备：鼠标、键盘、显示器以及硬盘。（<font color="red">第六章会详细讲解IO设备的工作原理</font>）</p>
+<h3 id="主存"><a href="#主存" class="headerlink" title="主存"></a>主存</h3><p>主存临时存储设备由一组动态随机存取存储器（RAM）芯片组成，我们所说的内存就是由主存（RAM）和只读存储器（ROM）组成。</p>
+<h3 id="处理器"><a href="#处理器" class="headerlink" title="处理器"></a>处理器</h3><p>中央处理单元（CPU）简称处理器，是解释或执行存储在主存中指令的引擎。</p>
+<ul>
+<li>  程序计数器：CPU的核心是一个大小为一个字（字的长度决定了计算机是多少位的）的存储设备（寄存器）也称为程序计数器。</li>
+<li>  在我个人所了解的模型里面程序是以栈的方式来存储指令，而程序计数器可以看做指向栈顶的指针，CPU会一直执行程序计数器所指向的指令（多线程切换的时候就是要记录下这个程序计数器的位置，再次获得CPU使用权的时候继续执行）</li>
+<li>  <font color="red">本书第四章会详细讲解处理器是如何实现的，第五章会讲解处理器工作原理</font></li>
+</ul>
+<h2 id="1-5-再次运行hello"><a href="#1-5-再次运行hello" class="headerlink" title="1.5 再次运行hello"></a>1.5 再次运行hello</h2><p>在了解了计算机的大体组成后，我们已经极度膨胀，再次来探究hello的运行过程。于是我们在shell命令行执行：</p>
+<pre><code>./hello
+</code></pre>
+<p><img src="/img/17499.octet-stream" alt="image"><br>简单描述：将hello指令从磁盘复制到寄存器、再从寄存器复制到主存、寄存器去执行主存上的指令、将“hello world\n”复制到寄存器再复制到显示设备上。</p>
+<ul>
+<li>  这个时候朋友们就要问了，为啥要复制来复制去，为什么寄存器不直接从磁盘上读“hello  world\n”然后丢给显示器</li>
+</ul>
+<pre><code>解：磁盘读写速度慢，很慢，非常慢；寄存器的读写速度大概是磁盘的10亿倍，相反的寄存器的存储空间非常小（几百字节），
+所以我们需要先把需要用到的数据写到内存里面去（内存的读写比磁盘快1000w倍，比寄存器慢100倍），之后寄存器去内存
+里面取指令进行执行。
+</code></pre>
+<ul>
+<li><p>  其实在上面的流程里面有一部分是可以被优化的，就是一开始从磁盘读取到内存的过程还是经过了寄存器，这部分其实和我们的目标不符合，有一个技术叫直接存储器存取技术（DMA，第六章会详解），它可以直接将指令从磁盘读取到内存而不经过寄存器</p>
+</li>
+<li><p>  这个时候朋友们又要问了，既然是这样那我们把所有数据都存到内存甚至是寄存器不就好了吗？</p>
+</li>
+</ul>
+<pre><code>这里给个出一个参考价格，一个3000左右CPU的三级缓存数据大概是8*32k、8*512k、2*16M，
+一个8G内存条价格大概300，一个2T的机械硬盘大概350
+</code></pre>
+<ul>
+<li>  所以在向生活低头之后，我们选择用缓存来解决CPU和磁盘之间日益增长的阶级矛盾。</li>
+</ul>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>目前大多数的CPU都会采用三级缓存的方式来降低CPU和内存之间数据交互的时间消耗，下面是一个典型的计算机系统中缓存层级图：<br><img src="/img/17576.octet-stream" alt="image"><br>所有上层的存储器都可以看做是下层存储器的高速缓存</p>
+<h2 id="1-6-操作系统"><a href="#1-6-操作系统" class="headerlink" title="1.6 操作系统"></a>1.6 操作系统</h2><p>让我们回顾刚才hello程序运行的流程，我们直接是向shell程序发起运行的指令，这时候shell其实是不能直接访问磁盘和CPU之类的硬件设备的，它需要依赖操作系统提供的服务，以下是计算机系统的分层示意图：<br><img src="/img/17586.octet-stream" alt="image"><br>操作系统的作用：</p>
+<ul>
+<li>防止应用滥用硬件资源（这里把操作系统看做一个公正的裁判，但有时候裁判也会耍流氓）<br>  <img src="/img/17606.octet-stream" alt="image"></li>
+<li>  向应用程序提供简单一致的底层驳杂硬件的调用接口（不同的硬件通过对应的驱动程序和操作系统达成统一，操作系统再将统一的标准接口面向应用程序）</li>
+</ul>
+<p>下面我们对操作系统的几个重要特性进行简单的介绍</p>
+<h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>进程是对计算机上正在运行的程序的一种抽象，它使得程序（例如我们的hello）看上去是在独占计算机的硬件资源，是计算机科学中最重要和成功的概念之一。</p>
+<p>一个CPU在一个时间上只能执行一个进程，并发的原理是处理器来回切换不同的进程，CPU离开时记录进程执行的上下文（寄存器PC、主存内容等）状态，进程再次获得CPU的调用时根据记录的状态继续任务</p>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>以前我们认为一个进程只有一个单一的控制流，但在现代计算机系统中，进程是由多个称为线程的单元组成的，线程都是运行在进程的上下文中，所以同一个进程下的线程间共享资源，在目前处理器普遍多核的情况下，多线程很更好的利用系统资源提高效率（在本书第12章会详解并发的概念）</p>
+<h3 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h3><p>“虚拟内存是一个抽象概念，它为每个进程提供一个假象，即每个进程都在独占地使用主存”</p>
+<p>“基本思想是把一个进程虚拟内存的内存存储到磁盘上，然后用主存做为磁盘的高速缓存”</p>
+<p>第九章会解释它如何工作，这里的细节不是很清楚，但个人猜测这个策略应该是导致电脑硬盘从机械升级到固态后能很好的缓解内存压力而大幅度提高电脑整体运行速度的原因。</p>
+<p>这里有一个小建议，如果大家想要提高旧电脑的运行速度，绝大多数的情况下升级一个固态硬盘都是性价比最高的方案，不用扩展内存，一个128G的固态不到200块，可以带来好几倍的使用流畅度。</p>
+<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>“文件就是字节序列，仅此而已”，前面有简单的描述过字节byte的一个情况。</p>
+<h3 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a>网络通信</h3><p>到目前为止的介绍中，我们都把计算机看为一个孤岛，实际上今天的我们片刻都离不开网络，网络也可以视为计算机的一个IO设备。</p>
+<p>就hello而言，我们可以通过telnet应用在远程主机上运行hello程序，示意图：<br><img src="/img/17706.octet-stream" alt="image"><br>在本书第11章中会介绍如何构建一个网络应用程序，搭建一个简单的web服务器。</p>
+<h2 id="1-7-一些重要概念"><a href="#1-7-一些重要概念" class="headerlink" title="1.7 一些重要概念"></a>1.7 一些重要概念</h2><h3 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h3><p>并发：指一个同时具有多个活动的系统；并行：指通过并发来使系统运行更快。</p>
+<ul>
+<li>线程级并发：同进程下多个线程的并发<ul>
+<li>  超线程：一个CPU核心同时处理多个控制流（线程或者进程），i7单核可以同时处理两个控制流。</li>
+<li>  多核：由于单核模拟并发是在不断的切换控制流，这个过程是需要消耗资源的，所以多核心在并发上的效率提升不只是倍数。（其实在多核和超线程提出来之前，大家对并发的热情并不高，单个控制流执行下的并发成本高）</li>
+</ul>
+</li>
+<li>  指令级并发：在较低的抽象层面上，处理器同时处理多条指令。（第四章中会讲解流水线pipelining模型中指令的调度来详细解释）</li>
+<li>  单指令、多数据并行：在最低的层次上，处理器允许一条指令产生多个可以并行执行的操作，称为单指令、多数据并行，SIMD并行。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">http://example.com/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">计算机操作系统</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux--convert%E5%91%BD%E4%BB%A4/" title="计算机操作系统 -- linux--convert命令"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机操作系统 -- linux--convert命令</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/vultr%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE/" title="linux -- vultr服务器配置"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">linux -- vultr服务器配置</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux--convert%E5%91%BD%E4%BB%A4/" title="计算机操作系统 -- linux--convert命令"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">计算机操作系统 -- linux--convert命令</div></div></a></div><div><a href="/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux%E5%92%8Cmac%E4%B8%AD%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%88%AB%E5%90%8D%E9%85%8D%E7%BD%AE/" title="计算机操作系统 -- linux和mac中命令行别名配置"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">计算机操作系统 -- linux和mac中命令行别名配置</div></div></a></div><div><a href="/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="计算机操作系统 -- 计算机操作系统"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">计算机操作系统 -- 计算机操作系统</div></div></a></div><div><a href="/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/CentOS%E9%85%8D%E7%BD%AE%EF%BC%88%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%89/" title="linux -- CentOS配置（阿里云服务器）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">linux -- CentOS配置（阿里云服务器）</div></div></a></div><div><a href="/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/Linux/" title="linux -- Linux"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">linux -- Linux</div></div></a></div><div><a href="/2023/04/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/Linux%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%BB%B4%E6%8A%A4/" title="linux -- Linux系统安装维护"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">linux -- Linux系统安装维护</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8"><span class="toc-number">1.</span> <span class="toc-text">第一章：计算机系统漫游</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E7%BA%A6%E5%AE%9A"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2%E6%A6%82%E8%BF%B0"><span class="toc-number">1.2.</span> <span class="toc-text">1.2概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-hello-world%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 hello world生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-number">1.3.2.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C"><span class="toc-number">1.3.3.</span> <span class="toc-text">运行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 计算机硬件组成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BA%BF"><span class="toc-number">1.4.1.</span> <span class="toc-text">总线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IO%E8%AE%BE%E5%A4%87"><span class="toc-number">1.4.2.</span> <span class="toc-text">IO设备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%AD%98"><span class="toc-number">1.4.3.</span> <span class="toc-text">主存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">1.4.4.</span> <span class="toc-text">处理器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-%E5%86%8D%E6%AC%A1%E8%BF%90%E8%A1%8Chello"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 再次运行hello</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98"><span class="toc-number">1.5.1.</span> <span class="toc-text">缓存</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.6.</span> <span class="toc-text">1.6 操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.6.1.</span> <span class="toc-text">进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.6.2.</span> <span class="toc-text">线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">1.6.3.</span> <span class="toc-text">虚拟内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">1.6.4.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1"><span class="toc-number">1.6.5.</span> <span class="toc-text">网络通信</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.7.</span> <span class="toc-text">1.7 一些重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C"><span class="toc-number">1.7.1.</span> <span class="toc-text">并发和并行</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

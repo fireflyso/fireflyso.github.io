@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数据持久化 -- 事务原理 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、事务概念事务是一组满足ACID特征的操作，可以通过commit提交或者Rollback回滚 ACID 原子性（Atomicity） 这个地方的原子性和物理里面的原子性是一个道理，事务被认为是对数据库操作的最小单元，为什么这么说呢，为了数据库的信息安全性，我们规定事务要么整个成功要么整个失败，不可能是执行了半个事务，那样开发者就无法确定数据库中信息的状态 回滚：事务在执行的过程中出现了错误可以进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据持久化 -- 事务原理">
+<meta property="og:url" content="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="一、事务概念事务是一组满足ACID特征的操作，可以通过commit提交或者Rollback回滚 ACID 原子性（Atomicity） 这个地方的原子性和物理里面的原子性是一个道理，事务被认为是对数据库操作的最小单元，为什么这么说呢，为了数据库的信息安全性，我们规定事务要么整个成功要么整个失败，不可能是执行了半个事务，那样开发者就无法确定数据库中信息的状态 回滚：事务在执行的过程中出现了错误可以进">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:20:59.789Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.817Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="数据持久化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据持久化 -- 事务原理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据持久化 -- 事务原理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:59.789Z" title="发表于 2023-04-13 11:20:59">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.817Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据持久化 -- 事务原理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="一、事务"><a href="#一、事务" class="headerlink" title="一、事务"></a>一、事务</h2><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>事务是一组满足ACID特征的操作，可以通过commit提交或者Rollback回滚</p>
+<h4 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h4><ul>
+<li>原子性（Atomicity）<ul>
+<li>这个地方的原子性和物理里面的原子性是一个道理，事务被认为是对数据库操作的最小单元，为什么这么说呢，为了数据库的信息安全性，我们规定事务要么整个成功要么整个失败，不可能是执行了半个事务，那样开发者就无法确定数据库中信息的状态</li>
+<li>回滚：事务在执行的过程中出现了错误可以进行回滚，有个东西叫做回滚日志，里面记录了事务所执行的修改操作，回滚的时候再反向执行这些操作</li>
+</ul>
+</li>
+<li>一致性：数据在事务执行前后都保持一致性状态，在一致性状态下，所有事务对一个数据的读取结果都是相同的</li>
+<li>隔离性：一个事务所做的修改在最终提交前，对其他事务是不可见的。</li>
+<li>持久性：<ul>
+<li>一旦事务提交，则其所作的修改将会永远保存到数据库中，即使系统发生崩溃，事务执行的结果也不能丢失，使用重做日志来保证持久性。</li>
+<li>事务之所以有这么个性质就是为了能营地数据库崩溃的情况<h4 id="AUTOCOMMIT"><a href="#AUTOCOMMIT" class="headerlink" title="AUTOCOMMIT"></a>AUTOCOMMIT</h4>MySQL默认采用自动提交模式，如果不是显式使用start transaction语句来开始一个事务的话，每个查询都会被当做一个事务来自动提交；这会导致一个问题，用别的数据库的时候操作完成后也没有提交的习惯，需要注意的<h2 id="二、并发一致性问题（数据库面临的主要问题）"><a href="#二、并发一致性问题（数据库面临的主要问题）" class="headerlink" title="二、并发一致性问题（数据库面临的主要问题）"></a>二、并发一致性问题（数据库面临的主要问题）</h2>在没有并发的情况下，事务串行执行，原子性是在任何情况下都能保证的，这时候也不存在隔离性的问题，所以数据的一致性就能得到保证。</li>
+</ul>
+</li>
+</ul>
+<p>但是在并发的环境下，事务的隔离性就很难保证，因此会出现很多并发一致性问题</p>
+<h4 id="丢失修改"><a href="#丢失修改" class="headerlink" title="丢失修改"></a>丢失修改</h4><p>t1和t2两个事务都对一个数据进行修改，t1先改，t2后改，t2的修改覆盖了t1的修改，比如ab两个售票点读取出了航班的余票是16，a卖了一张修改数据库余票-1为15，b也卖了一张修改数据库余票-1为15，这个时候就出问题了</p>
+<h4 id="读脏数据"><a href="#读脏数据" class="headerlink" title="读脏数据"></a>读脏数据</h4><p>T1修改了一个数据，T2去读取了这个数据，T1回滚了这次修改，T2读到的数据是假数据</p>
+<h4 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h4><p>T1读取了一个数据，T2修改了这个数据，当T1再次去读这个数据的时候读取的结果第一次不一样</p>
+<h4 id="幻影读"><a href="#幻影读" class="headerlink" title="幻影读"></a>幻影读</h4><p>T1读取了某个范围的数据，T2在这个范围内插入了新的数据，T1再次去读这个范围的数据，发现和第一次读取的数据不同</p>
+<p>不难发现所有问题的产生主要因为事务的隔离性被破坏了，一个事务在操作的过程中另一个事务，解决方法是通过并发控制来保证隔离性，这类似于线程锁，要是让用户来实现会相当麻烦，数据库管理系统提供了事务的隔离级别，其实就是实现了不同程度的安全锁，让用户能直观的去选择一种实现方案来解决问题</p>
+<h2 id="三、封锁（事务隔离级别的实现原理）"><a href="#三、封锁（事务隔离级别的实现原理）" class="headerlink" title="三、封锁（事务隔离级别的实现原理）"></a>三、封锁（事务隔离级别的实现原理）</h2><h4 id="封锁粒度"><a href="#封锁粒度" class="headerlink" title="封锁粒度"></a>封锁粒度</h4><p>MySQL来说提供了两种封锁粒度：行级锁、表级锁</p>
+<p>这个和线程锁的思想差不多，不过数据库对效率的要求更高</p>
+<p>尽量只锁定需要修改的那个部分（或者对修改会造成影响的部分），锁定的数据越少，发生锁争用的可能也就越小，系统的并发程度就越高</p>
+<p>另一方面，锁定的资源越精确，那很可能需要的锁的数量就越多，而锁的各种操作（获取、检查状态、释放）都会增加系统的开销。所以精确度越高那系统开销就越大</p>
+<p>结合着两个点来说，在选择的时候要根据服务器的性能来做权衡</p>
+<h4 id="封锁类型"><a href="#封锁类型" class="headerlink" title="封锁类型"></a>封锁类型</h4><ul>
+<li>读写锁：简单解释一下<ul>
+<li>读锁：一个事务对数据的对象（可能是行可能是表，看决策是怎么做的）加了读锁之后，就可以对它进行读取了，此时别的事务最多只能对这个对象加读锁，也就是最多只能看看，不可能再修改了</li>
+<li>写锁：一个事务对数据对象加了写锁之后，别的事务就不能再对它加任何锁了，也就是不能读写，这个时候一旦读写就可能出问题嘛</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/">http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3/" title="数据持久化 -- 字段类型详解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数据持久化 -- 字段类型详解</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%91%BD%E4%BB%A4/" title="数据持久化 -- 数据库性能分析命令"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据持久化 -- 数据库性能分析命令</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E5%89%8D%E8%BD%A6%E4%B9%8B%E8%A6%86/" title="数据持久化 -- 前车之覆"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 前车之覆</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3/" title="数据持久化 -- 字段类型详解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 字段类型详解</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4/" title="数据持久化 -- 操作命令"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 操作命令</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/" title="数据持久化 -- 数据库优化"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 数据库优化</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%91%BD%E4%BB%A4/" title="数据持久化 -- 数据库性能分析命令"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 数据库性能分析命令</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E7%B4%A2%E5%BC%95%E3%80%81%E5%88%86%E8%A1%A8/" title="数据持久化 -- 索引、分表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 索引、分表</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.</span> <span class="toc-text">一、事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.0.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ACID"><span class="toc-number">1.0.2.</span> <span class="toc-text">ACID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AUTOCOMMIT"><span class="toc-number">1.0.3.</span> <span class="toc-text">AUTOCOMMIT</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%B9%B6%E5%8F%91%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98%EF%BC%88%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%A2%E4%B8%B4%E7%9A%84%E4%B8%BB%E8%A6%81%E9%97%AE%E9%A2%98%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">二、并发一致性问题（数据库面临的主要问题）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A2%E5%A4%B1%E4%BF%AE%E6%94%B9"><span class="toc-number">2.0.1.</span> <span class="toc-text">丢失修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E8%84%8F%E6%95%B0%E6%8D%AE"><span class="toc-number">2.0.2.</span> <span class="toc-text">读脏数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB"><span class="toc-number">2.0.3.</span> <span class="toc-text">不可重复读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%BB%E5%BD%B1%E8%AF%BB"><span class="toc-number">2.0.4.</span> <span class="toc-text">幻影读</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%B0%81%E9%94%81%EF%BC%88%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">三、封锁（事务隔离级别的实现原理）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%81%E9%94%81%E7%B2%92%E5%BA%A6"><span class="toc-number">3.0.1.</span> <span class="toc-text">封锁粒度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%81%E9%94%81%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.0.2.</span> <span class="toc-text">封锁类型</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

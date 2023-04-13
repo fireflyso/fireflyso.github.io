@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>网络基础 -- 互联网协议--五层模型 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="介绍网络的工作原理，物理设备到底是怎样与各种协议合作组成的信道网络。 原博客地址：http:&#x2F;&#x2F;www.ruanyifeng.com&#x2F;blog&#x2F;2012&#x2F;05&#x2F;internet_protocol_suite_part_i.html 这里将按照分层的方式来了解网络组成，按照功能分成五个层次，这个不是一个标准的分层，也没有标准，方便理解的去模糊划分。    实体层  实体层就是将电脑连入网络的网线，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络基础 -- 互联网协议--五层模型">
+<meta property="og:url" content="http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E4%BA%92%E8%81%94%E7%BD%91%E5%8D%8F%E8%AE%AE--%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="介绍网络的工作原理，物理设备到底是怎样与各种协议合作组成的信道网络。 原博客地址：http:&#x2F;&#x2F;www.ruanyifeng.com&#x2F;blog&#x2F;2012&#x2F;05&#x2F;internet_protocol_suite_part_i.html 这里将按照分层的方式来了解网络组成，按照功能分成五个层次，这个不是一个标准的分层，也没有标准，方便理解的去模糊划分。    实体层  实体层就是将电脑连入网络的网线，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:21:18.139Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.793Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="网络基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E4%BA%92%E8%81%94%E7%BD%91%E5%8D%8F%E8%AE%AE--%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '网络基础 -- 互联网协议--五层模型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">网络基础 -- 互联网协议--五层模型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:21:18.139Z" title="发表于 2023-04-13 11:21:18">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.793Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="网络基础 -- 互联网协议--五层模型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p> 介绍网络的工作原理，物理设备到底是怎样与各种协议合作组成的信道网络。</p>
+<p>原博客地址：<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html">http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html</a></p>
+<p>这里将按照分层的方式来了解网络组成，按照功能分成五个层次，这个不是一个标准的分层，也没有标准，方便理解的去模糊划分。</p>
+<p><img src="/img/10969189AE4E4AED9A812AC38381020D.png"></p>
+<ol>
+<li><p> 实体层</p>
+</li>
+<li><p>实体层就是将电脑连入网络的网线， 像上面宽带、光纤、无线电波一类的东西，就是信号传输的线路。</p>
+</li>
+<li><p>链路层</p>
+</li>
+<li><p>首先在实体层中传输的数据本质上都是0和1，所以要规定出我们要如何去传输和识别这些01数据，这个层确定了这些0和1的分组方式。</p>
+</li>
+<li><p>一开始大家都有自己的分组方式，但是这样明显不方便，不能相互的沟通，后来叫“以太网“的协议占据了主导地位，这种协议规定一组电信号构成一个数据包，叫做帧，每个帧又分为”标头“和”数据“两个部分。标头里存储了发送者、接收者、数据类型等信息；数据里就是需要传输的数据。标头的长度固定为18个字节，数据部分的长度为46到1500之间，所以一个帧的最短长度为64字节，最长为1518字节；</p>
+</li>
+<li><p> MAC地址，上面有说标头里面包含了发送者和接收者的信息，那就要提取出每个发送和接收设备的身份标识，这个标识就是MAC地址，那这个地址是怎么来的呢，这个地方一个设备想要接入互联网，那一定要有一个叫做“网卡”的设备，这个设备在被生产的时候就为他分配了一个全世界唯一的MAC地址，长度为48位的二进制数，通常用12个十六进制数来表示，所以我们平时查找的MAC地址都是6对字符组成；</p>
+</li>
+<li><p>广播，当有了mac地址作为标识之后，我们已经能够区分出谁是谁了，相当于人有了名字，而当设备接入网络后就能相互通信了，也就相当于人们在同一个屋子里说话大家都能听到了，所以把帧数据丢到网络中去，大家都取来看看标头里的接收者是不是自己，是就将数据取出来，这样数据的传输就实现了。</p>
+</li>
+<li><p>网络层</p>
+</li>
+<li><p>存在原因：为什么要有网络层，链路层的时候不就已经是实现了数据的传输了吗，链路层传输数据的方法是把数据丢到网络中每个人的手里，所以导致一些问题，一个是每个人都要去接收数据看看是不是发给自己的，现在有几十亿网民，而网络设备数量更多，很难想象如果每个人发的数据都去接过来看看接收者，这个资源占有会有多大，另一个是整个互联网其实由大量的子网络构成，两台通讯设备不一定在同一个子网络中，这样的话就没法直接通过mac地址来找到对方了。</p>
+</li>
+<li><p>我们需要一种方法来判断通讯的mac地址是否在同一个子网络中，如果是就用广播的方式传输数据，如果不是就用路由的方式传输数据，路由这个概念很广泛，这里不详述，这种判断的依据就是网络层了，他是一套新的地址，用于区分两台计算机是否在同一个子网络中。这套地址叫“网络地址”简称–网址；</p>
+</li>
+<li><p>IP协议：规定网络地址的协议叫做IP协议，它所定义的地址叫做IP地址，目前广泛使用的是第四版协议，所以叫做IPv4，这个版本中网络地址有32位二进制构成，但使用中我们用4段的十进制来表示IP地址，从0.0.0.0一直到255.255.255.255；IP地址也被分为两个部分，前一部分代表了网络，后一部分代表了主机，但是这个地方两个部分的长度是不固定的所以无法区分，为了区分引入一个新的参数–子网掩码，它也是一个32位的二进制数字，他的网络部分全为1，主机部分全为0，比如11111111.11111111.11111111.00000000，写成十进制就是255.255.255.0，通过子网掩码我们能够区分IP地址中的网络部分和主机部分，知道两个IP地址是否在同一个网络中；所以IP地址的主要作用有两个，一个是为每台设备分配IP地址，另一个是确认哪些地址是在同一个子网络中。</p>
+</li>
+<li><p>前面说了网络中数据传输的单元是以太网规范中的帧，但是帧的标头中只有mac地址的信息，现在我们加入了IP地址，这可咋整勒，人们决定将原本的帧的数据部分再分为两个部分，也就是包含了IP地址的标头和数据了，标头中包含了版本、长度、IP地址等信息，数据部分是IP数据内容，IP标头是20到60字节    ，整个数据包的最大总长度为65535字节，可以推出IP数据部分的最大长度可以为65515，但是前面说了这个东西整个就是放到了以太网的帧里面，而帧的最大长度是1500，当这个IP的数据包长度超过这个范围时，我们将它分成多个以太网的帧进行发送。</p>
+</li>
+<li><p>ARP协议：没看明白，后续补充</p>
+<p>   4.传输层</p>
+</li>
+<li><p>在网络层中通过IP地址和mac地址就已经能让两台主机在网络中相互通信了，但是一个终端上会有很多的程序会同时的使用网络，那个我们为了区分这些不同程序使用的端口，端口是16位二进制数组成，从0到65535,0到1023的端口被系统占用，用户只能选择大于1023的端口，所以传输层的作用是端口到端口的通讯，而前面的网络层的作用是主机到主机的通讯；（在Unix系统中把主机+端口叫做套接字socket，基于他进行网络应用的开发）</p>
+</li>
+<li><p>UDP协议：这是一个基于端口的协议，与前面的在以太网的协议上加入IP协议相同，这个基于端口的协议也分为了标头和数据部分，整个协议被写入了IP协议的数据部分  ，UDP协议标头部分共8字节，总长度不超过65535，和IP协议的长度相同。</p>
+</li>
+<li><p>TCP协议：UDP协议有个缺点，没有可靠性保证，只是把数据包丢出去，不知道对方到底有没有接收到，所以有了TCP协议，这个协议每个数据包都要发出去之后都要确认对方有没有收到，要是没有收到那就要重新发送，TCP协议能够保证数据不会丢失，但是由于它的实现复杂，所以会占用较多的资源。在长度这块，TCP协议没有长度的约束，但是为了保证效率，通常长度也是不会超过IP协议长度的，超过了就需要分割了。</p>
+</li>
+</ol>
+<p>5.应用层</p>
+<p>应用程序收到具体的数据之后就要开始做解析了，由于来的数据可能是各种各样的数据，所以各个应用就要规定自己需要的数据的格式，所以有了邮件、网页之类的数据格式，由这些应用规定的数据标准组成了应用层。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E4%BA%92%E8%81%94%E7%BD%91%E5%8D%8F%E8%AE%AE--%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B/">http://example.com/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E4%BA%92%E8%81%94%E7%BD%91%E5%8D%8F%E8%AE%AE--%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/SSH%E5%8E%9F%E7%90%86/" title="网络基础 -- SSH原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">网络基础 -- SSH原理</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/https%E5%8A%A0%E5%AF%86%E9%80%9A%E8%AE%AF/" title="网络基础 -- https加密通讯"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">网络基础 -- https加密通讯</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/DNS/" title="网络基础 -- DNS"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- DNS</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/HTTP/" title="网络基础 -- HTTP"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- HTTP</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/SSH%E5%8E%9F%E7%90%86/" title="网络基础 -- SSH原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- SSH原理</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/https%E5%8A%A0%E5%AF%86%E9%80%9A%E8%AE%AF/" title="网络基础 -- https加密通讯"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- https加密通讯</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" title="网络基础 -- 网络基础"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">网络基础 -- 网络基础</div></div></a></div><div><a href="/2023/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/WAN%E3%80%81LAN%E3%80%81ETH%E6%8E%A5%E5%8F%A3/" title="名词解释 -- WAN、LAN、ETH接口"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">名词解释 -- WAN、LAN、ETH接口</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">南山山</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fireflyso"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B02--%E6%95%85%E4%BA%8B%E6%B1%87/" title="基础 -- Java笔记2--故事汇">基础 -- Java笔记2--故事汇</a><time datetime="2023-04-13T03:21:48.789Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B03--.class%E6%96%87%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B/" title="基础 -- Java笔记3--.class文件的流程">基础 -- Java笔记3--.class文件的流程</a><time datetime="2023-04-13T03:21:48.706Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B05--%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="基础 -- Java笔记5--多线程">基础 -- Java笔记5--多线程</a><time datetime="2023-04-13T03:21:48.622Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B06--%E5%86%85%E5%B5%8C%E7%B1%BB/" title="基础 -- Java笔记6--内嵌类">基础 -- Java笔记6--内嵌类</a><time datetime="2023-04-13T03:21:48.515Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B07--IO%E6%B5%81/" title="基础 -- Java笔记7--IO流">基础 -- Java笔记7--IO流</a><time datetime="2023-04-13T03:21:48.393Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

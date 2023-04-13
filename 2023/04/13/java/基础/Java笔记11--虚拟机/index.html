@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>基础 -- Java笔记11--虚拟机 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Java发展趋势 模块化：将一个庞大的系统分为若干个子模块；人们不愿意为了系统中一个小块的功能而下载安装一套庞大的系统； 混合语言：当单一的Java开发已经无法满足当前软件的复杂需求时，将系统划分出层次，每个应用层将使用不同的编程语言来完成，而且，接口对每一层的开发者都是透明的，各种语言间不存在交互上的困难；通过特定的语言区解决特定领域的问题是当前软件开发应对日趋复杂的项目需求的一个方向； 多核并">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础 -- Java笔记11--虚拟机">
+<meta property="og:url" content="http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B011--%E8%99%9A%E6%8B%9F%E6%9C%BA/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="Java发展趋势 模块化：将一个庞大的系统分为若干个子模块；人们不愿意为了系统中一个小块的功能而下载安装一套庞大的系统； 混合语言：当单一的Java开发已经无法满足当前软件的复杂需求时，将系统划分出层次，每个应用层将使用不同的编程语言来完成，而且，接口对每一层的开发者都是透明的，各种语言间不存在交互上的困难；通过特定的语言区解决特定领域的问题是当前软件开发应对日趋复杂的项目需求的一个方向； 多核并">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:21:46.027Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.747Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B011--%E8%99%9A%E6%8B%9F%E6%9C%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '基础 -- Java笔记11--虚拟机',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">基础 -- Java笔记11--虚拟机</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:21:46.027Z" title="发表于 2023-04-13 11:21:46">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.747Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="基础 -- Java笔记11--虚拟机"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Java发展趋势</p>
+<p>模块化：将一个庞大的系统分为若干个子模块；人们不愿意为了系统中一个小块的功能而下载安装一套庞大的系统；</p>
+<p>混合语言：当单一的Java开发已经无法满足当前软件的复杂需求时，将系统划分出层次，每个应用层将使用不同的编程语言来完成，而且，接口对每一层的开发者都是透明的，各种语言间不存在交互上的困难；通过特定的语言区解决特定领域的问题是当前软件开发应对日趋复杂的项目需求的一个方向；</p>
+<p>多核并行：计算机CPU的发展方向从高频率转变为多核心，为了适配计算机的性能编程语言也要进入多核时代；</p>
+<p>进一步丰富的语法</p>
+<p>64位的虚拟机：主流CPU支持64位架构了，Java虚拟机在很早以前就推出了64位系统的版本，但问题是现在64位的虚拟机将比32位的虚拟机多消耗内存且性能更低；Java正在试图通过压缩堆内对象的指针来改善这一情况；</p>
+<p>解析jdk</p>
+<p>自动内存管理机制</p>
+<p>java内存区域与内存溢出异常</p>
+<p>概述：java与c++的区别，java为编程者写好了内存管理和垃圾回收，使用者不用关注这方便的问题，但是当出现内存溢出时，同样也很难找出问题发生的地方；c++则是把这个东西全部交给了程序员，人们要去写自己的内存管理，会非常繁杂，但是出现问题时容易解决</p>
+<p>运行时数据区域:</p>
+<p>程序计数器：是一块较小的内存空间，它可以看做是当前线程所执行的字节码的行号指示器；虚拟机的字节码解释器在工作是就是通过改变这个计数器的值来选取下一条需要执行的字节码指令；分支、循环、跳转、异常处理、线程恢复等基础的功能都是需要依赖这个计数器来完成的；一个内核在一个时刻只能处理一个线程的指令，但是它不一定是要把这个线程里面的所有指令执行完了才跳转到另一个线程的，所以每一个线程都有自己的一个程序计数器，用来记录刚才cpu执行这个线程的位置，当这个线程能再次执行的时候恢复进度；这个内存区域是java虚拟机中唯一一个没有规定任何OutOfMemoryError情况的区域；</p>
+<p>java虚拟机栈：线程私有，生命周期与线程相同；描述java方法执行的内存模型，每个方法在执行的时候就会创建一个栈帧用于存储方法内的数据，每个方法的执行对应了方一个栈帧的入栈到出栈；（人们常说的java内存分为堆和栈，这个地方的栈只是java虚拟机栈中的一个部分–局部变量表部分，这个部分存放的是编译期可知的各种基本类型包括8中基本类型和对象引用reference,局部变量表所需的内存空间在编译期间分配完成，当一个方法进入时，这个方法需要在帧中分配多大的局部变量空间是确定的，在方法运行期间不会改变局部变量表的大小）；这个区域规定了两种异常情况：线程请求深度大于了虚拟机允许的深度抛出StackOverflowError异常，大多数的虚拟机是可以动态扩展的，当扩展无法申请到足够的内存，就会抛出OutOfMemoryError异常</p>
+<p>本地方法栈：本地方法栈与虚拟机栈的区别只是在于它是用于处理Native方法服务的；</p>
+<p>java堆：堆的故事好像是很多的，还是退个行写吧</p>
+<p>首先呢， 在java一开始的定义中，堆是对象实例存放的地方，java虚拟机规范中是这样说的：所有的对象实例以及数组都要在堆上分配；但是随着什么jit编译器和逃逸分析技术的逐渐成熟，栈上分配和标量替换优化技术导致这个东西也变得不那么的绝对；它是各个线程共享的，必须是啊，对象都在这个地方存着的，你还能不给人对象了不成；</p>
+<p>其次呢，java堆是垃圾收集器管理的主要区域，因此很多时候也被称为“GC堆”（Garbage Collected Heap），国内要是把它翻译成“垃圾堆”才好呢；</p>
+<p>最后呢，这个区域被分为了‘新区’、’老区‘什么的，在后面还会详细的说明；记得以前看jvm优化时有分配内存的大小，当一个堆的内存太大超过给定的最大值时，抛出OutOfMemoryError异常；</p>
+<p>方法区：也是线程共享的；它用于存储已被虚拟机加载的类的信息数据；在java虚拟机规范中把它描述为堆的一个逻辑部分，但是它有一个别名叫做Non-Heap（非堆），目的应该是与java堆区分开来；这个区域的管理可受用户的调节，可以选择不实现垃圾回收，相对堆，垃圾收集行为在这个区域出现较少，但并不意味着数据进入后会永久保存；这个区域的内存回收主要针对常量池的回收和对类型的卸载；这个区域同样会抛出OutOfMemoryError异常</p>
+<p>运行时常量池：</p>
+<p>这个东西是上面所说的方法区的一部分；Class文件除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池（Constant Pool Table,这些东西好像在英文中都是什么什么table，所以在上面讲一个区域的时候在后面加一个表字），用于存放编译期生成的字面量和符号引用，通常翻译出来的直接引用也会放到这，这部分内容将在类加载后进入方法区的运行时常量池中存放；</p>
+<p>还记得以前说一个java文件运行的过程时，有一个步骤是讲虚拟机检查Class文件的格式是否正确，这里说一下，java虚拟机对Class文件的每一个部分的格式都有严格的规定，不然它是不会认可和装载你的，但是呢对于运行时常量池，java虚拟机规范没有做任何细节的要求；</p>
+<p>要注意的是，这个区域的数据不是只有Class文件中常量池的内容才能进入的，也就是说在运行的时候也可以将新的常量放进去；这个特性在String的intern（）方法中体现特别明显；</p>
+<p>注意Integer这样的包装类的缓存池（-128-127）是包装类自己实现了一个内部类来进行了对象缓存是代码层面的设计模式，而这里说的常量池是JVM层面的，Java里面类在运行的时候类名、方法名等描述类的内容会放到这里</p>
+<p>直接内存：这个东西其实并不属于虚拟机的一部分，但是它是作为一个缓冲区来沟通本机内存和java虚拟机内存的机制，来提高效率，有的时候，管理员在配置jvm时忽略了这一个部分，导致几个区域的大小加起来呢超过了本机的内存，从而出现outofMemoryError异常；</p>
+<p>HotSpot虚拟机对象探秘：在上面呢我们大致的了解了java虚拟机的运行时数据区，下面呢就详细的看一看HotSpot虚拟机在java堆中对象分配、布局和访问的全过程；</p>
+<p>对象的创建：下面大致的说明一个普通的java对象的创建过程</p>
+<p>当虚拟机遇到一条new指令时，首先它回去检查这个指令的参数是否能在常量池中定位到一个类的符号引用，就是说看一看这个想要用来创建对象的类是否存在，是否被加载、解析和初始化；如果没有那就要执行这些步骤，这里就不详细的说，后面再说吧；</p>
+<p>经过上面的步骤后，虚拟机就会着手创建对象了，首先是为新生的对象分配内存；所需内存的大小在类被加载完成后就可以确定了，那么现在要做的就是在堆中划分出来这么一块大小的内存给这个对象，这个时候有两种情况，第一是堆中内存是绝对规整的，意思是用过的内存是连续的一部分和没有用过的内存是用一个指针分开的，那么就只要把指针向着没有用过的内存方向移动对象大小的一段就行了，这种方法叫做指针碰撞，另一种是内存空间是不规整的，就是已使用的内存和未使用的内存是相互交错的，这时虚拟机就需要用一个列表来记录那些内存是用过了的，那些是没用用过的，分配一块足够大的空间给对象实例，并跟新列表记录，这种方法叫做空闲列表；而选择那种方式是由堆是否规整决定的，堆是否规整是由所采用的垃圾回收器是否带有压缩整理功能决定的，使用带Compact过程的收集器是用的是指针碰撞，使用者种基于Mark-Sweep算法的收集器是，通常采用空闲列表；</p>
+<p>除了上面说的如何划分空间外，还有就是并发的问题，如果两个对象同时创建，都要移动指针就尴尬了，有两种解决办法，一种是将这个过程做成线程安全的，另一种是给每个线程在java堆中预先分配一块内存，称为本地线程分配缓存（TLAB)，给他们独立分配，只是在分配TLAB时才需要同步锁，虚拟机是否使用这种技术可以通过一个参数设定；</p>
+<p>接下来，虚拟机要对对象进行必要的设置，诸如这个对象是哪个类的实例、如何才能找到类的元数据、对象的GC分代年龄等；这些信息存放在对象的对象头中，对象头的故事下面会讲；</p>
+<p>上面的工作完成后，在虚拟机看来创建对象已经完成了，但是明显还不是我们要的对象，在执行完new指令后会执行init方法，把对象按照我们的意愿来进行初始化；这时一个我们所需要的对象就创建完成了；</p>
+<p>对象的内存布局:对象在内存中的布局分为3块区域–对象头、实例数据、对齐填充</p>
+<p>对象头：包括两部分信息–第一部分是存储了对象的运行时数据：什么哈希码、gc分代年龄、锁状态之类的关于这个对象生存状态的信息，不是对象的类信息；这个部分在虚拟机规范中叫做“Mark Word”；第二部分是一个指针，指向该对象的类的元数据，虚拟机通过这个指针来确定这个对象是哪个类的对象，但是虚拟机还有别的方法来确定这一点，如果对象是一个数组，那么对象头中还要有一块区域来存储数组的长度，虚拟机在装载类的时候就会确定该类对象的大小，但是数组的大小是不能通过这个过程确定的；</p>
+<p>实例数据：对象真正存储的有效信息；这里不仅是存储了对象指向的类的字段还有父类的信息，且父类定义的变量会在子类之前；</p>
+<p>对齐填充：这个部分不是必然存在的，HotSpot虚拟机的自动内存管理系统要求对象起始地址必须的8字节的整数倍，但实际上并不是每个对象占用的空间大小都是8的倍数，这时候就需要这个部分类填充把不到8字节的部分补上；</p>
+<p>对象的访问定位：对象在使用的时候Java程序需要通过栈上的reference数据来操作堆中的对象；但是Java虚拟机规范中并没有规定reference该通过什么方式去定位、访问堆中的对象；具体的方法是取决于虚拟机实现；主流的访问方式有两种</p>
+<p><img src="/img/3E3E8691F03A4F48843429F8A6D4FB08.png"></p>
+<ol>
+<li><p>句柄访问：这种方式访问时，Java堆中将会划分出一块内存来作为句柄池，reference中存储对象的句柄地址，在句柄中包含了对象实例数据域类型数据各自的具体地址；</p>
+</li>
+<li><p>直接指针访问：reference中存储的直接就是对象的地址；</p>
+</li>
+<li><p>两种方法的区别：一个对象的实例数据是在堆中存储的，而它的对象类型数据是在方法区中存储的；句柄访问是由一个空间来存储分别指向这两个数据的指针；直接指针访问时就不同了，因为这时的reference中只是存放了指向Java堆中实例数据的指针，所以在这个实例数据部分中还应该有一个指向方法区中对象类型数据的指针；句柄访问在定位对象时多出一次指针查找，但是当对象发生迁移时，reference只要指向句柄就行，不用去改变reference的值；由于在Java程序中对对象的调用频率很高，所以HotSpot选择了第二种方法；</p>
+</li>
+<li><p>垃圾收集器与内存分配策略</p>
+</li>
+<li><p>对象已死？    在回收对象之前，肯定要先判断这个对象是否还有人在使用，也就是确定哪些对象还“活着”，哪些对象已经“死去”；判断一个对象是否死亡的方法有以下几种：</p>
+</li>
+<li><p>引用计数法：用一个计算器记录对象引用的个数，当引用个数为0时，我们认为这个对象已经死亡，这个方法有一个缺陷是，当两个对象互相引用的时候，在这种方法判断中，他们两都会永远的活着，即使我们不再使用这两个对象；</p>
+</li>
+<li><p>可达性分析算法：在这个体系里面有一系列的“GC Roots”的对象作为起始点，从这些节点向下搜索，搜索的路径叫引用链，当一个对象不能连接到这些引用链上时，我们认为这个对象已经死掉了；</p>
+</li>
+<li><p>再说引用：单纯的引用难以满足我们的实际需求，我们需要有这样的引用，当我们内存不足时能够抛弃一些对象，通过引用自己做到，因此，引用有了4种扩充分类：</p>
+</li>
+<li><p>强引用：只要这种引用还存在，GC就不会回收它的对象；</p>
+</li>
+<li><p>软引用：一些还有用但非必须的对象，在发生内存溢出前，将把这些对象进行GC，如果这个步骤之后内存还是不足，系统将会抛出内存溢出；</p>
+</li>
+<li><p>弱引用：强度低于软引用，只能生存到下一次GC，当GC发生时不管内存是否足够，这一类对象都会被回收；</p>
+</li>
+<li><p>虚引用：该机制的唯一作用是在对戏被回收是会发出一个系统通知；</p>
+</li>
+<li><p>生存还是死亡：即使是在可达性分析中处于不可达的对象也不是立即就会死亡的，一个对象的真正死亡还要经历两个标记过程，一个对象被发现不可达时，会进行第一次标记，这时会做一次筛选，当一个对象没有覆盖finalize（）方法或者是该方法已经被虚拟机调用了，这两种情况被视为“没有必要再执行finalize方法”；如果一个对象被认为需要执行finalize方法，那么这个对象会被放置到一个叫F-Queue的队列中，然后虚拟机其实就要开始清理了，但在这段时间类若果这些个对象还可以重新与引用链上的任何一个对象建立关联即可，在第二次标记时它将被移出“即将回收”的集合，那它就能完成自救；</p>
+</li>
+<li><p>回收方法区：相对于堆中的垃圾回收来说，方法区（HotSpot虚拟机中叫做永久代）中垃圾回收效率非常低，很多人认为方法区中没有垃圾回收，方法区中的垃圾回收主要有两部分内容–废弃常量和无用的类，当常量池中有一个常量没有任何的String对象引用它，那么内存回收时这个字面量就会被清理出常量池，常量池中其他类、方法、字段的符号引用也是与此类似；判断一个类是否是“无用”的类要满足一下三点：该类的所有实例都被回收，java堆中不存在该类的任何实例；加载该类的ClassLoader已经被回收；该类的java.lang.Class对象没有任何地方被引用，无法在任何地方通过反射访问该类的方法；</p>
+</li>
+<li><p>垃圾收集算法</p>
+</li>
+<li><p>标记-清除算法：首先标记出需要回收的对象，在标记完成后统一回收被标记的对象；它主要有两个不足的地方–其一标记会清除两个过程的效率都不高，其二标记清除后会产生大量不连续的内存碎片；</p>
+</li>
+<li><p>复制算法：把内存分为两个大小相等的空间，每次只使用其中的一块，当一块的内存用完了，就将还存活着的对象复制到另一块去，将用过的那部分一次清理掉；这种方法实现简单，运行高效，但是代价是将内存缩小了一半，太高昂了；现代虚拟机都采用这个方法来管理新生代，IBM公司研究表明，新生代的对象98%都是”朝生夕死“，所以并不需要按照1:1来分配空间，虚拟机将新生代按8:1:1分为三块，一块较大的Eden和两块较小的Survivor；每次使用Eden和一块Survivor；这样只有10%的空间是被浪费的；当然了，我们并不能保证每次回收都只有不多于10%的对象是存活着的，这种时候我们的做法是依赖老年代进行分配担保，后面还会详细的说明；</p>
+</li>
+<li><p>标记-整理：复制算法在处理对象存活率较高时效率将会变低；根据老年代的特点我们用到标记-整理算法：与标记-清除不同的是，在回收时，让存活的对象向同一个方向移动，那么空出来的空间就是连续的了；</p>
+</li>
+<li><p>分代收集算法：当前商业虚拟机采用的垃圾收集算法，将内存划分为几块根据对象的存活周期；一般是吧java堆分为新生代和老年代，这样在不同的分代采用各自合适的算法，同常在新生代采用复制算法，在老年代采用标记-清理或者标记-整理；</p>
+</li>
+<li><p>垃圾收集器：上面的垃圾收集算法是理论，收集器则是具体的实现，以下列举常见的垃圾收集器，省略具体实现：</p>
+</li>
+<li><p>Serial：单线程，它工作时”Stop The World“，别的线程都要停下来；</p>
+</li>
+<li><p>ParNew：Serial的多线程版本；</p>
+</li>
+<li><p>Parallel Scavenge：一个新时代收集器，使用复制算法；</p>
+</li>
+<li><p>Serial Old：Serial的老年代版本，同样是单线程，使用”标记-整理“算法；</p>
+</li>
+<li><p>Parallel Old：Parallel Scavenge的老年代版本，使用多线程”标记-整理“算法；</p>
+</li>
+<li><p>CMS</p>
+</li>
+<li><p>G1：基本属于最先进的收集器；能同时管理新老代；</p>
+</li>
+<li><p>GC日志：记录垃圾回收的日志，有统一的格式要求；</p>
+</li>
+<li><p>内存分配与回收策略</p>
+</li>
+<li><p>对象优先在Eden分配–当Eden没有足够空间时虚拟机会发起一场Minor GC；（Minor GC发生在新生代的垃圾回收，非常频繁，回收速度快，Major/Full GC，发生在老年代，频率低，速度一般比Minor慢10倍以上）</p>
+</li>
+<li><p>大对象直接进入老年代–当虚拟机需要为一个大对象分配一个连续的大的内存空间时不得不提前触发垃圾回收来获取足够的空间，所以对虚拟机来说遇到一群大对象是一个坏消息，更坏的消息是遇到一群“朝生夕死”的大对象；这时我们可以通过设置参数规定大于某个值的对象直接在老年代中分配空间来避免新生代过于频繁的垃圾回收；</p>
+</li>
+<li><p>长期存活的对象将进入老年代：当对象在新生代的gc中每存活一次就长一岁；到达一个我们可以设置的值之后就可以进入老年代；</p>
+</li>
+<li><p>动态对象年龄判定：为了能更好的适应不同程序的内存状况，虚拟机运行当Survivor中相同年龄的所有对象的大小总和大于了Suvivior空间的一半时，年龄大于或者等于该年龄的对象可以直接进入老年代，不用继续在新生代中徘徊；</p>
+</li>
+<li><p>空间分配担保：在发生Minor GC之前，虚拟机会先检查老年代中是否还有足够的空间来装下新生代的所有对象；如果能，当然就让Minor GC顺利的进行了；如果不能，则要看用户是否允许担保失败，通过HandlePromotionFailure设置，如果允许，那么继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，则尝试进行Minor GC，尽管这次GC是有风险的；如果小于或者是根本不允许担保，那就要改为进行一次Full GC； 这里的风险是指，如果该Minor GC后晋升到老年代的对象大小超过了老年代可用的空间大小，则老年代还是要进行一次Full GC；不过显然开启风险担保是一种可行的做法；</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B011--%E8%99%9A%E6%8B%9F%E6%9C%BA/">http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B011--%E8%99%9A%E6%8B%9F%E6%9C%BA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a><a class="post-meta__tags" href="/tags/%E5%9F%BA%E7%A1%80/">基础</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B01--%E7%B1%BB%E5%8F%8D%E5%B0%84/" title="基础 -- Java笔记1--类反射"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">基础 -- Java笔记1--类反射</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/java/Show%20Me%20The%20Code/break%E5%92%8Ccontinue/" title="Show Me The Code -- break和continue"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Show Me The Code -- break和continue</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B01--%E7%B1%BB%E5%8F%8D%E5%B0%84/" title="基础 -- Java笔记1--类反射"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记1--类反射</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B010--XML%E8%A7%A3%E6%9E%90/" title="基础 -- Java笔记10--XML解析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记10--XML解析</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B013--%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%B1%BB%E6%96%87%E4%BB%B6/" title="基础 -- Java笔记13--虚拟机之类文件"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记13--虚拟机之类文件</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B02--%E6%95%85%E4%BA%8B%E6%B1%87/" title="基础 -- Java笔记2--故事汇"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记2--故事汇</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B03--.class%E6%96%87%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B/" title="基础 -- Java笔记3--.class文件的流程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记3--.class文件的流程</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B04--%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" title="基础 -- Java笔记4--集合框架"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记4--集合框架</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">南山山</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fireflyso"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B02--%E6%95%85%E4%BA%8B%E6%B1%87/" title="基础 -- Java笔记2--故事汇">基础 -- Java笔记2--故事汇</a><time datetime="2023-04-13T03:21:48.789Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B03--.class%E6%96%87%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B/" title="基础 -- Java笔记3--.class文件的流程">基础 -- Java笔记3--.class文件的流程</a><time datetime="2023-04-13T03:21:48.706Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B05--%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="基础 -- Java笔记5--多线程">基础 -- Java笔记5--多线程</a><time datetime="2023-04-13T03:21:48.622Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B06--%E5%86%85%E5%B5%8C%E7%B1%BB/" title="基础 -- Java笔记6--内嵌类">基础 -- Java笔记6--内嵌类</a><time datetime="2023-04-13T03:21:48.515Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B07--IO%E6%B5%81/" title="基础 -- Java笔记7--IO流">基础 -- Java笔记7--IO流</a><time datetime="2023-04-13T03:21:48.393Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

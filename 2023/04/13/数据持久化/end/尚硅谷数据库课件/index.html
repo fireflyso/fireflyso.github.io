@@ -1,0 +1,1560 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>end -- 尚硅谷数据库课件 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="尚硅谷数据库课件 2016年1月20日 15:08     day15-MySQL   数据库   1数据库概念（了解） 1.1什么是数据库 数据库就是用来存储和管理数据的仓库！ 数据库存储数据的优先： l  可存储大量数据； l 方便检索； l 保持数据的一致性、完整性； l 安全，可共享； l 通过组合分析，可产生新数据。   1.2数据库的发展历程 l 没有数据库，使用磁盘文件存储数据； l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="end -- 尚硅谷数据库课件">
+<meta property="og:url" content="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/end/%E5%B0%9A%E7%A1%85%E8%B0%B7%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E4%BB%B6/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="尚硅谷数据库课件 2016年1月20日 15:08     day15-MySQL   数据库   1数据库概念（了解） 1.1什么是数据库 数据库就是用来存储和管理数据的仓库！ 数据库存储数据的优先： l  可存储大量数据； l 方便检索； l 保持数据的一致性、完整性； l 安全，可共享； l 通过组合分析，可产生新数据。   1.2数据库的发展历程 l 没有数据库，使用磁盘文件存储数据； l">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:20:57.408Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.871Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="数据持久化">
+<meta property="article:tag" content="end">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/end/%E5%B0%9A%E7%A1%85%E8%B0%B7%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E4%BB%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'end -- 尚硅谷数据库课件',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">end -- 尚硅谷数据库课件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:57.408Z" title="发表于 2023-04-13 11:20:57">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.871Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/end/">end</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>35分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="end -- 尚硅谷数据库课件"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>尚硅谷数据库课件</p>
+<p>2016年1月20日</p>
+<p>15:08</p>
+<p> </p>
+<p> </p>
+<p>day15-MySQL</p>
+<p> </p>
+<p>数据库</p>
+<p> </p>
+<p>1数据库概念（了解）</p>
+<p>1.1什么是数据库</p>
+<p>数据库就是用来存储和管理数据的仓库！</p>
+<p>数据库存储数据的优先：</p>
+<p>l </p>
+<p>可存储大量数据；</p>
+<p>l 方便检索；</p>
+<p>l 保持数据的一致性、完整性；</p>
+<p>l 安全，可共享；</p>
+<p>l 通过组合分析，可产生新数据。</p>
+<p> </p>
+<p>1.2数据库的发展历程</p>
+<p>l 没有数据库，使用磁盘文件存储数据；</p>
+<p>l 层次结构模型数据库；</p>
+<p>l 网状结构模型数据库；</p>
+<p>l 关系结构模型数据库：使用二维表格来存储数据；</p>
+<p>l 关系-对象模型数据库；</p>
+<p> </p>
+<p>MySQL就是关系型数据库！</p>
+<p> </p>
+<p>1.3常见数据库</p>
+<p>l Oracle（神喻）：甲骨文（最高！）；</p>
+<p>l DB2：IBM；</p>
+<p>l SQL Server：微软；</p>
+<p>l Sybase：赛尔斯；</p>
+<p>l MySQL：甲骨文；</p>
+<p> </p>
+<p>1.4理解数据库</p>
+<p>l RDBMS = 管理员（manager）+仓库（database）</p>
+<p>l database = N个table</p>
+<p>l table：</p>
+<p>Ø 表结构：定义表的列名和列类型！</p>
+<p>Ø 表记录：一行一行的记录！</p>
+<p> </p>
+<p> </p>
+<p>我们现在所说的数据库泛指“关系型数据库管理系统（RDBMS - Relational database management system）”，即“数据库服务器”。</p>
+<p>当我们安装了数据库服务器后，就可以在数据库服务器中创建数据库，每个数据库中还可以包含多张表。</p>
+<p> </p>
+<p>数据库表就是一个多行多列的表格。在创建表时，需要指定表的列数，以及列名称，列类型等信息。而不用指定表格的行数，行数是没有上限的。下面是tab_student表的结构：</p>
+<p> </p>
+<p> </p>
+<p>当把表格创建好了之后，就可以向表格中添加数据了。向表格添加数据是以行为单位的！下面是s_student表的记录：</p>
+<p> </p>
+<table>
+<thead>
+<tr>
+<th>s_id</th>
+<th>s_name</th>
+<th>s_age</th>
+<th>s_sex</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S_1001</td>
+<td>zhangSan</td>
+<td>23</td>
+<td>male</td>
+</tr>
+<tr>
+<td>S_1002</td>
+<td>liSi</td>
+<td>32</td>
+<td>female</td>
+</tr>
+<tr>
+<td>S_1003</td>
+<td>wangWu</td>
+<td>44</td>
+<td>male</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>大家要学会区分什么是表结构，什么是表记录。</p>
+<p> </p>
+<p>1.5应用程序与数据库</p>
+<p>应用程序使用数据库完成对数据的存储！</p>
+<p> </p>
+<p>2安装MySQL数据库</p>
+<p>2.1安装MySQL</p>
+<p>参考：MySQL安装图解.doc</p>
+<p> </p>
+<p>2.2MySQL目录结构</p>
+<p>MySQL的数据存储目录为data，data目录通常在C:\Documents and Settings\All Users\Application Data\MySQL\MySQL Server 5.1\data位置。在data下的每个目录都代表一个数据库。</p>
+<p>MySQL的安装目录下：</p>
+<p>l bin目录中都是可执行文件；</p>
+<p>l my.ini文件是MySQL的配置文件；</p>
+<p> </p>
+<p>3基本命令</p>
+<p>3.1启动和关闭mysql服务器</p>
+<p>l 启动：net start mysql；</p>
+<p>l 关闭：net stop mysql；</p>
+<p> </p>
+<p>在启动mysql服务后，打开windows任务管理器，会有一个名为mysqld.exe的进程运行，所以mysqld.exe才是MySQL服务器程序。</p>
+<p> </p>
+<p>3.2客户端登录退出mysql</p>
+<p>在启动MySQL服务器后，我们需要使用管理员用户登录MySQL服务器，然后来对服务器进行操作。登录MySQL需要使用MySQL的客户端程序：mysql.exe</p>
+<p>l 登录：mysql -u root -p 123 -h localhost；</p>
+<p>Ø -u：后面的root是用户名，这里使用的是超级管理员root；</p>
+<p>Ø -p：后面的123是密码，这是在安装MySQL时就已经指定的密码；</p>
+<p>Ø -h：后面给出的localhost是服务器主机名，它是可以省略的，例如：mysql -u root -p 123；</p>
+<p>l 退出：quit或exit；</p>
+<p> </p>
+<p>在登录成功后，打开windows任务管理器，会有一个名为mysql.exe的进程运行，所以mysql.exe是客户端程序。</p>
+<p> </p>
+<p>SQL语句</p>
+<p> </p>
+<p>1 SQL概述</p>
+<p>1.1什么是SQL</p>
+<p>SQL（Structured Query Language）是“结构化查询语言”，它是对关系型数据库的操作语言。它可以应用到所有关系型数据库中，例如：MySQL、Oracle、SQL Server等。SQ标准（ANSI/ISO）有：</p>
+<p>l SQL-92：1992年发布的SQL语言标准；</p>
+<p>l SQL:1999：1999年发布的SQL语言标签；</p>
+<p>l SQL:2003：2003年发布的SQL语言标签；</p>
+<p> </p>
+<p>这些标准就与JDK的版本一样，在新的版本中总要有一些语法的变化。不同时期的数据库对不同标准做了实现。</p>
+<p>虽然SQL可以用在所有关系型数据库中，但很多数据库还都有标准之后的一些语法，我们可以称之为“方言”。例如MySQL中的LIMIT语句就是MySQL独有的方言，其它数据库都不支持！当然，Oracle或SQL Server都有自己的方言。</p>
+<p> </p>
+<p>1.2语法要求</p>
+<p>l SQL语句可以单行或多行书写，以分号结尾；</p>
+<p>l 可以用空格和缩进来来增强语句的可读性；</p>
+<p>l 关键字不区别大小写，建议使用大写；</p>
+<p> </p>
+<p>2分类</p>
+<p>l DDL（Data Definition Language）：数据定义语言，用来定义数据库对象：库、表、列等；</p>
+<p>l DML（Data Manipulation Language）：数据操作语言，用来定义数据库记录（数据）；</p>
+<p>l DCL（Data Control Language）：数据控制语言，用来定义访问权限和安全级别；</p>
+<p>l DQL（Data Query Language）：数据查询语言，用来查询记录（数据）。</p>
+<p> </p>
+<p>3DDL</p>
+<p>3.1基本操作</p>
+<p>l 查看所有数据库名称：SHOW DATABASES；</p>
+<p>l 切换数据库：USE mydb1，切换到mydb1数据库；</p>
+<p>3.2操作数据库</p>
+<p>l 创建数据库：CREATE DATABASE [IF NOT EXISTS] mydb1；</p>
+<p>创建数据库，例如：CREATE DATABASE mydb1，创建一个名为mydb1的数据库。如果这个数据已经存在，那么会报错。例如CREATE DATABASE IF NOT EXISTS mydb1，在名为mydb1的数据库不存在时创建该库，这样可以避免报错。</p>
+<p> </p>
+<p>l 删除数据库：DROP DATABASE [IF EXISTS] mydb1；</p>
+<p>删除数据库，例如：DROP DATABASE mydb1，删除名为mydb1的数据库。如果这个数据库不存在，那么会报错。DROP DATABASE IF EXISTS mydb1，就算mydb1不存在，也不会的报错。</p>
+<p> </p>
+<p>l 修改数据库编码：ALTER DATABASE mydb1 CHARACTER SET utf8</p>
+<p>修改数据库mydb1的编码为utf8。注意，在MySQL中所有的UTF-8编码都不能使用中间的“-”，即UTF-8要书写为UTF8。</p>
+<p> </p>
+<p>3.3数据类型</p>
+<p>MySQL与Java一样，也有数据类型。MySQL中数据类型主要应用在列上。</p>
+<p> </p>
+<p>常用类型：</p>
+<p>l int：整型</p>
+<p>l double：浮点型，例如double(5,2)表示最多5位，其中必须有2位小数，即最大值为999.99；</p>
+<p>l decimal：泛型型，在表单钱方面使用该类型，因为不会出现精度缺失问题；</p>
+<p>l char：固定长度字符串类型；</p>
+<p>l varchar：可变长度字符串类型；</p>
+<p>l text：字符串类型；</p>
+<p>l blob：字节类型；</p>
+<p>l date：日期类型，格式为：yyyy-MM-dd；</p>
+<p>l time：时间类型，格式为：hh:mm:ss</p>
+<p>l timestamp：时间戳类型；</p>
+<p> </p>
+<p>3.4操作表</p>
+<p>l 创建表：</p>
+<p>CREATE TABLE 表名(</p>
+<p>  列名 列类型,</p>
+<p>  列名 列类型,</p>
+<p>  ……</p>
+<p>);</p>
+<p>例如：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CREATE TABLE stu(<br>sid    CHAR(6),<br>snameVARCHAR(20),<br>ageINT,<br>genderVARCHAR(10) <br>);</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>再例如：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CREATE TABLE emp(<br>eidCHAR(6),<br>enameVARCHAR(50),<br>ageINT,<br>genderVARCHAR(6),<br>birthdayDATE,<br>hiredateDATE,<br>salaryDECIMAL(7,2),<br>resumeVARCHAR(1000)<br>);</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>l 查看当前数据库中所有表名称：SHOW TABLES；</p>
+<p>l 查看指定表的创建语句：SHOW CREATE TABLE emp，查看emp表的创建语句；</p>
+<p>l 查看表结构：DESC emp，查看emp表结构；</p>
+<p>l 删除表：DROP TABLE emp，删除emp表；</p>
+<p>l 修改表：</p>
+<p>1. 修改之添加列：给stu表添加classname列：</p>
+<p>ALTER TABLE stu ADD (classname varchar(100));</p>
+<p>2. 修改之修改列类型：修改stu表的gender列类型为CHAR(2)：</p>
+<p>ALTER TABLE stu MODIFY gender CHAR(2);</p>
+<p>3. 修改之修改列名：修改stu表的gender列名为sex：</p>
+<p>ALTER TABLE stu change gender sex CHAR(2);</p>
+<p>4. 修改之删除列：删除stu表的classname列：</p>
+<p>ALTER TABLE stu DROP classname;</p>
+<p>5. 修改之修改表名称：修改stu表名称为student：</p>
+<p>ALTER TABLE stu RENAME TO student;</p>
+<p> </p>
+<p>4DML</p>
+<p>4.1插入数据</p>
+<p>语法：</p>
+<p>INSERT INTO 表名(列名1,列名2, …) VALUES(值1, 值2)</p>
+<table>
+<thead>
+<tr>
+<th>INSERT INTO stu(sid, sname,age,gender) VALUES(‘s_1001’, ‘zhangSan’, 23, ‘male’);</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INSERT INTO stu(sid, sname) VALUES(‘s_1001’, ‘zhangSan’);</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>语法：</p>
+<p>INSERT INTO 表名 VALUES(值1,值2,…)</p>
+<p>因为没有指定要插入的列，表示按创建表时列的顺序插入所有列的值：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INSERT INTO stu VALUES(‘s_1002’, ‘liSi’, 32, ‘female’);</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>注意：所有字符串数据必须使用单引用！</p>
+<p> </p>
+<p>4.2修改数据</p>
+<p>语法：</p>
+<p>UPDATE 表名 SET 列名1=值1, … 列名n=值n [WHERE 条件]</p>
+<table>
+<thead>
+<tr>
+<th>UPDATE stu SET sname=’zhangSanSan’, age=’32’, gender=’female’ WHERE sid=’s_1001’;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UPDATE stu SET sname=’liSi’, age=’20’ WHERE age&gt;50 AND gender=’male’;</td>
+</tr>
+<tr>
+<td>UPDATE stu SET sname=’wangWu’, age=’30’ WHERE age&gt;60 OR gender=’female’;</td>
+</tr>
+<tr>
+<td>UPDATE stu SET gender=’female’ WHERE gender IS NULL<br>UPDATE stu SET age=age+1 WHERE sname=’zhaoLiu’;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>4.3删除数据</p>
+<p>语法：</p>
+<p>DELETE FROM 表名 [WHERE 条件]</p>
+<table>
+<thead>
+<tr>
+<th>DELETE FROM stu WHERE sid=’s_1001’003B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DELETE FROM stu WHERE sname=’chenQi’ OR age &gt; 30;</td>
+</tr>
+<tr>
+<td>DELETE FROM stu;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>语法：</p>
+<p>TRUNCATE TABLE 表名</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TRUNCATE TABLE stu;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>虽然TRUNCATE和DELETE都可以删除表的所有记录，但有原理不同。DELETE的效率没有TRUNCATE高！</p>
+<p>TRUNCATE其实属性DDL语句，因为它是先DROP TABLE，再CREATE TABLE。而且TRUNCATE删除的记录是无法回滚的，但DELETE删除的记录是可以回滚的（回滚是事务的知识！）。</p>
+<p> </p>
+<p>5DCL</p>
+<p>5.1创建用户</p>
+<p>语法：</p>
+<p>CREATE USER 用户名@地址 IDENTIFIED BY ‘密码’;</p>
+<table>
+<thead>
+<tr>
+<th>CREATE USER user1@localhost IDENTIFIED BY &apos;123’;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CREATE USER user2@’%’ IDENTIFIED BY &apos;123’;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>5.2给用户授权</p>
+<p>语法：</p>
+<p>GRANT 权限1, … , 权限n ON 数据库.* TO 用户名</p>
+<table>
+<thead>
+<tr>
+<th>GRANT CREATE,ALTER,DROP,INSERT,UPDATE,DELETE,SELECT ON mydb1.* TO user1@localhost;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GRANT ALL ON mydb1.* TO user2@localhost;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>5.3撤销授权</p>
+<p>语法：</p>
+<p>REVOKE权限1, … , 权限n ON 数据库.* FORM 用户名</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REVOKE CREATE,ALTER,DROP ON mydb1.* FROM user1@localhost;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>5.4查看用户权限</p>
+<p>语法：</p>
+<p>SHOW GRANTS FOR 用户名</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SHOW GRANTS FOR user1@localhost;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>5.5删除用户</p>
+<p>语法：</p>
+<p>DROP USER 用户名</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DROP USER user1@localhost;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>5.6修改用户密码</p>
+<p>语法：</p>
+<p>USE mysql;</p>
+<p>UPDATE USER SET PASSWORD=PASSWORD(‘密码’) WHERE User=’用户名’ and Host=’IP’;</p>
+<p>FLUSH PRIVILEGES;</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UPDATE USER SET PASSWORD=PASSWORD(‘1234’) WHERE User=’user2’ and Host=’localhost’;<br>FLUSH PRIVILEGES;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>数据查询语法（DQL）</p>
+<p>DQL就是数据查询语言，数据库执行DQL语句不会对数据进行改变，而是让数据库发送结果集给客户端。</p>
+<p>语法：</p>
+<p>SELECT selection_list /<em>要查询的列名称</em>/</p>
+<p>  FROM table_list /<em>要查询的表名称</em>/</p>
+<p>  WHERE condition /<em>行条件</em>/</p>
+<p>  GROUP BY grouping_columns /<em>对结果分组</em>/</p>
+<p>  HAVING condition /<em>分组后的行条件</em>/</p>
+<p>  ORDER BY sorting_columns /<em>对结果分组</em>/</p>
+<p>  LIMIT offset_start, row_count /<em>结果限定</em>/</p>
+<p> </p>
+<p>创建名：</p>
+<p>l 学生表：stu</p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sid</td>
+<td>char(6)</td>
+<td>学生学号</td>
+</tr>
+<tr>
+<td>sname</td>
+<td>varchar(50)</td>
+<td>学生姓名</td>
+</tr>
+<tr>
+<td>age</td>
+<td>int</td>
+<td>学生年龄</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>varchar(50)</td>
+<td>学生性别</td>
+</tr>
+</tbody></table>
+<p> </p>
+<table>
+<thead>
+<tr>
+<th>CREATE TABLE stu (<br>sidCHAR(6),<br>snameVARCHAR(50),<br>ageINT,<br>genderVARCHAR(50)<br>);</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INSERT INTO stu VALUES(‘S_1001’, ‘liuYi’, 35, ‘male’);<br>INSERT INTO stu VALUES(‘S_1002’, ‘chenEr’, 15, ‘female’);<br>INSERT INTO stu VALUES(‘S_1003’, ‘zhangSan’, 95, ‘male’);<br>INSERT INTO stu VALUES(‘S_1004’, ‘liSi’, 65, ‘female’);<br>INSERT INTO stu VALUES(‘S_1005’, ‘wangWu’, 55, ‘male’);<br>INSERT INTO stu VALUES(‘S_1006’, ‘zhaoLiu’, 75, ‘female’);<br>INSERT INTO stu VALUES(‘S_1007’, ‘sunQi’, 25, ‘male’);<br>INSERT INTO stu VALUES(‘S_1008’, ‘zhouBa’, 45, ‘female’);<br>INSERT INTO stu VALUES(‘S_1009’, ‘wuJiu’, 85, ‘male’);<br>INSERT INTO stu VALUES(‘S_1010’, ‘zhengShi’, 5, ‘female’);<br>INSERT INTO stu VALUES(‘S_1011’, ‘xxx’, NULL, NULL);</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>l 雇员表：emp</p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>empno</td>
+<td>int</td>
+<td>员工编号</td>
+</tr>
+<tr>
+<td>ename</td>
+<td>varchar(50)</td>
+<td>员工姓名</td>
+</tr>
+<tr>
+<td>job</td>
+<td>varchar(50)</td>
+<td>员工工作</td>
+</tr>
+<tr>
+<td>mgr</td>
+<td>int</td>
+<td>领导编号</td>
+</tr>
+<tr>
+<td>hiredate</td>
+<td>date</td>
+<td>入职日期</td>
+</tr>
+<tr>
+<td>sal</td>
+<td>decimal(7,2)</td>
+<td>月薪</td>
+</tr>
+<tr>
+<td>comm</td>
+<td>decimal(7,2)</td>
+<td>奖金</td>
+</tr>
+<tr>
+<td>deptno</td>
+<td>int</td>
+<td>部分编号</td>
+</tr>
+</tbody></table>
+<p> </p>
+<table>
+<thead>
+<tr>
+<th>CREATE TABLE emp(<br>empnoINT,<br>enameVARCHAR(50),<br>jobVARCHAR(50),<br>mgrINT,<br>hiredateDATE,<br>salDECIMAL(7,2),<br>commdecimal(7,2),<br>deptnoINT<br>) ;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INSERT INTO emp values(7369,’SMITH’,’CLERK’,7902,’1980-12-17’,800,NULL,20);<br>INSERT INTO emp values(7499,’ALLEN’,’SALESMAN’,7698,’1981-02-20’,1600,300,30);<br>INSERT INTO emp values(7521,’WARD’,’SALESMAN’,7698,’1981-02-22’,1250,500,30);<br>INSERT INTO emp values(7566,’JONES’,’MANAGER’,7839,’1981-04-02’,2975,NULL,20);<br>INSERT INTO emp values(7654,’MARTIN’,’SALESMAN’,7698,’1981-09-28’,1250,1400,30);<br>INSERT INTO emp values(7698,’BLAKE’,’MANAGER’,7839,’1981-05-01’,2850,NULL,30);<br>INSERT INTO emp values(7782,’CLARK’,’MANAGER’,7839,’1981-06-09’,2450,NULL,10);<br>INSERT INTO emp values(7788,’SCOTT’,’ANALYST’,7566,’1987-04-19’,3000,NULL,20);<br>INSERT INTO emp values(7839,’KING’,’PRESIDENT’,NULL,’1981-11-17’,5000,NULL,10);<br>INSERT INTO emp values(7844,’TURNER’,’SALESMAN’,7698,’1981-09-08’,1500,0,30);<br>INSERT INTO emp values(7876,’ADAMS’,’CLERK’,7788,’1987-05-23’,1100,NULL,20);<br>INSERT INTO emp values(7900,’JAMES’,’CLERK’,7698,’1981-12-03’,950,NULL,30);<br>INSERT INTO emp values(7902,’FORD’,’ANALYST’,7566,’1981-12-03’,3000,NULL,20);<br>INSERT INTO emp values(7934,’MILLER’,’CLERK’,7782,’1982-01-23’,1300,NULL,10);</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>l 部分表：dept</p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>deptno</td>
+<td>int</td>
+<td>部分编码</td>
+</tr>
+<tr>
+<td>dname</td>
+<td>varchar(50)</td>
+<td>部分名称</td>
+</tr>
+<tr>
+<td>loc</td>
+<td>varchar(50)</td>
+<td>部分所在地点</td>
+</tr>
+</tbody></table>
+<p> </p>
+<table>
+<thead>
+<tr>
+<th>CREATE TABLE dept(<br>deptnoINT,<br>dnamevarchar(14),<br>locvarchar(13)<br>);</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>INSERT INTO dept values(10, ‘ACCOUNTING’, ‘NEW YORK’);<br>INSERT INTO dept values(20, ‘RESEARCH’, ‘DALLAS’);<br>INSERT INTO dept values(30, ‘SALES’, ‘CHICAGO’);<br>INSERT INTO dept values(40, ‘OPERATIONS’, ‘BOSTON’);</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>1基础查询</p>
+<p>1.1查询所有列</p>
+<p>SELECT * FROM stu;</p>
+<p> </p>
+<p>1.2查询指定列</p>
+<p>SELECT sid, sname, age FROM stu;</p>
+<p> </p>
+<p>2条件查询</p>
+<p>2.1条件查询介绍</p>
+<p>条件查询就是在查询时给出WHERE子句，在WHERE子句中可以使用如下运算符及关键字：</p>
+<p>l =、!=、&lt;&gt;、&lt;、&lt;=、&gt;、&gt;=；</p>
+<p>l BETWEEN…AND；</p>
+<p>l IN(set)；</p>
+<p>l IS NULL；</p>
+<p>l AND；</p>
+<p>l OR；</p>
+<p>l NOT；</p>
+<p> </p>
+<p>2.2查询性别为女，并且年龄50的记录</p>
+<p>SELECT * FROM stu </p>
+<p>WHERE gender=’female’ AND ge&lt;50;</p>
+<p> </p>
+<p>2.3查询学号为S_1001，或者姓名为liSi的记录</p>
+<p>SELECT * FROM stu </p>
+<p>WHERE sid =’S_1001’ OR sname=’liSi’;</p>
+<p> </p>
+<p>2.4查询学号为S_1001，S_1002，S_1003的记录</p>
+<p>SELECT * FROM stu </p>
+<p>WHERE sid IN (‘S_1001’,’S_1002’,’S_1003’);</p>
+<p> </p>
+<p>2.5查询学号不是S_1001，S_1002，S_1003的记录</p>
+<p>SELECT * FROM tab_student </p>
+<p>WHERE s_number NOT IN (‘S_1001’,’S_1002’,’S_1003’);</p>
+<p> </p>
+<p>2.6查询年龄为null的记录</p>
+<p>SELECT * FROM stu</p>
+<p>WHERE age IS NULL;</p>
+<p> </p>
+<p>2.7查询年龄在20到40之间的学生记录</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE age&gt;=20 AND age&lt;=40;</p>
+<p>或者</p>
+<p>SELECT * </p>
+<p>FROM stu </p>
+<p>WHERE age BETWEEN 20 AND 40;</p>
+<p> </p>
+<p>2.8查询性别非男的学生记录</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE gender!=’male’;</p>
+<p>或者</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE gender&lt;&gt;’male’;</p>
+<p>或者</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE NOT gender=’male’;</p>
+<p> </p>
+<p>2.9查询姓名不为null的学生记录</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE NOT sname IS NULL;</p>
+<p>或者</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE sname IS NOT NULL;</p>
+<p> </p>
+<p>3模糊查询</p>
+<p>当想查询姓名中包含a字母的学生时就需要使用模糊查询了。模糊查询需要使用关键字LIKE。</p>
+<p>3.1查询姓名由5个字母构成的学生记录</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE sname LIKE ‘_____’;</p>
+<p>模糊查询必须使用LIKE关键字。其中 “_”匹配任意一个字母，5个“_”表示5个任意字母。</p>
+<p> </p>
+<p>3.2查询姓名由5个字母构成，并且第5个字母为“i”的学生记录</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE sname LIKE ‘____i’;</p>
+<p> </p>
+<p>3.3查询姓名以“z”开头的学生记录</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE sname LIKE ‘z%’;</p>
+<p>其中“%”匹配0~n个任何字母。</p>
+<p> </p>
+<p>3.4查询姓名中第2个字母为“i”的学生记录</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE sname LIKE ‘_i%’;</p>
+<p> </p>
+<p>3.5查询姓名中包含“a”字母的学生记录</p>
+<p>SELECT * </p>
+<p>FROM stu</p>
+<p>WHERE sname LIKE ‘%a%’;</p>
+<p> </p>
+<p>4字段控制查询</p>
+<p>4.1去除重复记录</p>
+<p>去除重复记录（两行或两行以上记录中系列的上的数据都相同），例如emp表中sal字段就存在相同的记录。当只查询emp表的sal字段时，那么会出现重复记录，那么想去除重复记录，需要使用DISTINCT：</p>
+<p>SELECT DISTINCT sal FROM emp;</p>
+<p> </p>
+<p>4.2查看雇员的月薪与佣金之和</p>
+<p>因为sal和comm两列的类型都是数值类型，所以可以做加运算。如果sal或comm中有一个字段不是数值类型，那么会出错。</p>
+<p>SELECT *,sal+comm FROM emp;</p>
+<p> </p>
+<p>comm列有很多记录的值为NULL，因为任何东西与NULL相加结果还是NULL，所以结算结果可能会出现NULL。下面使用了把NULL转换成数值0的函数IFNULL：</p>
+<p>SELECT *,sal+IFNULL(comm,0) FROM emp;</p>
+<p> </p>
+<p>4.3给列名添加别名</p>
+<p>在上面查询中出现列名为sal+IFNULL(comm,0)，这很不美观，现在我们给这一列给出一个别名，为total：</p>
+<p>SELECT *, sal+IFNULL(comm,0) AS total FROM emp;</p>
+<p>给列起别名时，是可以省略AS关键字的：</p>
+<p>SELECT *,sal+IFNULL(comm,0) total FROM emp;</p>
+<p> </p>
+<p>5排序</p>
+<p>5.1查询所有学生记录，按年龄升序排序</p>
+<p>SELECT *</p>
+<p>FROM stu</p>
+<p>ORDER BY sage ASC;</p>
+<p>或者</p>
+<p>SELECT *</p>
+<p>FROM stu</p>
+<p>ORDER BY sage;</p>
+<p> </p>
+<p>5.2查询所有学生记录，按年龄降序排序</p>
+<p>SELECT *</p>
+<p>FROM stu</p>
+<p>ORDER BY age DESC;</p>
+<p> </p>
+<p>5.3查询所有雇员，按月薪降序排序，如果月薪相同时，按编号升序排序</p>
+<p>SELECT * FROM emp</p>
+<p>ORDER BY sal DESC,empno ASC;</p>
+<p> </p>
+<p>6聚合函数</p>
+<p>聚合函数是用来做纵向运算的函数：</p>
+<p>l COUNT()：统计指定列不为NULL的记录行数；</p>
+<p>l MAX()：计算指定列的最大值，如果指定列是字符串类型，那么使用字符串排序运算；</p>
+<p>l MIN()：计算指定列的最小值，如果指定列是字符串类型，那么使用字符串排序运算；</p>
+<p>l SUM()：计算指定列的数值和，如果指定列类型不是数值类型，那么计算结果为0；</p>
+<p>l AVG()：计算指定列的平均值，如果指定列类型不是数值类型，那么计算结果为0；</p>
+<p> </p>
+<p>6.1COUNT</p>
+<p>当需要纵向统计时可以使用COUNT()。</p>
+<p>l 查询emp表中记录数：</p>
+<p>SELECT COUNT(*) AS cnt FROM emp;</p>
+<p> </p>
+<p>l 查询emp表中有佣金的人数：</p>
+<p>SELECT COUNT(comm) cnt FROM emp;</p>
+<p>注意，因为count()函数中给出的是comm列，那么只统计comm列非NULL的行数。</p>
+<p> </p>
+<p>l 查询emp表中月薪大于2500的人数：</p>
+<p>SELECT COUNT(*) FROM emp</p>
+<p>WHERE sal &gt; 2500;</p>
+<p> </p>
+<p>l 统计月薪与佣金之和大于2500元的人数：</p>
+<p>SELECT COUNT(*) AS cnt FROM emp WHERE sal+IFNULL(comm,0) &gt; 2500;</p>
+<p> </p>
+<p>l 查询有佣金的人数，以及有领导的人数：</p>
+<p>SELECT COUNT(comm), COUNT(mgr) FROM emp;</p>
+<p> </p>
+<p>6.2SUM和AVG</p>
+<p>当需要纵向求和时使用sum()函数。</p>
+<p>l 查询所有雇员月薪和：</p>
+<p>SELECT SUM(sal) FROM emp;</p>
+<p> </p>
+<p>l 查询所有雇员月薪和，以及所有雇员佣金和：</p>
+<p>SELECT SUM(sal), SUM(comm) FROM emp;</p>
+<p> </p>
+<p>l 查询所有雇员月薪+佣金和：</p>
+<p>SELECT SUM(sal+IFNULL(comm,0)) FROM emp;</p>
+<p> </p>
+<p>l 统计所有员工平均工资：</p>
+<p>SELECT SUM(sal), COUNT(sal) FROM emp;</p>
+<p>或者</p>
+<p>SELECT AVG(sal) FROM emp;</p>
+<p> </p>
+<p>6.3MAX和MIN</p>
+<p>l 查询最高工资和最低工资：</p>
+<p>SELECT MAX(sal), MIN(sal) FROM emp;</p>
+<p> </p>
+<p>7分组查询</p>
+<p> </p>
+<p>当需要分组查询时需要使用GROUP BY子句，例如查询每个部门的工资和，这说明要使用部分来分组。</p>
+<p> </p>
+<p>7.1分组查询</p>
+<p>l 查询每个部门的部门编号和每个部门的工资和：</p>
+<p>SELECT deptno, SUM(sal)</p>
+<p>FROM emp</p>
+<p>GROUP BY deptno;</p>
+<p> </p>
+<p>l 查询每个部门的部门编号以及每个部门的人数：</p>
+<p>SELECT deptno,COUNT(*)</p>
+<p>FROM emp</p>
+<p>GROUP BY deptno;</p>
+<p> </p>
+<p>l 查询每个部门的部门编号以及每个部门工资大于1500的人数：</p>
+<p>SELECT deptno,COUNT(*)</p>
+<p>FROM emp</p>
+<p>WHERE sal&gt;1500</p>
+<p>GROUP BY deptno;</p>
+<p> </p>
+<p>7.2HAVING子句</p>
+<p>l 查询工资总和大于9000的部门编号以及工资和：</p>
+<p>SELECT deptno, SUM(sal)</p>
+<p>FROM emp</p>
+<p>GROUP BY deptno</p>
+<p>HAVING SUM(sal) &gt; 9000;</p>
+<p> </p>
+<p>注意，WHERE是对分组前记录的条件，如果某行记录没有满足WHERE子句的条件，那么这行记录不会参加分组；而HAVING是对分组后数据的约束。</p>
+<p> </p>
+<p>8LIMIT</p>
+<p>LIMIT用来限定查询结果的起始行，以及总行数。</p>
+<p> </p>
+<p>8.1查询5行记录，起始行从0开始</p>
+<p>SELECT * FROM emp LIMIT 0, 5;</p>
+<p> </p>
+<p>注意，起始行从0开始，即第一行开始！</p>
+<p> </p>
+<p>8.2查询10行记录，起始行从3开始</p>
+<p>SELECT * FROM emp LIMIT 3, 10;</p>
+<p> </p>
+<p>8.3分页查询</p>
+<p>如果一页记录为10条，希望查看第3页记录应该怎么查呢？</p>
+<p>l 第一页记录起始行为0，一共查询10行；</p>
+<p>l 第二页记录起始行为10，一共查询10行；</p>
+<p>l 第三页记录起始行为20，一共查询10行；</p>
+<p> </p>
+<p>完整性约束</p>
+<p>完整性约束是为了表的数据的正确性！如果数据不正确，那么一开始就不能添加到表中。</p>
+<p> </p>
+<p>1主键</p>
+<p>当某一列添加了主键约束后，那么这一列的数据就不能重复出现。这样每行记录中其主键列的值就是这一行的唯一标识。例如学生的学号可以用来做唯一标识，而学生的姓名是不能做唯一标识的，因为学习有可能同名。</p>
+<p>主键列的值不能为NULL，也不能重复！</p>
+<p>指定主键约束使用PRIMARY KEY关键字</p>
+<p> </p>
+<p>l 创建表：定义列时指定主键：</p>
+<p>CREATE TABLE stu(</p>
+<p>sid    CHAR(6) PRIMARY KEY,</p>
+<p>snameVARCHAR(20),</p>
+<p>ageINT,</p>
+<p>genderVARCHAR(10) </p>
+<p>);</p>
+<p>l 创建表：定义列之后独立指定主键：</p>
+<p> </p>
+<p>CREATE TABLE stu(</p>
+<p>sid    CHAR(6),</p>
+<p>snameVARCHAR(20),</p>
+<p>ageINT,</p>
+<p>genderVARCHAR(10),</p>
+<p>PRIMARY KEY(sid)</p>
+<p>);</p>
+<p> </p>
+<p>l 修改表时指定主键：</p>
+<p>ALTER TABLE stu</p>
+<p>ADD PRIMARY KEY(sid);</p>
+<p> </p>
+<p>l 删除主键（只是删除主键约束，而不会删除主键列）：</p>
+<p>ALTER TABLE stu DROP PRIMARY KEY;</p>
+<p> </p>
+<p>2主键自增长</p>
+<p>MySQL提供了主键自动增长的功能！这样用户就不用再为是否有主键是否重复而烦恼了。当主键设置为自动增长后，在没有给出主键值时，主键的值会自动生成，而且是最大主键值+1，也就不会出现重复主键的可能了。</p>
+<p>l 创建表时设置主键自增长（主键必须是整型才可以自增长）：</p>
+<p>CREATE TABLE stu(</p>
+<p>sid INT PRIMARY KEY AUTO_INCREMENT,</p>
+<p>snameVARCHAR(20),</p>
+<p>ageINT,</p>
+<p>genderVARCHAR(10)</p>
+<p>);</p>
+<p> </p>
+<p>l 修改表时设置主键自增长：</p>
+<p>ALTER TABLE stu CHANGE sid sid INT AUTO_INCREMENT;</p>
+<p> </p>
+<p>l 修改表时删除主键自增长：</p>
+<p>ALTER TABLE stu CHANGE sid sid INT;</p>
+<p> </p>
+<p>3非空</p>
+<p>指定非空约束的列不能没有值，也就是说在插入记录时，对添加了非空约束的列一定要给值；在修改记录时，不能把非空列的值设置为NULL。</p>
+<p>l 指定非空约束：</p>
+<p>CREATE TABLE stu(</p>
+<p>sid INT PRIMARY KEY AUTO_INCREMENT,</p>
+<p>sname VARCHAR(10) NOT NULL,</p>
+<p>ageINT,</p>
+<p>genderVARCHAR(10)</p>
+<p>);</p>
+<p>当为sname字段指定为非空后，在向stu表中插入记录时，必须给sname字段指定值，否则会报错：</p>
+<p>INSERT INTO stu(sid) VALUES(1);</p>
+<p> </p>
+<p>插入的记录中sname没有指定值，所以会报错！</p>
+<p> </p>
+<p>4唯一</p>
+<p>还可以为字段指定唯一约束！当为字段指定唯一约束后，那么字段的值必须是唯一的。这一点与主键相似！例如给stu表的sname字段指定唯一约束：</p>
+<p>CREATE TABLE tab_ab(</p>
+<p>sid INT PRIMARY KEY AUTO_INCREMENT,</p>
+<p>sname VARCHAR(10) UNIQUE</p>
+<p>);</p>
+<p> </p>
+<p>INSERT INTO sname(sid, sname) VALUES(1001, ‘zs’);</p>
+<p>INSERT INTO sname(sid, sname) VALUES(1002, ‘zs’);</p>
+<p>当两次插入相同的名字时，MySQL会报错！</p>
+<p> </p>
+<p>5外键</p>
+<p>主外键是构成表与表关联的唯一途径！</p>
+<p>外键是另一张表的主键！例如员工表与部门表之间就存在关联关系，其中员工表中的部门编号字段就是外键，是相对部门表的外键。</p>
+<p>我们再来看BBS系统中：用户表（t_user）、分类表（t_section）、帖子表（t_topic）三者之间的关系。</p>
+<p> </p>
+<p> </p>
+<p>例如在t_section表中sid为1的记录说明有一个分类叫java，版主是t_user表中uid为1的用户，即zs！</p>
+<p>例如在t_topic表中tid为2的记录是名字为“Java是咖啡”的帖子，它是java版块的帖子，它的作者是ww。</p>
+<p>外键就是用来约束这一列的值必须是另一张表的主键值！！！</p>
+<p> </p>
+<p>l 创建t_user表，指定uid为主键列：</p>
+<p>CREATE TABLE t_user(</p>
+<p>uidINT PRIMARY KEY AUTO_INCREMENT,</p>
+<p>unameVARCHAR(20) UNIQUE NOT NULL</p>
+<p>);</p>
+<p> </p>
+<p>l 创建t_section表，指定sid为主键列，u_id为相对t_user表的uid列的外键：</p>
+<p>CREATE TABLE t_section(</p>
+<p>sidINT PRIMARY KEY AUTO_INCREMENT,</p>
+<p>snameVARCHAR(30),</p>
+<p>u_idINT,</p>
+<p>CONSTRAINT fk_t_user FOREIGN KEY(u_id) REFERENCES t_user(uid)</p>
+<p>);</p>
+<p>l 修改t_section表，指定u_id为相对t_user表的uid列的外键：</p>
+<p>ALTER TABLE t_section </p>
+<p>ADD CONSTRAINT fk_t_user </p>
+<p>FOREIGN KEY(u_id) </p>
+<p>REFERENCES t_user(uid);</p>
+<p>l 修改t_section表，删除u_id的外键约束：</p>
+<p>ALTER TABLE t_section</p>
+<p>DROP FOREIGN KEY fk_t_user;</p>
+<p> </p>
+<p>6表与表之间的关系</p>
+<p>l 一对一：例如t_person表和t_card表，即人和身份证。这种情况需要找出主从关系，即谁是主表，谁是从表。人可以没有身份证，但身份证必须要有人才行，所以人是主表，而身份证是从表。设计从表可以有两种方案：</p>
+<p>Ø 在t_card表中添加外键列（相对t_user表），并且给外键添加唯一约束；</p>
+<p>Ø 给t_card表的主键添加外键约束（相对t_user表），即t_card表的主键也是外键。</p>
+<p>l 一对多（多对一）：最为常见的就是一对多！一对多和多对一，这是从哪个角度去看得出来的。t_user和t_section的关系，从t_user来看就是一对多，而从t_section的角度来看就是多对一！这种情况都是在多方创建外键！</p>
+<p>l 多对多：例如t_stu和t_teacher表，即一个学生可以有多个老师，而一个老师也可以有多个学生。这种情况通常需要创建中间表来处理多对多关系。例如再创建一张表t_stu_tea表，给出两个外键，一个相对t_stu表的外键，另一个相对t_teacher表的外键。</p>
+<p> </p>
+<p>编码</p>
+<p> </p>
+<p>1查看MySQL编码</p>
+<p>SHOW VARIABLES LIKE ‘char%’;</p>
+<p> </p>
+<p>因为当初安装时指定了字符集为UTF8，所以所有的编码都是UTF8。</p>
+<p>l character_set_client：你发送的数据必须与client指定的编码一致！！！服务器会使用该编码来解读客户端发送过来的数据；</p>
+<p>l character_set_connection：通过该编码与client一致！该编码不会导致乱码！当执行的是查询语句时，客户端发送过来的数据会先转换成connection指定的编码。但只要客户端发送过来的数据与client指定的编码一致，那么转换就不会出现问题；</p>
+<p>l character_set_database：数据库默认编码，在创建数据库时，如果没有指定编码，那么默认使用database编码；</p>
+<p>l character_set_server：MySQL服务器默认编码；</p>
+<p>l character_set_results：响应的编码，即查询结果返回给客户端的编码。这说明客户端必须使用result指定的编码来解码；</p>
+<p> </p>
+<p>2控制台编码</p>
+<p>修改character_set_client、character_set_results、character_set_connection为GBK，就不会出现乱码了。但其实只需要修改character_set_client和character_set_results。</p>
+<p> </p>
+<p>控制台的编码只能是GBK，而不能修改为UTF8，这就出现一个问题。客户端发送的数据是GBK，而character_set_client为UTF8，这就说明客户端数据到了服务器端后一定会出现乱码。既然不能修改控制台的编码，那么只能修改character_set_client为GBK了。</p>
+<p>服务器发送给客户端的数据编码为character_set_result，它如果是UTF8，那么控制台使用GBK解码也一定会出现乱码。因为无法修改控制台编码，所以只能把character_set_result修改为GBK。</p>
+<p>l 修改character_set_client变量：set character_set_client=gbk;</p>
+<p>l 修改character_set_results变量：set character_set_results=gbk;</p>
+<p> </p>
+<p>设置编码只对当前连接有效，这说明每次登录MySQL提示符后都要去修改这两个编码，但可以通过修改配置文件来处理这一问题：配置文件路径：D:\Program Files\MySQL\MySQL Server 5.1\ my.ini</p>
+<p> </p>
+<p> </p>
+<p>3MySQL工具</p>
+<p>使用MySQL工具是不会出现乱码的，因为它们会每次连接时都修改character_set_client、character_set_results、character_set_connection的编码。这样对my.ini上的配置覆盖了，也就不会出现乱码了。</p>
+<p> </p>
+<p>MySQL数据库备份与还原</p>
+<p> </p>
+<p>备份和恢复数据</p>
+<p> </p>
+<p>1生成SQL脚本</p>
+<p>在控制台使用mysqldump命令可以用来生成指定数据库的脚本文本，但要注意，脚本文本中只包含数据库的内容，而不会存在创建数据库的语句！所以在恢复数据时，还需要自已手动创建一个数据库之后再去恢复数据。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mysqldump –u用户名 –p密码 数据库名&gt;生成的脚本文件路径</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p> </p>
+<p>现在可以在C盘下找到mydb1.sql文件了！</p>
+<p>注意，mysqldump命令是在Windows控制台下执行，无需登录mysql！！！</p>
+<p> </p>
+<p>2执行SQL脚本</p>
+<p>执行SQL脚本需要登录mysql，然后进入指定数据库，才可以执行SQL脚本！！！</p>
+<p>执行SQL脚本不只是用来恢复数据库，也可以在平时编写SQL脚本，然后使用执行SQL 脚本来操作数据库！大家都知道，在黑屏下编写SQL语句时，就算发现了错误，可能也不能修改了。所以我建议大家使用脚本文件来编写SQL代码，然后执行之！</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SOURCE C:\mydb1.sql</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p> </p>
+<p> </p>
+<p>注意，在执行脚本时需要先行核查当前数据库中的表是否与脚本文件中的语句有冲突！例如在脚本文件中存在create table a的语句，而当前数据库中已经存在了a表，那么就会出错！</p>
+<p> </p>
+<p>还可以通过下面的方式来执行脚本文件：</p>
+<p>mysql -uroot -p123 mydb1&lt;c:\mydb1.sql</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mysql –u用户名 –p密码 数据库&lt;要执行脚本文件路径</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>这种方式无需登录mysql！</p>
+<p> </p>
+<p> </p>
+<p>多表查询</p>
+<p>多表查询有如下几种：</p>
+<p>l 合并结果集；</p>
+<p>l 连接查询</p>
+<p>Ø 内连接</p>
+<p>Ø 外连接</p>
+<p>² 左外连接</p>
+<p>² 右外连接</p>
+<p>² 全外连接（MySQL不支持）</p>
+<p>Ø 自然连接</p>
+<p>l 子查询</p>
+<p> </p>
+<p>1合并结果集</p>
+<p>1. 作用：合并结果集就是把两个select语句的查询结果合并到一起！</p>
+<p>2. 合并结果集有两种方式：</p>
+<p>l UNION：去除重复记录，例如：SELECT * FROM t1 UNION SELECT * FROM t2；</p>
+<p>l UNION ALL：不去除重复记录，例如：SELECT * FROM t1 UNION ALL SELECT * FROM t2。</p>
+<p> </p>
+<p>3. 要求：被合并的两个结果：列数、列类型必须相同。</p>
+<p>2连接查询</p>
+<p>连接查询就是求出多个表的乘积，例如t1连接t2，那么查询出的结果就是t1*t2。</p>
+<p> </p>
+<p> </p>
+<p>连接查询会产生笛卡尔积，假设集合A={a,b}，集合B={0,1,2}，则两个集合的笛卡尔积为{(a,0),(a,1),(a,2),(b,0),(b,1),(b,2)}。可以扩展到多个集合的情况。</p>
+<p>那么多表查询产生这样的结果并不是我们想要的，那么怎么去除重复的，不想要的记录呢，当然是通过条件过滤。通常要查询的多个表之间都存在关联关系，那么就通过关联关系去除笛卡尔积。</p>
+<p>你能想像到emp和dept表连接查询的结果么？emp一共14行记录，dept表一共4行记录，那么连接后查询出的结果是56行记录。</p>
+<p>也就你只是想在查询emp表的同时，把每个员工的所在部门信息显示出来，那么就需要使用主外键来去除无用信息了。</p>
+<p> </p>
+<p>使用主外键关系做为条件来去除无用信息</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp,dept WHERE emp.deptno=dept.deptno;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p> </p>
+<p>上面查询结果会把两张表的所有列都查询出来，也许你不需要那么多列，这时就可以指定要查询的列了。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT emp.ename,emp.sal,emp.comm,dept.dname <br>FROM emp,dept <br>WHERE emp.deptno=dept.deptno;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p> </p>
+<p>还可以为表指定别名，然后在引用列时使用别名即可。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT e.ename,e.sal,e.comm,d.dname <br>FROM emp AS e,dept AS d<br>WHERE e.deptno=d.deptno;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>2.1内连接</p>
+<p>上面的连接语句就是内连接，但它不是SQL标准中的查询方式，可以理解为方言！SQL标准的内连接为：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * <br>FROM emp e <br>INNER JOIN dept d <br>ON e.deptno=d.deptno;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>内连接的特点：查询结果必须满足条件。例如我们向emp表中插入一条记录：</p>
+<p>其中deptno为50，而在dept表中只有10、20、30、40部门，那么上面的查询结果中就不会出现“张三”这条记录，因为它不能满足e.deptno=d.deptno这个条件。</p>
+<p> </p>
+<p>2.2外连接（左连接、右连接）</p>
+<p>外连接的特点：查询出的结果存在不满足条件的可能。</p>
+<p>左连接：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp e <br>LEFT OUTER JOIN dept d <br>ON e.deptno=d.deptno;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>左连接是先查询出左表（即以左表为主），然后查询右表，右表中满足条件的显示出来，不满足条件的显示NULL。</p>
+<p>这么说你可能不太明白，我们还是用上面的例子来说明。其中emp表中“张三”这条记录中，部门编号为50，而dept表中不存在部门编号为50的记录，所以“张三”这条记录，不能满足e.deptno=d.deptno这条件。但在左连接中，因为emp表是左表，所以左表中的记录都会查询出来，即“张三”这条记录也会查出，但相应的右表部分显示NULL。</p>
+<p> </p>
+<p>2.3右连接</p>
+<p>右连接就是先把右表中所有记录都查询出来，然后左表满足条件的显示，不满足显示NULL。例如在dept表中的40部门并不存在员工，但在右连接中，如果dept表为右表，那么还是会查出40部门，但相应的员工信息为NULL。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp e <br>RIGHT OUTER JOIN dept d <br>ON e.deptno=d.deptno;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p> </p>
+<p> </p>
+<p>连接查询心得：</p>
+<p>连接不限与两张表，连接查询也可以是三张、四张，甚至N张表的连接查询。通常连接查询不可能需要整个笛卡尔积，而只是需要其中一部分，那么这时就需要使用条件来去除不需要的记录。这个条件大多数情况下都是使用主外键关系去除。</p>
+<p>两张表的连接查询一定有一个主外键关系，三张表的连接查询就一定有两个主外键关系，所以在大家不是很熟悉连接查询时，首先要学会去除无用笛卡尔积，那么就是用主外键关系作为条件来处理。如果两张表的查询，那么至少有一个主外键条件，三张表连接至少有两个主外键条件。</p>
+<p> </p>
+<p>3自然连接</p>
+<p>大家也都知道，连接查询会产生无用笛卡尔积，我们通常使用主外键关系等式来去除它。而自然连接无需你去给出主外键等式，它会自动找到这一等式：</p>
+<p>l 两张连接的表中名称和类型完成一致的列作为条件，例如emp和dept表都存在deptno列，并且类型一致，所以会被自然连接找到！</p>
+<p>当然自然连接还有其他的查找条件的方式，但其他方式都可能存在问题！</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp NATURAL JOIN dept;<br>SELECT * FROM emp NATURAL LEFT JOIN dept;<br>SELECT * FROM emp NATURAL RIGHT JOIN dept;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>4子查询</p>
+<p>子查询就是嵌套查询，即SELECT中包含SELECT，如果一条语句中存在两个，或两个以上SELECT，那么就是子查询语句了。</p>
+<p>l 子查询出现的位置：</p>
+<p>Ø where后，作为条件的一部分；</p>
+<p>Ø from后，作为被查询的一条表；</p>
+<p>l 当子查询出现在where后作为条件时，还可以使用如下关键字：</p>
+<p>Ø any</p>
+<p>Ø all</p>
+<p>l 子查询结果集的形式：</p>
+<p>Ø 单行单列（用于条件）</p>
+<p>Ø 单行多列（用于条件）</p>
+<p>Ø 多行单列（用于条件）</p>
+<p>Ø 多行多列（用于表）</p>
+<p>练习：</p>
+<p>1. 工资高于甘宁的员工。</p>
+<p>分析：</p>
+<p>查询条件：工资&gt;甘宁工资，其中甘宁工资需要一条子查询。</p>
+<p> </p>
+<p>第一步：查询甘宁的工资</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT sal FROM emp WHERE ename=’甘宁’</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>第二步：查询高于甘宁工资的员工</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp WHERE sal &gt; (${第一步})</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>结果：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp WHERE sal &gt; (SELECT sal FROM emp WHERE ename=’甘宁’)</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>l 子查询作为条件</p>
+<p>l 子查询形式为单行单列</p>
+<p> </p>
+<p>2. 工资高于30部门所有人的员工信息</p>
+<p>分析：</p>
+<p>查询条件：工资高于30部门所有人工资，其中30部门所有人工资是子查询。高于所有需要使用all关键字。</p>
+<p> </p>
+<p>第一步：查询30部门所有人工资</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT sal FROM emp WHERE deptno=30;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>第二步：查询高于30部门所有人工资的员工信息</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp WHERE sal &gt; ALL (${第一步})</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>结果：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp WHERE sal &gt; ALL (SELECT sal FROM emp WHERE deptno=30)</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>l 子查询作为条件</p>
+<p>l 子查询形式为多行单列（当子查询结果集形式为多行单列时可以使用ALL或ANY关键字）</p>
+<p> </p>
+<p>3. 查询工作和工资与殷天正完全相同的员工信息</p>
+<p>分析：</p>
+<p>查询条件：工作和工资与殷天正完全相同，这是子查询</p>
+<p> </p>
+<p>第一步：查询出殷天正的工作和工资</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT job,sal FROM emp WHERE ename=’殷天正’</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>第二步：查询出与殷天正工作和工资相同的人</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp WHERE (job,sal) IN (${第一步})</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>结果：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT * FROM emp WHERE (job,sal) IN (SELECT job,sal FROM emp WHERE ename=’殷天正’)</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>l 子查询作为条件</p>
+<p>l 子查询形式为单行多列</p>
+<p> </p>
+<p>4. 查询员工编号为1006的员工名称、员工工资、部门名称、部门地址</p>
+<p>分析：</p>
+<p>查询列：员工名称、员工工资、部门名称、部门地址</p>
+<p>查询表：emp和dept，分析得出，不需要外连接（外连接的特性：某一行（或某些行）记录上会出现一半有值，一半为NULL值）</p>
+<p>条件：员工编号为1006</p>
+<p> </p>
+<p>第一步：去除多表，只查一张表，这里去除部门表，只查员工表</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT ename, sal FROM emp e WHERE empno=1006</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>第二步：让第一步与dept做内连接查询，添加主外键条件去除无用笛卡尔积</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT e.ename, e.sal, d.dname, d.loc <br>FROM emp e, dept d <br>WHERE e.deptno=d.deptno AND empno=1006</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>第二步中的dept表表示所有行所有列的一张完整的表，这里可以把dept替换成所有行，但只有dname和loc列的表，这需要子查询。</p>
+<p>第三步：查询dept表中dname和loc两列，因为deptno会被作为条件，用来去除无用笛卡尔积，所以需要查询它。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT dname,loc,deptno FROM dept;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>第四步：替换第二步中的dept</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT e.ename, e.sal, d.dname, d.loc <br>FROM emp e, (SELECT dname,loc,deptno FROM dept) d <br>WHERE e.deptno=d.deptno AND e.empno=1006</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>l 子查询作为表</p>
+<p>l 子查询形式为多行多列</p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p>已使用 Microsoft OneNote 2016 创建。b,sal FROM emp WHERE ename=’殷天正’) |</p>
+<p> </p>
+<p>l 子查询作为条件</p>
+<p>l 子查询形式为单行多列</p>
+<p> </p>
+<p>4. 查询员工编号为1006的员工名称、员工工资、部门名称、部门地址</p>
+<p>分析：</p>
+<p>查询列：员工名称、员工工资、部门名称、部门地址</p>
+<p>查询表：emp和dept，分析得出，不需要外连接（外连接的特性：某一行（或某些行）记录上会出现一半有值，一半为NULL值）</p>
+<p>条件：员工编号为1006</p>
+<p> </p>
+<p>第一步：去除多表，只查一张表，这里去除部门表，只查员工表</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT ename, sal FROM emp e WHERE empno=1006</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>第二步：让第一步与dept做内连接查询，添加主外键条件去除无用笛卡尔积</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT e.ename, e.sal, d.dname, d.loc <br>FROM emp e, dept d <br>WHERE e.deptno=d.deptno AND empno=1006</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>第二步中的dept表表示所有行所有列的一张完整的表，这里可以把dept替换成所有行，但只有dname和loc列的表，这需要子查询。</p>
+<p>第三步：查询dept表中dname和loc两列，因为deptno会被作为条件，用来去除无用笛卡尔积，所以需要查询它。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT dname,loc,deptno FROM dept;</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>第四步：替换第二步中的dept</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT e.ename, e.sal, d.dname, d.loc <br>FROM emp e, (SELECT dname,loc,deptno FROM dept) d <br>WHERE e.deptno=d.deptno AND e.empno=1006</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p>l 子查询作为表</p>
+<p>l 子查询形式为多行多列</p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p>已使用 Microsoft OneNote 2016 创建。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/end/%E5%B0%9A%E7%A1%85%E8%B0%B7%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E4%BB%B6/">http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/end/%E5%B0%9A%E7%A1%85%E8%B0%B7%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E4%BB%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><a class="post-meta__tags" href="/tags/end/">end</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/end/%E5%85%B3%E4%BA%8Ejdbc%E7%9A%84conn%E3%80%81ps%E3%80%81rs%E3%80%81pool/" title="end -- 关于jdbc的conn、ps、rs、pool"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">end -- 关于jdbc的conn、ps、rs、pool</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/end/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B03--postgres%E8%AF%AD%E6%B3%95/" title="end -- 数据库笔记3--postgres语法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">end -- 数据库笔记3--postgres语法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/end/%E5%85%B3%E4%BA%8Ejdbc%E7%9A%84conn%E3%80%81ps%E3%80%81rs%E3%80%81pool/" title="end -- 关于jdbc的conn、ps、rs、pool"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">end -- 关于jdbc的conn、ps、rs、pool</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/end/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B03--postgres%E8%AF%AD%E6%B3%95/" title="end -- 数据库笔记3--postgres语法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">end -- 数据库笔记3--postgres语法</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/" title="数据持久化 -- 事务原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 事务原理</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E5%89%8D%E8%BD%A6%E4%B9%8B%E8%A6%86/" title="数据持久化 -- 前车之覆"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 前车之覆</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3/" title="数据持久化 -- 字段类型详解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 字段类型详解</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4/" title="数据持久化 -- 操作命令"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 操作命令</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">南山山</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fireflyso"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B02--%E6%95%85%E4%BA%8B%E6%B1%87/" title="基础 -- Java笔记2--故事汇">基础 -- Java笔记2--故事汇</a><time datetime="2023-04-13T03:21:48.789Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B03--.class%E6%96%87%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B/" title="基础 -- Java笔记3--.class文件的流程">基础 -- Java笔记3--.class文件的流程</a><time datetime="2023-04-13T03:21:48.706Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B05--%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="基础 -- Java笔记5--多线程">基础 -- Java笔记5--多线程</a><time datetime="2023-04-13T03:21:48.622Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B06--%E5%86%85%E5%B5%8C%E7%B1%BB/" title="基础 -- Java笔记6--内嵌类">基础 -- Java笔记6--内嵌类</a><time datetime="2023-04-13T03:21:48.515Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B07--IO%E6%B5%81/" title="基础 -- Java笔记7--IO流">基础 -- Java笔记7--IO流</a><time datetime="2023-04-13T03:21:48.393Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

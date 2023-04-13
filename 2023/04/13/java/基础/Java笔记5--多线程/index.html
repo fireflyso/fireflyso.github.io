@@ -1,0 +1,319 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>基础 -- Java笔记5--多线程 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1.进程与线程：dos系统有一个非常明显的特点，一旦有一种病毒之后，系统就会立刻死机，因为dos系统是单进程的。             线程间共享资源，而每个进程都有自己独立的内存，且难以共享和切换。             线程是在进程基础上的进一步划分。而且线程是在进程上并发执行的。             如果有多个任务同时执行，则所有的系统资源是共享的，被所有的线程公用，但是程序的执行需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础 -- Java笔记5--多线程">
+<meta property="og:url" content="http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B05--%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="1.进程与线程：dos系统有一个非常明显的特点，一旦有一种病毒之后，系统就会立刻死机，因为dos系统是单进程的。             线程间共享资源，而每个进程都有自己独立的内存，且难以共享和切换。             线程是在进程基础上的进一步划分。而且线程是在进程上并发执行的。             如果有多个任务同时执行，则所有的系统资源是共享的，被所有的线程公用，但是程序的执行需">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:21:48.622Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.744Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B05--%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '基础 -- Java笔记5--多线程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">基础 -- Java笔记5--多线程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:21:48.622Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.744Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="基础 -- Java笔记5--多线程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>1.进程与线程：dos系统有一个非常明显的特点，一旦有一种病毒之后，系统就会立刻死机，因为dos系统是单进程的。</p>
+<p>            线程间共享资源，而每个进程都有自己独立的内存，且难以共享和切换。</p>
+<p>            线程是在进程基础上的进一步划分。而且线程是在进程上并发执行的。</p>
+<p>            如果有多个任务同时执行，则所有的系统资源是共享的，被所有的线程公用，但是程序的执行需要cpu，当我们只有一个CPU时，在一个时间点上就只会有一个程序运行。</p>
+<p>2.java中多线程的实现的两种方法：</p>
+<p>            继承thread类：</p>
+<p>               thread类是java.lang包中的，而这个包是在程序运行时自动导入的，所以我们不需要手动的导入包。</p>
+<p>                继承了thread后这个类就有了开启多线程的能力，我们必须去复写run方法，将我们希望每个线程中执行的代码写到里面。</p>
+<p>                然后我们创建这个类的对象，用对象调用start方法就可以了，关于start方法：start方法中有相关的判断，如果我们把一个对象调用两次start方法，也就是重复开启线程，start方法中会抛出异常。上面已经说过线程涉及到要抢占CPU，则需要调用系统底层的函数来计算那个多个线程如何占用cpu，所以在start方法中还有一个native关键字。它的意思就是去调用操作系统的函数完成相关的功能。</p>
+<p>         实现runnable接口：</p>
+<p>               让一个类实现runnable接口，这个类复写run方法，与上面的方法相同。</p>
+<p>                创建该类的对象，让后将对象给Thread实例化，new Thread(myRunnable).start();    注意我们只要创建一次myRunnable对象，可以把后面的语句看成是开启一个线程，写几次就是开启几个线程。具体代码如下：</p>
+<p>   那么两种多线程的实现方法有什么区别呢：</p>
+<p>   如果你的类已经继承了别的类，那就只好去实现runnable接口了，java的单继承属性。</p>
+<p>3.常见的问题      </p>
+<p>    线程的名字：可以自己命名，虚拟机会自动分配名字，主线程的名字是mian，非主线程的名字不确定；线程的名字是可以获取的；</p>
+<p>    获取当前线程对象的方法是：Thread.currentThread();</p>
+<p>    线程使用start方法来启动但是执行时候并不是按照启动的顺序来的；</p>
+<p>    当目标run()方法结束时该线程完成；</p>
+<p>4.java线程栈模型：存储了内存中线程调度的栈信息，当前调用的方法总是位于栈顶；每个线程私有的；       </p>
+<p>5.线程的生命周期</p>
+<p>        线程有    创建、可运行、运行中、阻塞、死亡5 中状态。</p>
+<p>                新建：线程对象已经创建，但是没有调用start方法来开启多线程；</p>
+<p>                可运行状态：使用start（）方法启动一个线程后，系统为该线程分配了除CPU外的所有资源。线程不是启动就一定会被运行的，在等待运行的这段时间久是可运行状态；</p>
+<p>                运行状态：java运行系统通过调度选中一个线程，使其占有CPU并转为运行中状态，此时系统真正执行线程的run（）方法。</p>
+<p>                阻塞、等待、睡眠状态：一个正在运行的线程因某种原因不能继续运行时，进入阻塞状态。</p>
+<p>                死亡状态：当线程的run方法执行完成后就认为它死去；这个线程的对象也许还是活着的，但是他已经不是一个单独执行的线程了；线程一旦死亡就不能复生；如果在一个死去的线程的对象上调用start方法或抛出异常；</p>
+<p>6.阻止线程的运行</p>
+<p>    除了io阻塞外，考虑下面的三种情况：</p>
+<p>        睡眠：Thread对象中有一个静态的sleep方法，它可以强制当前正在执行的线程休眠；原因可能是线程执行太快了或者需要强制进入下一轮，java中没有保证合理的轮换；将该方法写入到run方法中就可以实现线程的睡眠；线程睡眠是帮助所有线程获得允许机会的好方法；线程睡眠时间到期后，会回到可运行状态而不是运行状态，也就是它不是一定会在苏醒后就立马得到运行机会；</p>
+<p>        等待、对象锁；</p>
+<ol start="7">
+<li>线程的优先级和线程让步yield()</li>
+</ol>
+<p>    优先级：JVM基于优先级来调度线程；大多数情况下当前运行的线程的优先级将大于或等于线程池中任何线程的优先级的，但这不是绝对的；优先级为我们提供一个调度线程执行顺序的方法；编程的时候不能过多的依赖优先级，因为它没有保障只是作为一种提高程序效率的方式；优先级范围是1-10；设置方法：线程对象.setPriority(n);默认为5；</p>
+<p>    Thread.yield()方法的作用是让当前执行的进程回到可运行状态，以允许具有相同优先级的其他线程获得运行的机会；实际使用中它也不是一定能做到轮换的作用，因为有可能这个线程回到可运行状态后立即又被线程调度再次选中了；</p>
+<p>    Thread的非静态方法join();使用方法：a线程对象.join();将当前线程加入到a线程对象的后面，直到a线程结束后才会执行当前的线程，这个地方我也不知道别的线程会不会受到影响，按照逻辑来说对别的线程是没有影响的；这个方法的实现其实是等待，该方法还可以传入等待的时间，这时就是等待a线程结束或者到达了等待的时间后当前的线程会回到可运行状态；</p>
+<p>8.小结会导致线程离开运行状态的情况：</p>
+<p>    线程的run方法运行完成了；    线程调度决定将线程由运行状态转移到可运行状态；    调用sleep方法使线程睡眠；    在对象上调用wait方法使线程等待；    调用yield方法使线程让步；    调用join方法使线程等待另一个线程先完成；    线程不能在对象上获得锁定，它正试图运行该对象的方法代码；</p>
+<p>9.线程的同步锁</p>
+<p>    线程的同步是为了防止多个线程访问一个数据对象时，对数据造成的破坏；</p>
+<p>    锁：java中每个对象都有一个内置锁，当程序运行到非静态synchronized同步的方法时，自动获得于正在执行代码类的当前实例有关的锁（为什么是有关的，因为你的这个对象可能又指向了另一个对象，从而调用了些个关联的对象的同步方法或是代码块时它的锁也会被当前进程获得），这时别的线程不能进入该对象上的同步方法或代码块了（注意是对象，而不是类），直到该锁被释放，释放锁指的是持有锁的线程退出了同步方法或代码块；持有锁的线程封锁了该对象的所有同步方法，而非同步方法是可以自由访问的；</p>
+<p>    synchronized：可以修饰一个方法，也可以修饰一个代码块，在修饰代码块是必须指定是要与哪个对象进行同步；不可以直接修饰一个变量；</p>
+<p>    静态方法同步：由于在调用静态方法时，对象实例不一定被创建，因此，就不能使用this来同步静态方法，而必须使用Class对象来同步静态方法。</p>
+<p>    阻塞：调用同一个对象的非静态的同步方法时会发生阻塞，调用同一个类中的静态同步方法的线程将阻塞，静态和非静态的同步方法不会彼此阻塞，对于同步代码块来说一定要看清指定的对象是否是同一个，不同对象上持有锁的线程是不会相互阻塞的；</p>
+<p>10.线程安全类：当一个类已经很好的同步以保护了它的数据时我们称这个类是线程安全的；</p>
+<p>11.线程死锁：两个线程相互阻塞，产生死锁；下面为死锁的一个例子：</p>
+<p>    </p>
+<ol>
+<li><p>publicclass DeadlockRisk {</p>
+</li>
+<li><pre><code>private static class Resource &#123;
+</code></pre>
+</li>
+<li><pre><code>    public int value;
+</code></pre>
+</li>
+<li><pre><code>&#125; 
+</code></pre>
+</li>
+<li><pre><code>private Resource resourceA =new Resource(); 
+</code></pre>
+</li>
+<li><pre><code>private Resource resourceB =new Resource(); 
+</code></pre>
+</li>
+<li><pre><code>public int read() &#123;
+</code></pre>
+</li>
+<li><pre><code>    synchronized (resourceA) &#123;
+</code></pre>
+</li>
+<li><pre><code>        synchronized (resourceB) &#123;
+</code></pre>
+</li>
+<li><pre><code>            return resourceB.value + resourceA.value;
+</code></pre>
+</li>
+<li><pre><code>        &#125; 
+</code></pre>
+</li>
+<li><pre><code>    &#125; 
+</code></pre>
+</li>
+<li><pre><code>&#125; 
+</code></pre>
+</li>
+<li><pre><code>public void write(int a,int b) &#123; 
+</code></pre>
+</li>
+<li><pre><code>    synchronized (resourceB) &#123;
+</code></pre>
+</li>
+<li><pre><code>        synchronized (resourceA) &#123;
+</code></pre>
+</li>
+<li><pre><code>            resourceA.value = a; 
+</code></pre>
+</li>
+<li><pre><code>            resourceB.value = b; 
+</code></pre>
+</li>
+<li><pre><code>        &#125; 
+</code></pre>
+</li>
+<li><pre><code>    &#125; 
+</code></pre>
+</li>
+<li><pre><code>&#125; 
+</code></pre>
+</li>
+<li><p>}</p>
+</li>
+</ol>
+<p>    如果一个线程调用了read，另一个线程调用的write，那么它们可能会一个持有一个A的锁另一个持有B的锁，那个它们就产生了死锁，其实上面的代码中产生死锁的概率是很小的，但毕竟有可能产生；</p>
+<p> </p>
+<p>  ；</p>
+<p> </p>
+<p>  </p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B05--%E5%A4%9A%E7%BA%BF%E7%A8%8B/">http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B05--%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a><a class="post-meta__tags" href="/tags/%E5%9F%BA%E7%A1%80/">基础</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B03--.class%E6%96%87%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B/" title="基础 -- Java笔记3--.class文件的流程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">基础 -- Java笔记3--.class文件的流程</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B06--%E5%86%85%E5%B5%8C%E7%B1%BB/" title="基础 -- Java笔记6--内嵌类"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">基础 -- Java笔记6--内嵌类</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B01--%E7%B1%BB%E5%8F%8D%E5%B0%84/" title="基础 -- Java笔记1--类反射"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记1--类反射</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B010--XML%E8%A7%A3%E6%9E%90/" title="基础 -- Java笔记10--XML解析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记10--XML解析</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B011--%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="基础 -- Java笔记11--虚拟机"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记11--虚拟机</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B013--%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%B1%BB%E6%96%87%E4%BB%B6/" title="基础 -- Java笔记13--虚拟机之类文件"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记13--虚拟机之类文件</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B02--%E6%95%85%E4%BA%8B%E6%B1%87/" title="基础 -- Java笔记2--故事汇"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记2--故事汇</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B03--.class%E6%96%87%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B/" title="基础 -- Java笔记3--.class文件的流程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记3--.class文件的流程</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">南山山</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fireflyso"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B02--%E6%95%85%E4%BA%8B%E6%B1%87/" title="基础 -- Java笔记2--故事汇">基础 -- Java笔记2--故事汇</a><time datetime="2023-04-13T03:21:48.789Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B03--.class%E6%96%87%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B/" title="基础 -- Java笔记3--.class文件的流程">基础 -- Java笔记3--.class文件的流程</a><time datetime="2023-04-13T03:21:48.706Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B05--%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="基础 -- Java笔记5--多线程">基础 -- Java笔记5--多线程</a><time datetime="2023-04-13T03:21:48.622Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B06--%E5%86%85%E5%B5%8C%E7%B1%BB/" title="基础 -- Java笔记6--内嵌类">基础 -- Java笔记6--内嵌类</a><time datetime="2023-04-13T03:21:48.515Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B07--IO%E6%B5%81/" title="基础 -- Java笔记7--IO流">基础 -- Java笔记7--IO流</a><time datetime="2023-04-13T03:21:48.393Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

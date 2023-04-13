@@ -1,0 +1,509 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>2019 -- 并发 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[TOC] 一、线程状态转换以前记录的状态创建、可运行、运行中、阻塞、死亡；这几个很好理解，创建就是线程对象被创建，但是还没有调用start方法来开启，而开启之后也不是立马就能得到执行的，是否执行取决于CPU调度，这时就是可运行状态，得到CPU调度之后叫做运行中，而线程在运行中因某些原因不能继续运行时叫做阻塞，当线程执行完run方法后认为它死去 更详细的版本   新建：创建后尚未启动   可运行：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019 -- 并发">
+<meta property="og:url" content="http://example.com/2023/04/13/java/2019/%E5%B9%B6%E5%8F%91/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="[TOC] 一、线程状态转换以前记录的状态创建、可运行、运行中、阻塞、死亡；这几个很好理解，创建就是线程对象被创建，但是还没有调用start方法来开启，而开启之后也不是立马就能得到执行的，是否执行取决于CPU调度，这时就是可运行状态，得到CPU调度之后叫做运行中，而线程在运行中因某些原因不能继续运行时叫做阻塞，当线程执行完run方法后认为它死去 更详细的版本   新建：创建后尚未启动   可运行：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:21:43.144Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.786Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="2019">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/java/2019/%E5%B9%B6%E5%8F%91/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '2019 -- 并发',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">2019 -- 并发</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:21:43.144Z" title="发表于 2023-04-13 11:21:43">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.786Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/2019/">2019</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="2019 -- 并发"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[TOC]</p>
+<h1 id="一、线程状态转换"><a href="#一、线程状态转换" class="headerlink" title="一、线程状态转换"></a>一、线程状态转换</h1><h2 id="以前记录的状态"><a href="#以前记录的状态" class="headerlink" title="以前记录的状态"></a>以前记录的状态</h2><p>创建、可运行、运行中、阻塞、死亡；这几个很好理解，创建就是线程对象被创建，但是还没有调用start方法来开启，而开启之后也不是立马就能得到执行的，是否执行取决于CPU调度，这时就是可运行状态，得到CPU调度之后叫做运行中，而线程在运行中因某些原因不能继续运行时叫做阻塞，当线程执行完run方法后认为它死去</p>
+<h2 id="更详细的版本"><a href="#更详细的版本" class="headerlink" title="更详细的版本"></a>更详细的版本</h2><ul>
+<li>  新建：创建后尚未启动</li>
+<li>  可运行：可能在在运行也可能在等待CPU时间片</li>
+<li>  阻塞：等待获取一个排它锁，如果其他线程释放了锁就会结束此状态(阻塞和等待的区别在于，阻塞是被动的在程序运行的时候出现不被开发者控制的，等待是主动的编码的时候就已经确定了)</li>
+<li>无限期等待：等待其他线程显式的唤醒，否则不会被分配CPU时间片，下面整理了会进入这个状态的情形和退出的方法(关于这些内容的详细解释留在下面的内容中)<ul>
+<li>  没有设置Timeout参数的Object.wait()方法，退出Object.notify()/Object.notifyAll()</li>
+<li>  没有设置Timeout参数的Thread.join()方法，被调用的线程执行完毕</li>
+<li>  LockSupport.park()方法，LockSupport.unpark(Thread)</li>
+</ul>
+</li>
+<li>期限等待：无需等待其他线程的显示唤起，在一定时间之后会被系统自动唤起<ul>
+<li>  Thread.sleep()方法，时间结束时退出</li>
+<li>  设置了参数的Object.wait(),时间结束、Object.notify()、Object.notifyAll()</li>
+<li>  设置了参数的Thread.join()，时间结束、被调用的线程执行完成</li>
+<li>  LockSupport.parkNanos(),LockSupport.unpark(Thread)</li>
+<li>  LockSupport.parkUntil(),LockSupport.unpark(Thread)</li>
+</ul>
+</li>
+<li>  死亡：线程结束或者因为出现异常结束</li>
+</ul>
+<h1 id="二、使用线程"><a href="#二、使用线程" class="headerlink" title="二、使用线程"></a>二、使用线程</h1><p>实现 Runnable 和 Callable 接口的类只能当做一个可以在线程中运行的任务，不是真正意义上的线程，因此最后还需要通过 Thread 来调用。可以说任务是通过线程驱动从而执行的。</p>
+<h2 id="实现runnable接口"><a href="#实现runnable接口" class="headerlink" title="实现runnable接口"></a>实现runnable接口</h2><h2 id="实现Callable接口"><a href="#实现Callable接口" class="headerlink" title="实现Callable接口"></a>实现Callable接口</h2><p>与Runnable相比，Callable可以有返回值，是通过FutureTask进行封装的</p>
+<h2 id="继承Thread类"><a href="#继承Thread类" class="headerlink" title="继承Thread类"></a>继承Thread类</h2><h2 id="对比接口和继承"><a href="#对比接口和继承" class="headerlink" title="对比接口和继承"></a>对比接口和继承</h2><p>总体来说实现接口会更好一些，其一java不支持多继承，其二继承Thread类可能会造成不必要的开销</p>
+<h1 id="三、基础线程机制"><a href="#三、基础线程机制" class="headerlink" title="三、基础线程机制"></a>三、基础线程机制</h1><h2 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h2><p>管理多个异步任务的执行，<font color="red">不清楚到底是干啥的</font></p>
+<h2 id="Daemon"><a href="#Daemon" class="headerlink" title="Daemon"></a>Daemon</h2><p>守护线程是线程的保姆，<font color="red">后续补充相应内容</font></p>
+<h2 id="sleep"><a href="#sleep" class="headerlink" title="sleep()"></a>sleep()</h2><p>sleep方法会休眠当前执行的线程，单位为毫秒，注意一下有时候会问sleep和wait方法谁是object的谁是Thread的，sleep是Thread自己写的方法，sleep可能会抛出InterruptedException</p>
+<h2 id="yield"><a href="#yield" class="headerlink" title="yield()"></a>yield()</h2><p>是个静态方法，准确的说是Thread的静态方法，所以调用就是Thread.yield(),这哥们大概就是说我重要的逻辑都处理完了，CPU可以选择先执行别的线程，至于CPU接不接受那就不知道了</p>
+<h1 id="四、中断"><a href="#四、中断" class="headerlink" title="四、中断"></a>四、中断</h1><p>线程会在执行完毕之后自动结束，运行中出现异常也会提前结束，也就是说程序在执行又没有异常的时候想要中断它就得执行一些操作了，而下面说的几个方法都是为了中断程序的</p>
+<h2 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt()"></a>interrupt()</h2><p>通过调用一个线程的 interrupt() 来中断该线程，如果该线程处于阻塞、限期等待或者无限期等待状态，那么就会抛出 InterruptedException，从而提前结束该线程。但是不能中断 I/O 阻塞和 synchronized 锁阻塞。</p>
+<h2 id="interrupted"><a href="#interrupted" class="headerlink" title="interrupted()"></a>interrupted()</h2><p>很明显前面的interrupt方法生效是有前提的（阻塞等待），要是run里面是个无限循环但又没有sleep之类的操作，可以在循环条件中加入interrupted(),这时如果线程丢下去调用了interrupt方法，interrupted就能接收到这个信号，将自己的返回值变为true，从而跳出循环</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// InterruptExample.java</span><br><span class="line">public class InterruptExample &#123;</span><br><span class="line"></span><br><span class="line">    private static class MyThread2 extends Thread &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            while (!interrupted()) &#123;</span><br><span class="line">                // ..</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(&quot;Thread end&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 调用方法</span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">    Thread thread2 = new MyThread2();</span><br><span class="line">    thread2.start();</span><br><span class="line">    thread2.interrupt();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Executor的中断操作"><a href="#Executor的中断操作" class="headerlink" title="Executor的中断操作"></a>Executor的中断操作</h2><p><font color="red">和前面线程机制里面说的Excutor有关，再补充</font></p>
+<h1 id="五、互斥同步"><a href="#五、互斥同步" class="headerlink" title="五、互斥同步"></a>五、互斥同步</h1><p>其实java有两种方式来实现互斥访问，一种是常见的synchronized，另一个ReentrantLock，反正不知道后面这个是干啥的</p>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><h3 id="同步代码块"><a href="#同步代码块" class="headerlink" title="同步代码块"></a>同步代码块</h3><p>作用于对象，只有当不同线程中使用同一个对象时才会对修饰的代码块进行同步</p>
+<h3 id="同步方法"><a href="#同步方法" class="headerlink" title="同步方法"></a>同步方法</h3><p>和同步代码块一样</p>
+<h3 id="同步一个类"><a href="#同步一个类" class="headerlink" title="同步一个类"></a>同步一个类</h3><p>这个应该也叫类锁,这时不同线程调用不同的对象也会对这部分语句进行同步</p>
+<pre><code>public class SynchronizedExample &#123;
+
+    public void func2() &#123;
+        synchronized (SynchronizedExample.class) &#123;
+            for (int i = 0; i &lt; 10; i++) &#123;
+                System.out.print(i + &quot; &quot;);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+
+
+public static void main(String[] args) &#123;
+    SynchronizedExample e1 = new SynchronizedExample();
+    SynchronizedExample e2 = new SynchronizedExample();
+    ExecutorService executorService = Executors.newCachedThreadPool();
+    executorService.execute(() -&gt; e1.func2());
+    executorService.execute(() -&gt; e2.func2());
+&#125;
+</code></pre>
+<h3 id="同步一个静态方法"><a href="#同步一个静态方法" class="headerlink" title="同步一个静态方法"></a>同步一个静态方法</h3><p>作用于整个类</p>
+<h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><p>是java.util.concurrent包中的锁</p>
+<pre><code>public class LockExample &#123;
+
+    private Lock lock = new ReentrantLock();
+
+    public void func() &#123;
+        lock.lock();
+        try &#123;
+            for (int i = 0; i &lt; 10; i++) &#123;
+                System.out.print(i + &quot; &quot;);
+            &#125;
+        &#125; finally &#123;
+            lock.unlock(); // 确保释放锁，从而避免发生死锁。
+        &#125;
+    &#125;
+&#125;
+
+
+
+public static void main(String[] args) &#123;
+    LockExample lockExample = new LockExample();
+    ExecutorService executorService = Executors.newCachedThreadPool();
+    executorService.execute(() -&gt; lockExample.func());
+    executorService.execute(() -&gt; lockExample.func());
+&#125;
+</code></pre>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><ul>
+<li>  实现：synchronized是JVM实现的，ReentrantLock是JDK实现的</li>
+<li>  性能：两者差不多</li>
+<li>  等待可中断：当持有锁的线程长期不释放锁的时候，正在等待的线程可以选择放弃等待，改为处理其他事情；对于这件事情ReentrantLock是可以的，而synchronized不行（不知道r是通过什么方式去处理所谓其他的事情，要是其他的事情依赖于同步代码中的数据那也没法去执行啊）</li>
+<li>  公平锁：是指多个线程在等待同一个锁时，安装申请的时间顺序来获得锁，这件事儿上synchronized是不行的，ReentrantLock默认也不行，但是可以设置为公平锁</li>
+<li>  锁绑定多个条件：<font color="red">一个ReentrantLock可以同时绑定多个Condition对象</font></li>
+</ul>
+<h2 id="使用选择"><a href="#使用选择" class="headerlink" title="使用选择"></a>使用选择</h2><p>其实从上面的对比中可以看出，ReentrantLock的功能是比synchronized要强大的，但实际使用中synchronized就足够了，而且synchronized属于是JVM亲生的，ReentrantLock来说的话不一定所有版本的JVM都支持，而且synchronized锁不需要手动释放</p>
+<h1 id="六、线程间的协作"><a href="#六、线程间的协作" class="headerlink" title="六、线程间的协作"></a>六、线程间的协作</h1><p>当多个线程要一起去处理问题时，由于CPU对线程的调用是随机的，当我们想要他们有一定的执行顺序时就需要对他们进行协调</p>
+<h2 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h2><p>在一个线程中调用另一个线程的join()，当前线程将会挂起直到目标线程结束</p>
+<pre><code>public class JoinExample &#123;
+
+    private class A extends Thread &#123;
+        @Override
+        public void run() &#123;
+            System.out.println(&quot;A&quot;);
+        &#125;
+    &#125;
+
+    private class B extends Thread &#123;
+
+        private A a;
+
+        B(A a) &#123;
+            this.a = a;
+        &#125;
+
+        @Override
+        public void run() &#123;
+            try &#123;
+                a.join();
+            &#125; catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            System.out.println(&quot;B&quot;);
+        &#125;
+    &#125;
+
+    public void test() &#123;
+        A a = new A();
+        B b = new B(a);
+        b.start();
+        a.start();
+    &#125;
+&#125;
+
+//创建JoinExample类的对象调用test方法即可
+</code></pre>
+<h2 id="wait-notify-notifyAll"><a href="#wait-notify-notifyAll" class="headerlink" title="wait() notify() notifyAll()"></a>wait() notify() notifyAll()</h2><p>同步代码中调用wait()时将线程挂起，当其他的线程去调用了notify()或者notifyAll()时唤醒挂起的线程</p>
+<ul>
+<li>  他们都是Object的方法，而不是Thread的方法</li>
+<li>  只有在被同步的代码中使用，否则会在运行时抛出IllegalMonitorStateException<font color="red">为什么不能在非同步的代码中调用呢</font></li>
+<li>  使用wait挂起期间，线程会释放锁，这个就比较明确了，不释放锁别的线程就无法执行同步代码，<font color="red">看起来notify和notifyAll方法也都只能在同步代码中执行</font>，基于这个原因的话，不释放锁就永远无法唤醒也就死锁了</li>
+<li>  案例：</li>
+</ul>
+<pre><code>public class WaitNotifyExample &#123;
+
+    public synchronized void before() &#123;
+        System.out.println(&quot;before&quot;);
+        notifyAll();
+    &#125;
+
+    public synchronized void after() &#123;
+        try &#123;
+            wait();
+        &#125; catch (InterruptedException e) &#123;
+            e.printStackTrace();
+        &#125;
+        System.out.println(&quot;after&quot;);
+    &#125;
+&#125;
+
+
+
+public static void main(String[] args) &#123;
+    ExecutorService executorService = Executors.newCachedThreadPool();
+    WaitNotifyExample example = new WaitNotifyExample();
+    executorService.execute(() -&gt; example.after());
+    executorService.execute(() -&gt; example.before());
+&#125;
+</code></pre>
+<h2 id="和sleep方法的区别"><a href="#和sleep方法的区别" class="headerlink" title="和sleep方法的区别"></a>和sleep方法的区别</h2><ul>
+<li>  wait是Object的方法，sleep是Thread的静态方法</li>
+<li>  wait会释放锁，sleep不会</li>
+</ul>
+<h2 id="await-signal-signalAll"><a href="#await-signal-signalAll" class="headerlink" title="await() signal() signalAll()"></a>await() signal() signalAll()</h2><p>前面的的wait是synchronized里面的，而这一套方法是ReentrantLock的</p>
+<pre><code>public class AwaitSignalExample &#123;
+
+    private Lock lock = new ReentrantLock();
+    private Condition condition = lock.newCondition();
+
+    public void before() &#123;
+        lock.lock();
+        try &#123;
+            System.out.println(&quot;before&quot;);
+            condition.signalAll();
+        &#125; finally &#123;
+            lock.unlock();
+        &#125;
+    &#125;
+
+    public void after() &#123;
+        lock.lock();
+        try &#123;
+            condition.await();
+            System.out.println(&quot;after&quot;);
+        &#125; catch (InterruptedException e) &#123;
+            e.printStackTrace();
+        &#125; finally &#123;
+            lock.unlock();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">    AwaitSignalExample example = new AwaitSignalExample();</span><br><span class="line">    executorService.execute(() -&gt; example.after());</span><br><span class="line">    executorService.execute(() -&gt; example.before());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="七、J-U-C-AQS"><a href="#七、J-U-C-AQS" class="headerlink" title="七、J.U.C-AQS"></a>七、J.U.C-AQS</h1><p>java.util.concurrent(J.U.C)其实也就是前面说的ReentrantLock，这个东西提供了比synchronized更多的对线程的控制，能大大的提高并发的性能，而这个AQS被认为是J.U.C的核心</p>
+<h2 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h2><p>用来控制一个线程等待多个线程，内部维护了一个计数器cnt，每次调用countDown()方法的时候计数器值减一，减到0的时候那些因为调用了await方法而在等待的线程会被唤醒</p>
+<pre><code>public class CountdownLatchExample &#123;
+
+    public static void main(String[] args) throws InterruptedException &#123;
+        final int totalThread = 10;
+        CountDownLatch countDownLatch = new CountDownLatch(totalThread);
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; totalThread; i++) &#123;
+            executorService.execute(() -&gt; &#123;
+                System.out.print(&quot;run..&quot;);
+                countDownLatch.countDown();
+            &#125;);
+        &#125;
+        countDownLatch.await();
+        System.out.println(&quot;end&quot;);
+        executorService.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="CyclicBarrier"><a href="#CyclicBarrier" class="headerlink" title="CyclicBarrier"></a>CyclicBarrier</h2><p>控制多个线程相互等待，就是只有当多个线程都执行到这个await方法时大家才能继续往下执行，内部同样是一个计数器，没当一个线程执行到await方法时计数器值减一，当计数器为0时，大家又能一起开开心心的往下执行了</p>
+<pre><code>public class CyclicBarrierExample &#123;
+
+    public static void main(String[] args) &#123;
+        final int totalThread = 10;
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(totalThread);
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; totalThread; i++) &#123;
+            executorService.execute(() -&gt; &#123;
+                System.out.print(&quot;before..&quot;);
+                try &#123;
+                    cyclicBarrier.await();
+                &#125; catch (InterruptedException | BrokenBarrierException e) &#123;
+                    e.printStackTrace();
+                &#125;
+                System.out.print(&quot;after..&quot;);
+            &#125;);
+        &#125;
+        executorService.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h2><p>类似于操作系统中的信号量，可以控制对互斥资源的访问线程数</p>
+<pre><code>public class SemaphoreExample &#123;
+
+    public static void main(String[] args) &#123;
+        final int clientCount = 3;
+        final int totalRequestCount = 10;
+        Semaphore semaphore = new Semaphore(clientCount);
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; totalRequestCount; i++) &#123;
+            executorService.execute(()-&gt;&#123;
+                try &#123;
+                    semaphore.acquire();
+                    System.out.print(semaphore.availablePermits() + &quot; &quot;);
+                &#125; catch (InterruptedException e) &#123;
+                    e.printStackTrace();
+                &#125; finally &#123;
+                    semaphore.release();
+                &#125;
+            &#125;);
+        &#125;
+        executorService.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h1 id="八、J-U-C-其他组件"><a href="#八、J-U-C-其他组件" class="headerlink" title="八、J.U.C-其他组件"></a>八、J.U.C-其他组件</h1><p>实在没啥耐心看了，哈哈，以后要是需要用了再看看</p>
+<ul>
+<li>  FutureTask</li>
+<li>  BlockingQueue</li>
+<li>  ForkJoin</li>
+</ul>
+<h1 id="九、线程不安全示例"><a href="#九、线程不安全示例" class="headerlink" title="九、线程不安全示例"></a>九、线程不安全示例</h1><p>就是不对共享资源的访问操作进行同步操作的时候，结果会和预期不一致</p>
+<pre><code>public class ThreadUnsafeExample &#123;
+
+    private int cnt = 0;
+
+    public void add() &#123;
+        cnt++;
+    &#125;
+
+    public int get() &#123;
+        return cnt;
+    &#125;
+&#125;
+
+
+
+public static void main(String[] args) throws InterruptedException &#123;
+    final int threadSize = 1000;
+    ThreadUnsafeExample example = new ThreadUnsafeExample();
+    final CountDownLatch countDownLatch = new CountDownLatch(threadSize);
+    ExecutorService executorService = Executors.newCachedThreadPool();
+    for (int i = 0; i &lt; threadSize; i++) &#123;
+        executorService.execute(() -&gt; &#123;
+            example.add();
+            countDownLatch.countDown();
+        &#125;);
+    &#125;
+    countDownLatch.await();
+    executorService.shutdown();
+    System.out.println(example.get());
+&#125;
+</code></pre>
+<p>期望中得到的结果是1000，但实际可能得到的是998、997之类的不确定的数值</p>
+<h1 id="十、java的内存模型"><a href="#十、java的内存模型" class="headerlink" title="十、java的内存模型"></a>十、java的内存模型</h1><p>也不知道为啥这突然就讲起了java的内存模型</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/java/2019/%E5%B9%B6%E5%8F%91/">http://example.com/2023/04/13/java/2019/%E5%B9%B6%E5%8F%91/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a><a class="post-meta__tags" href="/tags/2019/">2019</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/java/2019/%E6%91%98%E5%BD%95/" title="2019 -- 摘录"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">2019 -- 摘录</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/java/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" title="集合框架 -- 集合框架"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">集合框架 -- 集合框架</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/java/2019/java%E5%9F%BA%E7%A1%80/" title="2019 -- java基础"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">2019 -- java基础</div></div></a></div><div><a href="/2023/04/13/java/2019/why/" title="2019 -- why"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">2019 -- why</div></div></a></div><div><a href="/2023/04/13/java/2019/%E6%91%98%E5%BD%95/" title="2019 -- 摘录"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">2019 -- 摘录</div></div></a></div><div><a href="/2023/04/13/java/Show%20Me%20The%20Code/break%E5%92%8Ccontinue/" title="Show Me The Code -- break和continue"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">Show Me The Code -- break和continue</div></div></a></div><div><a href="/2023/04/13/java/Show%20Me%20The%20Code/excel%E8%A7%A3%E6%9E%90%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/" title="Show Me The Code -- excel解析的两种方法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">Show Me The Code -- excel解析的两种方法</div></div></a></div><div><a href="/2023/04/13/java/Show%20Me%20The%20Code/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F--%E4%BB%A3%E7%90%86/" title="Show Me The Code -- 设计模式--代理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">Show Me The Code -- 设计模式--代理</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.</span> <span class="toc-text">一、线程状态转换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5%E5%89%8D%E8%AE%B0%E5%BD%95%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">1.1.</span> <span class="toc-text">以前记录的状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E8%AF%A6%E7%BB%86%E7%9A%84%E7%89%88%E6%9C%AC"><span class="toc-number">1.2.</span> <span class="toc-text">更详细的版本</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">二、使用线程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0runnable%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.1.</span> <span class="toc-text">实现runnable接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0Callable%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.2.</span> <span class="toc-text">实现Callable接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BFThread%E7%B1%BB"><span class="toc-number">2.3.</span> <span class="toc-text">继承Thread类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94%E6%8E%A5%E5%8F%A3%E5%92%8C%E7%BB%A7%E6%89%BF"><span class="toc-number">2.4.</span> <span class="toc-text">对比接口和继承</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%9F%BA%E7%A1%80%E7%BA%BF%E7%A8%8B%E6%9C%BA%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">三、基础线程机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Executor"><span class="toc-number">3.1.</span> <span class="toc-text">Executor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Daemon"><span class="toc-number">3.2.</span> <span class="toc-text">Daemon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep"><span class="toc-number">3.3.</span> <span class="toc-text">sleep()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#yield"><span class="toc-number">3.4.</span> <span class="toc-text">yield()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%B8%AD%E6%96%AD"><span class="toc-number">4.</span> <span class="toc-text">四、中断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#interrupt"><span class="toc-number">4.1.</span> <span class="toc-text">interrupt()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#interrupted"><span class="toc-number">4.2.</span> <span class="toc-text">interrupted()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Executor%E7%9A%84%E4%B8%AD%E6%96%AD%E6%93%8D%E4%BD%9C"><span class="toc-number">4.3.</span> <span class="toc-text">Executor的中断操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5"><span class="toc-number">5.</span> <span class="toc-text">五、互斥同步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized"><span class="toc-number">5.1.</span> <span class="toc-text">synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-number">5.1.1.</span> <span class="toc-text">同步代码块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95"><span class="toc-number">5.1.2.</span> <span class="toc-text">同步方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%80%E4%B8%AA%E7%B1%BB"><span class="toc-number">5.1.3.</span> <span class="toc-text">同步一个类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="toc-number">5.1.4.</span> <span class="toc-text">同步一个静态方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ReentrantLock"><span class="toc-number">5.2.</span> <span class="toc-text">ReentrantLock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83"><span class="toc-number">5.3.</span> <span class="toc-text">比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%80%89%E6%8B%A9"><span class="toc-number">5.4.</span> <span class="toc-text">使用选择</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%BA%BF%E7%A8%8B%E9%97%B4%E7%9A%84%E5%8D%8F%E4%BD%9C"><span class="toc-number">6.</span> <span class="toc-text">六、线程间的协作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#join"><span class="toc-number">6.1.</span> <span class="toc-text">join()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wait-notify-notifyAll"><span class="toc-number">6.2.</span> <span class="toc-text">wait() notify() notifyAll()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8Csleep%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">6.3.</span> <span class="toc-text">和sleep方法的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#await-signal-signalAll"><span class="toc-number">6.4.</span> <span class="toc-text">await() signal() signalAll()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%E3%80%81J-U-C-AQS"><span class="toc-number">7.</span> <span class="toc-text">七、J.U.C-AQS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CountDownLatch"><span class="toc-number">7.1.</span> <span class="toc-text">CountDownLatch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CyclicBarrier"><span class="toc-number">7.2.</span> <span class="toc-text">CyclicBarrier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Semaphore"><span class="toc-number">7.3.</span> <span class="toc-text">Semaphore</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AB%E3%80%81J-U-C-%E5%85%B6%E4%BB%96%E7%BB%84%E4%BB%B6"><span class="toc-number">8.</span> <span class="toc-text">八、J.U.C-其他组件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">9.</span> <span class="toc-text">九、线程不安全示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E3%80%81java%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">10.</span> <span class="toc-text">十、java的内存模型</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>InnoDB -- InnoDB-索引 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[toc] 索引与算法存储索引概述InnoDB支持的几种索引：B+树（不是二叉binary，是balance）、全文、hash B+数这个后面展开讲，hash是自适应的不受人为的干涉，全文这里也没讲是啥 数据结构和算法这里就是简单的介绍一下相关的算法和结构 二分查找需要数据本身就排好序的，折半查找 二叉查找树和平衡二叉树二叉查找树就一个左小右大的二叉树，不要求平衡，性能不是很高 平衡二叉树就是平衡">
+<meta property="og:type" content="article">
+<meta property="og:title" content="InnoDB -- InnoDB-索引">
+<meta property="og:url" content="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/InnoDB-%E7%B4%A2%E5%BC%95/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="[toc] 索引与算法存储索引概述InnoDB支持的几种索引：B+树（不是二叉binary，是balance）、全文、hash B+数这个后面展开讲，hash是自适应的不受人为的干涉，全文这里也没讲是啥 数据结构和算法这里就是简单的介绍一下相关的算法和结构 二分查找需要数据本身就排好序的，折半查找 二叉查找树和平衡二叉树二叉查找树就一个左小右大的二叉树，不要求平衡，性能不是很高 平衡二叉树就是平衡">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:20:50.888Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.895Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="数据持久化">
+<meta property="article:tag" content="InnoDB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/InnoDB-%E7%B4%A2%E5%BC%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'InnoDB -- InnoDB-索引',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">InnoDB -- InnoDB-索引</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:50.888Z" title="发表于 2023-04-13 11:20:50">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.895Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/">InnoDB</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="InnoDB -- InnoDB-索引"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[toc]</p>
+<h1 id="索引与算法"><a href="#索引与算法" class="headerlink" title="索引与算法"></a>索引与算法</h1><h2 id="存储索引概述"><a href="#存储索引概述" class="headerlink" title="存储索引概述"></a>存储索引概述</h2><p>InnoDB支持的几种索引：B+树（不是二叉binary，是balance）、全文、hash</p>
+<p>B+数这个后面展开讲，hash是自适应的不受人为的干涉，全文这里也没讲是啥</p>
+<h2 id="数据结构和算法"><a href="#数据结构和算法" class="headerlink" title="数据结构和算法"></a>数据结构和算法</h2><p>这里就是简单的介绍一下相关的算法和结构</p>
+<h3 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h3><p>需要数据本身就排好序的，折半查找</p>
+<h3 id="二叉查找树和平衡二叉树"><a href="#二叉查找树和平衡二叉树" class="headerlink" title="二叉查找树和平衡二叉树"></a>二叉查找树和平衡二叉树</h3><p>二叉查找树就一个左小右大的二叉树，不要求平衡，性能不是很高</p>
+<p>平衡二叉树就是平衡的二叉查找树，平衡二叉树的查询性能是比较高的，最高的是最优二叉树，但这个东西构建和维护的开销大，一般只需要建立一个平衡二叉树</p>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><p><img src="https://ynote-resource-dl.lx.netease.com/ydl/resource?key=qq7AE1C3EC95D8BC3B8E19DFC70C1C83F1/5D92DB116C784279AE10A6613E638A43&mime=image/png&name=image.png&reqId=3c0c1e25-702c-449c-b49c-e1cda8a312d5&ts=1611313960750&type=NOS&sign=001ca2857676405f28d76d149c3377f4" alt="image"></p>
+<p>这个图可以很好的说明B+树的基础机构</p>
+<h3 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h3><p>这里就简单说一下</p>
+<ul>
+<li>如果叶子节点和它的父节点都没满的话，就直接插入，这个时候最理想</li>
+<li>如果叶子节点满了但是它的父节点还没满的话，那就分裂子节点把子节点的中间值放到父节点去</li>
+<li>如果叶子节点和它的父节点都满了的话，就要先分裂子节点，再分裂父节点</li>
+<li>另外如果叶子节点满了，但是做兄弟节点没满的话不会直接做分裂，左兄弟会检查做旋转操作来节省开销</li>
+</ul>
+<h3 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h3><p>它这里给每个节点设置最少也有有一半的数据，如果低于了一半那就需要做节点的合并，具体的合并规则这里不展开说了</p>
+<h2 id="B-树索引"><a href="#B-树索引" class="headerlink" title="B+树索引"></a>B+树索引</h2><h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><ul>
+<li>首先聚簇索引是指行数据会存储在B+树的叶子结点上，非聚簇索引的叶子节点上存储的上聚簇索引的索引数据也就是主键</li>
+<li>InnoDB的表数据就是通过一颗主键聚簇索引进行存储的</li>
+<li>聚簇索引在磁盘上存储的时候是逻辑上连续的，由于叶子结点通过双向链表进行了连接，物理页不要求完全连续（会多出寻址时间）</li>
+</ul>
+<h3 id="辅助索引"><a href="#辅助索引" class="headerlink" title="辅助索引"></a>辅助索引</h3><p>也就是非聚簇索引</p>
+<ul>
+<li>如果查询的数据在辅助索引上没有那就需要去聚簇索引上查询，叫做回表</li>
+</ul>
+<h3 id="B-树索引的分裂"><a href="#B-树索引的分裂" class="headerlink" title="B+树索引的分裂"></a>B+树索引的分裂</h3><p>B+树索引的分裂并不总是从页中间开始，会做一些优化来决定是向左还是向右分裂</p>
+<h3 id="B-树索引的管理"><a href="#B-树索引的管理" class="headerlink" title="B+树索引的管理"></a>B+树索引的管理</h3><ul>
+<li>创建和删除的语句这里就不列举了</li>
+<li>查看索引信息时有一个参数比较重要，cardinality可以叫做基数，这个数越大索引能发挥更好的性能，这个值是预估出来的不完全准确，可以通过analyze table来主动的让InnoDB对基数进行重新统计</li>
+</ul>
+<h3 id="索引创建-amp-删除的方法"><a href="#索引创建-amp-删除的方法" class="headerlink" title="索引创建&amp;删除的方法"></a>索引创建&amp;删除的方法</h3><p>5.5之前使用的方法：</p>
+<ul>
+<li>创建一张临时表</li>
+<li>把原表数据导入到临时表中</li>
+<li>删除原表、重命名临时表</li>
+</ul>
+<h4 id="Fast-Index-Creation"><a href="#Fast-Index-Creation" class="headerlink" title="Fast Index Creation"></a>Fast Index Creation</h4><p>InnoDB 1.0开始支持Fast index creation，对于辅助索引的创建，中表上面加一个S锁，创建的过程中不需要重新建表，速度和可用性都提高了很多</p>
+<p>弊端是表加了S锁之后只读，对于写入的事务不能处理，只限定与辅助索引</p>
+<h4 id="online-schema-change"><a href="#online-schema-change" class="headerlink" title="online schema change"></a>online schema change</h4><p>FB发明的，后来被官方集成了，大致方法也没读懂，创建一个新表进行alter table操作，将数据导入新表，创建一个detail表用来记录导入过程中发生的数据修改，最后将detail表中的数据通过日志刷新到新表，删除原表、重命名新表</p>
+<h4 id="online-DDL"><a href="#online-DDL" class="headerlink" title="online DDL"></a>online DDL</h4><p>mysql 5.6版本开始支持，允许辅助索引创建的同时进行DML的操作，一下几类DDL支持在线方式：</p>
+<ul>
+<li>辅助索引的创建和删除</li>
+<li>改变自增长值</li>
+<li>添加或删除外键约束</li>
+<li>列的重命名<br>实现原理是，在DDL过程中发生的DML操作写入到缓存中，等DDL完成后将缓冲写入表</li>
+</ul>
+<h2 id="Cardinality值"><a href="#Cardinality值" class="headerlink" title="Cardinality值"></a>Cardinality值</h2><p>基数、选择性</p>
+<h3 id="Cardinality统计"><a href="#Cardinality统计" class="headerlink" title="Cardinality统计"></a>Cardinality统计</h3><p>一直进行统计的话太消耗资源了，触发统计的策略：</p>
+<ul>
+<li>表中1/16的数据已经发生过变化</li>
+<li>数据修改次数超过20e</li>
+<li>执行analyze table、show table status、show index以及访问information_schema架构下tables和statistics表时<br>统计方法：对8个叶子节点进行采样分析（如果数据总量不超过8个叶子结点那统计出来的就是精确值）</li>
+</ul>
+<h2 id="B-树索引的使用"><a href="#B-树索引的使用" class="headerlink" title="B+树索引的使用"></a>B+树索引的使用</h2><p>OLTP应用：对数据进行访问，使用索引是很不错的<br>OLAP应用：对数据进行规模化统计，索引只适合在表关联查询的时候以及时间字段（经常会从时间维度进行统计）</p>
+<h3 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h3><p>和普通索引的结构是一样的，只是索引列是多个<br><img src="https://github.com/fireflyso/Img/blob/master/markdown/1061617952424.jpg?raw=true" alt="image"></p>
+<h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><p>mysql5.0以上才支持，由于辅助索引上能拿到所需的信息就不要再做回表操作了</p>
+<h3 id="优化器选择不使用索引的情况"><a href="#优化器选择不使用索引的情况" class="headerlink" title="优化器选择不使用索引的情况"></a>优化器选择不使用索引的情况</h3><ul>
+<li>访问数据两超过总体的20%时会直接做表扫描（聚簇索引），可以强制指定使用索引</li>
+</ul>
+<h3 id="索引提示"><a href="#索引提示" class="headerlink" title="索引提示"></a>索引提示</h3><ul>
+<li><code>select * from table use index(index_a) where a=1 and b=2</code>建议优化器使用索引index_a至于优化器听不听那就不好说了</li>
+<li><code>select * from table force index(index_a) where a=1 and b=2</code>强制制定优化器使用索引index_a</li>
+</ul>
+<h3 id="muliti-range-read优化"><a href="#muliti-range-read优化" class="headerlink" title="muliti-range read优化"></a>muliti-range read优化</h3><p>MySQL 5.6开始支持，目的是减少磁盘随机访问的次数，原理是通过辅助索引进行批量查询时，将从辅助索引上拿到的主键值进行排序再去组建索引上进行查找</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/InnoDB-%E7%B4%A2%E5%BC%95/">http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/InnoDB-%E7%B4%A2%E5%BC%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><a class="post-meta__tags" href="/tags/InnoDB/">InnoDB</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/InnoDB-%E6%96%87%E4%BB%B6/" title="InnoDB -- InnoDB-文件"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">InnoDB -- InnoDB-文件</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/clickhouse/%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" title="clickhouse -- 一、安装与配置"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">clickhouse -- 一、安装与配置</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/InnoDB-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" title="InnoDB -- InnoDB-存储引擎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">InnoDB -- InnoDB-存储引擎</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/InnoDB-%E6%96%87%E4%BB%B6/" title="InnoDB -- InnoDB-文件"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">InnoDB -- InnoDB-文件</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/InnoDB-%E8%A1%A8/" title="InnoDB -- InnoDB-表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">InnoDB -- InnoDB-表</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/" title="数据持久化 -- 事务原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 事务原理</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E5%89%8D%E8%BD%A6%E4%B9%8B%E8%A6%86/" title="数据持久化 -- 前车之覆"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 前车之覆</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3/" title="数据持久化 -- 字段类型详解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">数据持久化 -- 字段类型详解</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E4%B8%8E%E7%AE%97%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">索引与算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E7%B4%A2%E5%BC%95%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">存储索引概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">数据结构和算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="toc-number">1.2.1.</span> <span class="toc-text">二分查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91%E5%92%8C%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.2.2.</span> <span class="toc-text">二叉查找树和平衡二叉树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B-%E6%A0%91"><span class="toc-number">1.3.</span> <span class="toc-text">B+树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.1.</span> <span class="toc-text">插入操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.2.</span> <span class="toc-text">删除操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B-%E6%A0%91%E7%B4%A2%E5%BC%95"><span class="toc-number">1.4.</span> <span class="toc-text">B+树索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="toc-number">1.4.1.</span> <span class="toc-text">聚簇索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%85%E5%8A%A9%E7%B4%A2%E5%BC%95"><span class="toc-number">1.4.2.</span> <span class="toc-text">辅助索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E6%A0%91%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%86%E8%A3%82"><span class="toc-number">1.4.3.</span> <span class="toc-text">B+树索引的分裂</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E6%A0%91%E7%B4%A2%E5%BC%95%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-number">1.4.4.</span> <span class="toc-text">B+树索引的管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%9B%E5%BB%BA-amp-%E5%88%A0%E9%99%A4%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.5.</span> <span class="toc-text">索引创建&amp;删除的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Fast-Index-Creation"><span class="toc-number">1.4.5.1.</span> <span class="toc-text">Fast Index Creation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#online-schema-change"><span class="toc-number">1.4.5.2.</span> <span class="toc-text">online schema change</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#online-DDL"><span class="toc-number">1.4.5.3.</span> <span class="toc-text">online DDL</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cardinality%E5%80%BC"><span class="toc-number">1.5.</span> <span class="toc-text">Cardinality值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cardinality%E7%BB%9F%E8%AE%A1"><span class="toc-number">1.5.1.</span> <span class="toc-text">Cardinality统计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B-%E6%A0%91%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.6.</span> <span class="toc-text">B+树索引的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95"><span class="toc-number">1.6.1.</span> <span class="toc-text">联合索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95"><span class="toc-number">1.6.2.</span> <span class="toc-text">覆盖索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E5%99%A8%E9%80%89%E6%8B%A9%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-number">1.6.3.</span> <span class="toc-text">优化器选择不使用索引的情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E6%8F%90%E7%A4%BA"><span class="toc-number">1.6.4.</span> <span class="toc-text">索引提示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#muliti-range-read%E4%BC%98%E5%8C%96"><span class="toc-number">1.6.5.</span> <span class="toc-text">muliti-range read优化</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

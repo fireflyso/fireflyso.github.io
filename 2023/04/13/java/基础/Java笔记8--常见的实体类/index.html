@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>基础 -- Java笔记8--常见的实体类 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Java笔记8–常见的实体类 2016年1月20日 15:01 8    常见的实体类         8.1  系统类 System                 它的重要功能：                     1.访问系统属性：系统属性是系统固有的属性，是在操作系统安装和软件安装后就已存在的属性。                                 两种方法获取系统属性，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础 -- Java笔记8--常见的实体类">
+<meta property="og:url" content="http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B08--%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AE%9E%E4%BD%93%E7%B1%BB/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="Java笔记8–常见的实体类 2016年1月20日 15:01 8    常见的实体类         8.1  系统类 System                 它的重要功能：                     1.访问系统属性：系统属性是系统固有的属性，是在操作系统安装和软件安装后就已存在的属性。                                 两种方法获取系统属性，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:21:48.308Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.754Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B08--%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AE%9E%E4%BD%93%E7%B1%BB/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '基础 -- Java笔记8--常见的实体类',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">基础 -- Java笔记8--常见的实体类</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:21:48.308Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.754Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="基础 -- Java笔记8--常见的实体类"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Java笔记8–常见的实体类</p>
+<p>2016年1月20日</p>
+<p>15:01</p>
+<p>8    常见的实体类</p>
+<p>        8.1  系统类 System</p>
+<p>                它的重要功能：</p>
+<p>                    1.访问系统属性：系统属性是系统固有的属性，是在操作系统安装和软件安装后就已存在的属性。</p>
+<p>                                两种方法获取系统属性，方法一：使用System.getProperties（）函数取得一个Properties对象，该对象包含了所有的系统属性的键值对。</p>
+<p>                                                                      方法二：直接使用System.getProperties（key）来取得对应的属性。如果我们输入的键不存在，则返回一个null。</p>
+<p>                                当我们查询的键不存在时我们可以直接通过System.getProperties(key,value);来给这个键赋值。我们也可以通过System.setProperties(key,value);来设置一个属性。</p>
+<p>                                我们也可以移除一个指定键的系统属性：System.clearProperty(key);    (通常我们只查询而不做修改和删除操作）</p>
+<p>                    2.访问环境变量</p>
+<p>                                环境变量分为两类：系统变量和用户变量</p>
+<p>                                两种访问环境变量的方法：</p>
+<p>                                        方法一：使用System.getenv()函数将取得一个Map对象，该对象包含了所有环境变量的键值对。</p>
+<p>                                        方法二：使用System.getenv(key)直接取得该键的值。</p>
+<p>                    3.加载文件和库</p>
+<p>                    4.快速复制数组</p>
+<p>                            void arraycopy(数组源，源数组中的起始位置，目标数组，目标数组中的起始位置，要复制的数组元素的数量）；</p>
+<p>                            不得不说在这个方法中有很多的冗余的属性，比如，你给的两个数组的类型同，那它们明显是没有办法相互复制的；又比如，让你给数组的形参你偏要给他一个非数组的实参，那它也是没有办法干活的；还比如，让你给位置参数的时候你给个负数，它就崩溃了。</p>
+<p>                    5.取得系统时间</p>
+<p>                            System.currenTimeMillis();该函数返回一个当前系统时间，是一个long类型的数据，精确到毫秒。</p>
+<p>                            当我们想要计算一些代码执行的时间的时候，也可以用上面的函数获得两个时间来计算；此外我们还有一种更为精确的计算方法，System.nanoTime()将返回毫微秒级的精确度。</p>
+<p>                    6.系统推出命令</p>
+<p>                            System.exit(int status)用来终止当前正在运行的java虚拟机，status用做状态码，根据惯例，非0的状态码表示异常终止。</p>
+<p>                            简单的应用方法为，我们在系统不正常运行时在控制台中输入数据，通过输入流转换后被代码块识别，通过预先的设置，完成终止虚拟机运行的目的。</p>
+<p>    </p>
+<p>                    7.执行垃圾回收</p>
+<p>                            System.gc();调用gc（）方法暗示虚拟机做一些努力来对未回收的对象进行回收，这个地方很麻烦，并不是我们调用这个方法后虚拟机就会立即执行回收，但是我们有不能频繁的在一个程序中调用这个方法，因为虚拟机会作出反应，而每一次垃圾回收都会消耗大量的系统资源。只有当我们在短时间内创建了大量的对象，占用了太多的资源时，才合适调用这个函数。</p>
+<p>                                        </p>
+<p>            8.2  运行时类 Runtime</p>
+<p>                    其实，上面的System类的许多函数都等价于Runtime.getRuntime,实际上System是依赖于Runtime类的。</p>
+<p>                    Runtime类不同于System类，它的函数大部分都不是静态的，只有一个静态函数getRuntime().没一个java应用程序都有一个Runtime的实例，应用程序不能创建自己的Runtime类实例。</p>
+<p>                    1.查看系统内存(查看当前运行的虚拟机）</p>
+<p>                            long freeMemory();        空闲内存量</p>
+<p>                            long maxMemory();        虚拟机试图使用的最大内存量</p>
+<p>                            long totalMemory();        内存总量</p>
+<p>                    2.终止虚拟机</p>
+<p>                            Runtime.getRuntime().exit(n);</p>
+<p>                            Runtime.getRuntime().halt(int status);   强行终止当前正在运行的java虚拟机；与上一个方法不同的地方是，这个方法属于是强制性的不安全的，不管其他因素的终止，只在迫不得已的情况下使用。</p>
+<p>                    3.运行系统程序</p>
+<p>                            Runtime.getRuntime().exec(“notepad”);    打开记事本</p>
+<p>                    4.关闭钩子（没明白是干个啥）</p>
+<p>        </p>
+<p>        8.3   java字符串处理类</p>
+<p>                    String字符串类：String字符串是常量，他们的值在创建之后不能更改。</p>
+<p>                            String的方法：</p>
+<p>                                    1.提取单个字符串：    char charAt( int index);        //index从0开始，放回指定索引处的char值</p>
+<p>                                    2.提取子字符串：    String substring(int beginIndex);    String substring(int beginIndex, int endIndex);        //注意endIndex不能越界</p>
+<p>                                    3.比较字符串：    boolean equals（Object anObject）；    </p>
+<p>                                                                boolean equalsIgnoreCase(String Str);        //忽略大小写</p>
+<p>                                                                int compareTo(String anotherString);</p>
+<p>                                                                int compareToIgnoreCase(String str);        //按字典大小比较两个字符串的大小，没有明白到底是干啥的</p>
+<p>                                    4.定位字符串</p>
+<p>                                            int indexOf(char c);        //返回c在字符串中的位置，不包含则返回-1，也可以是String字符串</p>
+<p>                                            int lastIndexOf(char c);        //返回c在字符串中最后一次出现的位置</p>
+<p>                                    5.拆分字符串</p>
+<p>                                            String[] split(String regex);        //根据给定的正则表达式的匹配拆分字符串，返回一个字符串数组</p>
+<p>                                    6.替换字符串</p>
+<p>                                            String replace(String oldString,String newString);</p>
+<p>                                    7.转化大小写</p>
+<p>                                            String toLowerCase();</p>
+<p>                                            String toUpperCase();</p>
+<p>                                    8.格式化输出</p>
+<p>                                            str  = String.format(“%1$tY年%1$tm月”,new Date());    //格式化输出时间，这个方法是静态的</p>
+<p>                字符串分隔类StringTokenizer（出于兼容性的原因而被保留的遗留类，不鼓励使用，建议使用split()方法）</p>
+<p>                线程安全的可变字符串类StringBuffer</p>
+<p>                可变的字符串StringBuilder(它与StringBuffer类似，只是不是线程安全的，当我们不需要把字符串用于多线程时，使用它的效率要高于StringBuffer）</p>
+<p>        8.4  java日期处理类</p>
+<p>                日期类Date</p>
+<p>                        日期转换成字符串：String format(Date date);</p>
+<p>                        字符串转换成日常：Date parse(String source);</p>
+<p>                日历类Calender</p>
+<p>                      </p>
+<p>        8.5  数字处理类</p>
+<p>                数学函数类Math</p>
+<p>                        绝对值函数：static int abs(int a);        //也可以是为Double 、float、long取绝对值</p>
+<p>                        最大最小值函数：static int max(int a,int b);</p>
+<p>                                                    static int min(int a,int b);    //也可以是为Double 、float、long比较</p>
+<p>                        取整函数、弦与切函数、幂与开方函数、对数函数、角度函数、随机函数、</p>
+<p>        8.6  随机数类Random</p>
+<p>                                </p>
+<p>         </p>
+<p> </p>
+<p>已使用 Microsoft OneNote 2016 创建。    </p>
+<p> </p>
+<p>已使用 Microsoft OneNote 2016 创建。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B08--%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AE%9E%E4%BD%93%E7%B1%BB/">http://example.com/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B08--%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AE%9E%E4%BD%93%E7%B1%BB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a><a class="post-meta__tags" href="/tags/%E5%9F%BA%E7%A1%80/">基础</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B07--IO%E6%B5%81/" title="基础 -- Java笔记7--IO流"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">基础 -- Java笔记7--IO流</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B09--%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="基础 -- Java笔记9--正则表达式"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">基础 -- Java笔记9--正则表达式</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B01--%E7%B1%BB%E5%8F%8D%E5%B0%84/" title="基础 -- Java笔记1--类反射"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记1--类反射</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B010--XML%E8%A7%A3%E6%9E%90/" title="基础 -- Java笔记10--XML解析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记10--XML解析</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B011--%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="基础 -- Java笔记11--虚拟机"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记11--虚拟机</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B013--%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%B1%BB%E6%96%87%E4%BB%B6/" title="基础 -- Java笔记13--虚拟机之类文件"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记13--虚拟机之类文件</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B02--%E6%95%85%E4%BA%8B%E6%B1%87/" title="基础 -- Java笔记2--故事汇"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记2--故事汇</div></div></a></div><div><a href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B03--.class%E6%96%87%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B/" title="基础 -- Java笔记3--.class文件的流程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">基础 -- Java笔记3--.class文件的流程</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">南山山</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fireflyso"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B02--%E6%95%85%E4%BA%8B%E6%B1%87/" title="基础 -- Java笔记2--故事汇">基础 -- Java笔记2--故事汇</a><time datetime="2023-04-13T03:21:48.789Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B03--.class%E6%96%87%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8B/" title="基础 -- Java笔记3--.class文件的流程">基础 -- Java笔记3--.class文件的流程</a><time datetime="2023-04-13T03:21:48.706Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B05--%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="基础 -- Java笔记5--多线程">基础 -- Java笔记5--多线程</a><time datetime="2023-04-13T03:21:48.622Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B06--%E5%86%85%E5%B5%8C%E7%B1%BB/" title="基础 -- Java笔记6--内嵌类">基础 -- Java笔记6--内嵌类</a><time datetime="2023-04-13T03:21:48.515Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/java/%E5%9F%BA%E7%A1%80/Java%E7%AC%94%E8%AE%B07--IO%E6%B5%81/" title="基础 -- Java笔记7--IO流">基础 -- Java笔记7--IO流</a><time datetime="2023-04-13T03:21:48.393Z" title="发表于 2023-04-13 11:21:48">2023-04-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

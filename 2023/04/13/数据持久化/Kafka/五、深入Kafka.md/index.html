@@ -1,0 +1,299 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Kafka -- 五、深入Kafka | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[toc] 深入Kafka这里主要讨论以下三个话题  Kafka如何进行复制 Kafka如何处理来自生产者和消费者的请求 Kafka的存储细节（文件&amp;索引等）  集群成员关系 Kafka使用zookeeper来维护集群成员信息 每个broker都有一个唯一ID，不能冲突，broker启动的时候会在zookeeper中创建一个临时节点信息，卡夫卡组件订阅zookeeper来获取broker的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka -- 五、深入Kafka">
+<meta property="og:url" content="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E4%BA%94%E3%80%81%E6%B7%B1%E5%85%A5Kafka.md/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="[toc] 深入Kafka这里主要讨论以下三个话题  Kafka如何进行复制 Kafka如何处理来自生产者和消费者的请求 Kafka的存储细节（文件&amp;索引等）  集群成员关系 Kafka使用zookeeper来维护集群成员信息 每个broker都有一个唯一ID，不能冲突，broker启动的时候会在zookeeper中创建一个临时节点信息，卡夫卡组件订阅zookeeper来获取broker的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:20:48.055Z">
+<meta property="article:modified_time" content="2023-04-13T09:58:45.879Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="数据持久化">
+<meta property="article:tag" content="Kafka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E4%BA%94%E3%80%81%E6%B7%B1%E5%85%A5Kafka.md/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Kafka -- 五、深入Kafka',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-13 17:58:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Kafka -- 五、深入Kafka</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:48.055Z" title="发表于 2023-04-13 11:20:48">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T09:58:45.879Z" title="更新于 2023-04-13 17:58:45">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/">Kafka</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Kafka -- 五、深入Kafka"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[toc]</p>
+<h1 id="深入Kafka"><a href="#深入Kafka" class="headerlink" title="深入Kafka"></a>深入Kafka</h1><p>这里主要讨论以下三个话题</p>
+<ul>
+<li>Kafka如何进行复制</li>
+<li>Kafka如何处理来自生产者和消费者的请求</li>
+<li>Kafka的存储细节（文件&amp;索引等）</li>
+</ul>
+<h2 id="集群成员关系"><a href="#集群成员关系" class="headerlink" title="集群成员关系"></a>集群成员关系</h2><ul>
+<li>Kafka使用zookeeper来维护集群成员信息</li>
+<li>每个broker都有一个唯一ID，不能冲突，broker启动的时候会在zookeeper中创建一个临时节点信息，卡夫卡组件订阅zookeeper来获取broker的状态信息</li>
+<li>broker停机或者其他异常时，其启动时在zookeeper上创建的临时节点信息会消失，组件也就会被告知该broker被移除</li>
+<li>另外如果是正常关闭了broker，那么它的ID还会在别的地方进行存储，如果这个时候再用这个ID去启动一个全新的broker，那它会拥有旧broker的分区和主题</li>
+</ul>
+<h2 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h2><ul>
+<li>控制器是第一个加入集群的broker，相比普通成员它会额外负责首领的选举</li>
+<li>第一个broker加入集群时在zookeeper中创建临时节点并把自己注册为控制器，之后的节点进来发现有控制器了就不会再注册控制器，如果控制器关闭了，那它对应的临时节点消失，其余的成员会收到通知，第一个尝试注册的broker会成为新的控制器</li>
+<li>当控制器发现一个broker离开集群的时候，会为对应的分区（以这个broker为首领的分区）选取新的首领，选取策略很简单，遍历分区副本列表的下一个副本</li>
+<li>当控制器发现一个broker加入集群的时候，通过ID判断broker是否包含现有分区的副本，如果有发送通知给这个broker让它从对应的首领那里复制消息</li>
+</ul>
+<h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><p>Kafka使用主题来组织数据，主题被分为若干个分区，每个分区有多个副本，本质上是为了达成分布式性能扩展和高可用</p>
+<ul>
+<li><p>首领副本：为了保证一致性，所有生产者和消费者请求都由首领进行处理（没有读写分离策略）</p>
+</li>
+<li><p>跟随者副本：就是备份，从首领复制消息</p>
+</li>
+<li><p>跟随者为了同步数据发起的请求和消费者请求是一样的，跟随者发送请求消息1、2、3，在收到这三个请求响应前不会再发送请求，如果跟随者发送了请求4那么首领就知道这个跟随者已经收到了前三个请求的响应，以此首领便知道了跟随者的同步进度</p>
+</li>
+<li><p>如果一个跟随者10s内没有发起请求或者请求的数据不是最新的，这个跟随者被标记为不同步，失去被选举为首领的资格</p>
+</li>
+<li><p>除了当前首领，还有一个首选首领，反正就是高级备胎（还有一个配置可以让这个备胎直接转正，当然前提是没被标记为不同步）</p>
+</li>
+</ul>
+<h2 id="处理请求"><a href="#处理请求" class="headerlink" title="处理请求"></a>处理请求</h2><p>Kafka使用一个基于TCP的二进制协议，指定了请求消息的格式已经broker如何对请求作出响应</p>
+<ul>
+<li><p>broker会运行一个acceptor线程监听端口，会创建一个连接从客户端获取请求消息，并放入请求队列</p>
+</li>
+<li><p>IO线程负责处理请求队列，通常请求有两种类型</p>
+<ul>
+<li><p>生产请求：生产者发送的写入请求</p>
+</li>
+<li><p>获取请求：消费者发送和跟随者副本发送的读请求</p>
+<p><img src="https://gitee.com/liuxulu/img/raw/master/md_img/16387901463811638790146296.png"></p>
+</li>
+</ul>
+</li>
+<li><p>之前讲过，只有首领才能处理请求，如何保证向首领发起请求：</p>
+<ul>
+<li>Kafka客户端通过一个元数据缓存（类似路由表）来确定该往哪个broker发起请求，这个缓存是会定时更新的</li>
+<li>当然也可能在更新之前首领已经发生了变更，请求被发送到一个错误的broker，这个时候会得到一个‘非分区首领’的错误响应，这个时候客户端会先刷新缓存再重试请求</li>
+</ul>
+<p><img src="https://gitee.com/liuxulu/img/raw/master/md_img/16387901908301638790190813.png"></p>
+</li>
+</ul>
+<h3 id="生产请求"><a href="#生产请求" class="headerlink" title="生产请求"></a>生产请求</h3><p>之前说过生产请求可以设定acks（0、1、all），来定义消息写入成功策略，首领收到生产请求时会做一些验证</p>
+<ul>
+<li>权限校验</li>
+<li>acks值合法判断</li>
+<li>如果acks为all，是否有足够多的副本保证消息的安全写入（什么意思呢，我们可以通过另一个配置来指定副本数量，如果不满足broker可以拒绝处理新消息）</li>
+</ul>
+<p>之后消息会被写入本地磁盘，对Linux系统来说会写到文件系统缓存，并不保证合适被刷新到磁盘（mysql也有类似机制，原因是文件系统缓存只有在操作系统挂了才会丢失）</p>
+<p>当消息被写入首领分区后，会根据acks来决定何时响应，0、1会立即响应，all会等到别的副本复制完成再响应</p>
+<h3 id="获取请求"><a href="#获取请求" class="headerlink" title="获取请求"></a>获取请求</h3><p>流程和生产请求很接近</p>
+<ul>
+<li><p>验证主题分区已经偏移量是否存在，已经读取权限</p>
+</li>
+<li><p>客户端指定broker最多可以从一个分区里返回多少数据，避免大量数据耗尽客户端分配的内存</p>
+</li>
+<li><p>同样客户端还可以指定数据返回的下限，这样通过消息累积来减少发送次数（当然还有超时策略，避免一直不响应）</p>
+<p><img src="https://gitee.com/liuxulu/img/raw/master/md_img/16387910606451638791060635.png"></p>
+</li>
+<li><p>另外不是所有数据都可以被消费，必须被足够多的副本复制的消息才认为是安全的才可以被消费，从而避免消费端的不一致（a消费了，首领崩了新的首领上没有这个数据，b无法消费到这个数据）        <img src="https://gitee.com/liuxulu/img/raw/master/md_img/16387912194471638791219436.png"></p>
+</li>
+</ul>
+<h3 id="其他请求"><a href="#其他请求" class="headerlink" title="其他请求"></a>其他请求</h3><p>还有一些broker内部使用的请求，这里不展开</p>
+<h2 id="物理存储"><a href="#物理存储" class="headerlink" title="物理存储"></a>物理存储</h2><p>Kafka的基本存储单元是分区，分区无法在broker上再细分，也无法在一个broker的多个磁盘上再细分</p>
+<h3 id="分区分配"><a href="#分区分配" class="headerlink" title="分区分配"></a>分区分配</h3><p>考虑一个场景，6个broker，主题下有10个分区，复制系数为3，该如何进行分配，需要满足一下的几个条件</p>
+<ul>
+<li>分区在broker见平均分配，也就是每个broker分到5个副本</li>
+<li>确保每个副本分布在不同的broker上</li>
+<li>如果broker指定了机架信息，尽可能把分区的副本分配到不同的机架上</li>
+</ul>
+<p>实现方式：</p>
+<ul>
+<li>随机选一个broker比如4，用轮询的方式给每个broker分配分区来确定首领分区位置，也就是0分区的首领为4，1分区的首领为5，2分区的首领为1</li>
+<li>轮询的方式来分配副本，0分区的第一个跟随者副本在5，第二个跟随者副本在1</li>
+<li>如果配置了机架信息，那就不是按照数字来轮询broker，而是按照交替机架的方式来选择broker</li>
+<li>磁盘空间问题，broker的分区分配不会去考虑不同broker之间磁盘可用空间的问题，后续会介绍相关策略</li>
+</ul>
+<h3 id="文件管理"><a href="#文件管理" class="headerlink" title="文件管理"></a>文件管理</h3><p>保留数据上Kafka的一个基本特征，其实之前就介绍过Kafka的数据过期策略</p>
+<ul>
+<li>把分区分为若干个片段，默认每个片段包含1G或者一周的数据</li>
+<li>正在被写入的片段叫做活跃片段，活跃片段永远不会被删除</li>
+<li>带来的问题上消息的过期时间可能会和预期相差较大</li>
+</ul>
+<h3 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h3><p>Kafka把消息和偏移量保存在文件里，保存的数据格式与从生产者发送过来或者发送给消费者的消息格式是一样的，使用了相同的消息格式进行磁盘存储和网络传输，所以Kafka可以使用零复制技术给消费者发送消息，不同加载到缓存（不知道怎么实现的），同时也避免了broker对数据进行解压缩和再压缩</p>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>消费者可以从Kafka的任意可用偏移量位置开始读取消息，是因为Kafka为每个分区维护了一个索引，把偏移量映射到片段文件和在文件里的位置</p>
+<p>索引也被分成片段，Kafka不维护索引的校验和，出现损坏是会重新生成索引，所以删除索引是安全的</p>
+<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><p>Kafka有一个策略，可以让key只保留最新的消息，比如生产者不断的往key里面set 1、2、3，这个key只会保留最后一个值（不是很理解，其实大多数场景下，过程数据也有意义）</p>
+<h3 id="被删除的事件"><a href="#被删除的事件" class="headerlink" title="被删除的事件"></a>被删除的事件</h3><p>这又是一个特定场景：当一个生产者将离开系统时，我们希望清理Kafka和数据库中的对应数据，这个时候可以给Kafka对应的key发送一个值为null的消息，之前的值会被清理，这个消息被称为墓碑消息，会保留一段时间（可以配置），这个时候消费者发现这个null就可以去做数据库清理（需要自行确保消费者不会离线导致错过墓碑消息，墓碑消息最终会被Kafka清理）</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">南山山</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E4%BA%94%E3%80%81%E6%B7%B1%E5%85%A5Kafka.md/">http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E4%BA%94%E3%80%81%E6%B7%B1%E5%85%A5Kafka.md/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">南山山</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><a class="post-meta__tags" href="/tags/Kafka/">Kafka</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E5%9B%9B%E3%80%81%E6%B6%88%E8%B4%B9%E8%80%85/" title="Kafka -- 四、消费者"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Kafka -- 四、消费者</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E5%85%AD%E3%80%81%E5%8F%AF%E9%9D%A0%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/" title="Kafka -- 六、可靠的数据传递"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Kafka -- 六、可靠的数据传递</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E4%B8%80%E3%80%81%E5%88%9D%E8%AF%86Kafka/" title="Kafka -- 一、初识Kafka"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">Kafka -- 一、初识Kafka</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E4%B8%89%E3%80%81%E7%94%9F%E4%BA%A7%E8%80%85/" title="Kafka -- 三、生产者"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">Kafka -- 三、生产者</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E4%B8%AA%E4%BA%BA%E5%AE%9E%E8%B7%B5-%E5%AE%89%E8%A3%85%E5%92%8C%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D/" title="Kafka -- 个人实践-安装和基础介绍"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">Kafka -- 个人实践-安装和基础介绍</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E4%BA%8C%E3%80%81Kafka%E7%9A%84%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E/" title="Kafka -- 二、Kafka的配置说明"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">Kafka -- 二、Kafka的配置说明</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E5%85%AD%E3%80%81%E5%8F%AF%E9%9D%A0%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/" title="Kafka -- 六、可靠的数据传递"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">Kafka -- 六、可靠的数据传递</div></div></a></div><div><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/%E5%9B%9B%E3%80%81%E6%B6%88%E8%B4%B9%E8%80%85/" title="Kafka -- 四、消费者"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">Kafka -- 四、消费者</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B7%B1%E5%85%A5Kafka"><span class="toc-number">1.</span> <span class="toc-text">深入Kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E6%88%90%E5%91%98%E5%85%B3%E7%B3%BB"><span class="toc-number">1.1.</span> <span class="toc-text">集群成员关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">控制器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6"><span class="toc-number">1.3.</span> <span class="toc-text">复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82"><span class="toc-number">1.4.</span> <span class="toc-text">处理请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%AF%B7%E6%B1%82"><span class="toc-number">1.4.1.</span> <span class="toc-text">生产请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82"><span class="toc-number">1.4.2.</span> <span class="toc-text">获取请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%AF%B7%E6%B1%82"><span class="toc-number">1.4.3.</span> <span class="toc-text">其他请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%AD%98%E5%82%A8"><span class="toc-number">1.5.</span> <span class="toc-text">物理存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D"><span class="toc-number">1.5.1.</span> <span class="toc-text">分区分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-number">1.5.2.</span> <span class="toc-text">文件管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.5.3.</span> <span class="toc-text">文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">1.5.4.</span> <span class="toc-text">索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E7%90%86"><span class="toc-number">1.5.5.</span> <span class="toc-text">清理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A2%AB%E5%88%A0%E9%99%A4%E7%9A%84%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.5.6.</span> <span class="toc-text">被删除的事件</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
