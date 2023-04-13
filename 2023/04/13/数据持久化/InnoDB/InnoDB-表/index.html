@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
 <meta property="article:published_time" content="2023-04-13T03:20:54.049Z">
-<meta property="article:modified_time" content="2023-04-13T13:19:31.620Z">
+<meta property="article:modified_time" content="2023-04-13T13:24:15.732Z">
 <meta property="article:author" content="南山山">
 <meta property="article:tag" content="数据持久化">
 <meta property="article:tag" content="InnoDB">
@@ -58,7 +58,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2023-04-13 21:19:31'
+  postUpdate: '2023-04-13 21:24:15'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -179,14 +179,14 @@ window.addEventListener('load',()=> { preloader.endLoading() })
 if (false) {
   document.addEventListener('pjax:send', () => { preloader.initLoading() })
   document.addEventListener('pjax:complete', () => { preloader.endLoading() })
-}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">InnoDB -- InnoDB-表</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:54.049Z" title="发表于 2023-04-13 11:20:54">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T13:19:31.620Z" title="更新于 2023-04-13 21:19:31">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/">InnoDB</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="InnoDB -- InnoDB-表"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[toc]</p>
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">InnoDB -- InnoDB-表</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:54.049Z" title="发表于 2023-04-13 11:20:54">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T13:24:15.732Z" title="更新于 2023-04-13 21:24:15">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/">InnoDB</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="InnoDB -- InnoDB-表"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[toc]</p>
 <h1 id="表"><a href="#表" class="headerlink" title="表"></a>表</h1><h2 id="组织索引表"><a href="#组织索引表" class="headerlink" title="组织索引表"></a>组织索引表</h2><p>InnoDB中表都是根据主键顺序组织存放的，叫做索引组织表，InnoDB中每张表中都要有一个主键，如果没有显式的创建主键，会自行选择或者创建主键</p>
 <ul>
 <li>判断表中是否存在为空唯一的索引，有就让该列成为主键（多个索引时已第一个符合条件的索引为主键）</li>
 <li>如果没有则自动创建一个6字节大小的指针（==不知道这个自动创建的指针的并发分配是怎么样的==）</li>
 <li>==这里提到了两个键同一起作为主键可以查看一下==</li>
 </ul>
-<h2 id="InnoDB逻辑存储结构"><a href="#InnoDB逻辑存储结构" class="headerlink" title="InnoDB逻辑存储结构"></a>InnoDB逻辑存储结构</h2><p><img src="img/25295.png" alt="image"></p>
+<h2 id="InnoDB逻辑存储结构"><a href="#InnoDB逻辑存储结构" class="headerlink" title="InnoDB逻辑存储结构"></a>InnoDB逻辑存储结构</h2><p><img src="/img/25295.png" alt="image"></p>
 <p>解释一下上面这个图，Tablespace就不说了，Segment（段）就索引的叶子节点，Extent（区）一个段由多个区组成，一个区由多个Page组成，page中存储着Row行数据，下面展开说一下</p>
 <h3 id="Tablespace"><a href="#Tablespace" class="headerlink" title="Tablespace"></a>Tablespace</h3><p>这个东西之前说过了，可以是放到共享的，也可以是每个表独立的，注意每个表独立的时候，其实独立存储的数据是表内行数据、索引和插入缓冲Bitmap页，其他类的数据（回滚undo、插入缓冲索引页、系统事务信息、二次写double write buffer等）还是放到共享空间中的，所以有的情况下共享空间还是会不断的增长</p>
 <h3 id="段-segment"><a href="#段-segment" class="headerlink" title="段 segment"></a>段 segment</h3><p>常见的段有数据段、索引段、回滚段等</p>
@@ -210,7 +210,7 @@ if (false) {
 </ul>
 <h3 id="行"><a href="#行" class="headerlink" title="行"></a>行</h3><p>数据按行进行存储，每个页最多能存放16k/2 - 200行的记录，即7992行数据</p>
 <h2 id="4-3-InnoDB行记录格式"><a href="#4-3-InnoDB行记录格式" class="headerlink" title="4.3 InnoDB行记录格式"></a>4.3 InnoDB行记录格式</h2><p>目前有两种记录格式compact和redundant，redundant是对老版本的兼容，所以可以认为就是使用compact格式</p>
-<h3 id="compact行记录格式"><a href="#compact行记录格式" class="headerlink" title="compact行记录格式"></a>compact行记录格式</h3><p><img src="img/25344.png" alt="image"></p>
+<h3 id="compact行记录格式"><a href="#compact行记录格式" class="headerlink" title="compact行记录格式"></a>compact行记录格式</h3><p><img src="/img/25344.png" alt="image"></p>
 <ul>
 <li>变长字段长度列表（==这里可能有varchar指定长度的误区==）<ul>
 <li>如果列的长度小于255字节，用1字节表示</li>
@@ -222,7 +222,7 @@ if (false) {
 <li>记录投信息，固定占用5字节（40位），记录内容大概是：行是否被删除、改记录拥有的记录数、索引堆中该记录的排序记录、记录类型（普通、B+树节点指针等）、下一条记录的相对位置</li>
 <li>列数据就是用户定义的数据，注意Null不占用该部分的任何空间（实际是占有之前的标志位），另外还有两个隐藏列：事务ID列和回滚指针列分别是6、7字节，如果没有定义主键的话还会有一个6字节的rowid</li>
 </ul>
-<h3 id="redundant行记录格式"><a href="#redundant行记录格式" class="headerlink" title="redundant行记录格式"></a>redundant行记录格式</h3><p><img src="img/25375.png" alt="image"></p>
+<h3 id="redundant行记录格式"><a href="#redundant行记录格式" class="headerlink" title="redundant行记录格式"></a>redundant行记录格式</h3><p><img src="/img/25375.png" alt="image"></p>
 <p>老版本的记录方式了，不进行太详细的解释</p>
 <ul>
 <li>同样的字段长度偏移列表</li>
@@ -239,14 +239,14 @@ if (false) {
 <ul>
 <li>准则是避免一个页只存一条数据，一个页最少要存储两条数据，由于页的大小为16k即16384字节，所以最大不发生溢出存储的varchar长度为8098（还会留出一部分空间存储页的结构信息，后面会讲，这里16384-8098*2 = 188字节）</li>
 <li>对于之前提到的text和BLOB也是一样的如果数据小于8k的话就不会进行溢出存储</li>
-<li>溢出存储时的结构：只存储前768个字节的前缀，剩下的存储到BLOB页中<img src="img/25526.png" alt="image"></li>
+<li>溢出存储时的结构：只存储前768个字节的前缀，剩下的存储到BLOB页中<img src="/img/25526.png" alt="image"></li>
 </ul>
 <h3 id="Compressed和Dynamic行记录格式"><a href="#Compressed和Dynamic行记录格式" class="headerlink" title="Compressed和Dynamic行记录格式"></a>Compressed和Dynamic行记录格式</h3><p>InnoDB 1.0.x之后引入了新的文件格式，之前我们讲到的compact和redundant格式称为Antelope，新的文件格式称为Barracuda（Compressed和Dynamic）</p>
-<p>新的格式会将溢出的数据（BLOB页中的数据）进行完全的溢出存储，数据页中只存储20字节的指针，结构如下<img src="img/25556.png" alt="image"></p>
+<p>新的格式会将溢出的数据（BLOB页中的数据）进行完全的溢出存储，数据页中只存储20字节的指针，结构如下<img src="/img/25556.png" alt="image"></p>
 <p>另外Compressed格式的另一个功能是对行数据进行zlib算法压缩，所以对BLOB、Text、varchar之类的大长度类型存储效率比较好</p>
 <h3 id="Char类型"><a href="#Char类型" class="headerlink" title="Char类型"></a>Char类型</h3><p>之前认为char是定长的，实际从MySQL 4.1版本之后char(n)这里的n也变成了字符长度，同样的问题出现了，如果字段的字符集是多字节（比如GBK、UTF8），这个时候InnoDB存储的时候是采用和varchar一样的机制（会在变长字段长度中记录它的长度）</p>
 <h2 id="页的结构"><a href="#页的结构" class="headerlink" title="页的结构"></a>页的结构</h2><p>这个数据官方没有出说明文档，这是看源码分析出来的，版本变更不一定准确，作为结构探索的产考</p>
-<p>数据页由7个部分组成：<img src="img/25593.png" alt="image"></p>
+<p>数据页由7个部分组成：<img src="/img/25593.png" alt="image"></p>
 <ul>
 <li>File Header 文件头 38 byte</li>
 <li>Page Header 页头  56 byte</li>
@@ -256,14 +256,14 @@ if (false) {
 <li>Page Directory 页目录</li>
 <li>File Trailer 文件结尾信息 8 byte</li>
 </ul>
-<h3 id="file-header"><a href="#file-header" class="headerlink" title="file header"></a>file header</h3><p><img src="img/25598.png" alt="image"></p>
+<h3 id="file-header"><a href="#file-header" class="headerlink" title="file header"></a>file header</h3><p><img src="/img/25598.png" alt="image"></p>
 <p>这里的东西太细不一个个过，主要的作用</p>
 <ul>
 <li>维护页的完整性，通过对比刷新版本号来检查是否存储写入磁盘过程中是否发生过异常</li>
 <li>定位页，双向链表中前后页的指针</li>
 <li>标记表空间</li>
 </ul>
-<h3 id="page-header"><a href="#page-header" class="headerlink" title="page header"></a>page header</h3><p><img src="img/25614.png" alt="image"></p>
+<h3 id="page-header"><a href="#page-header" class="headerlink" title="page header"></a>page header</h3><p><img src="/img/25614.png" alt="image"></p>
 <ul>
 <li>用户数据在页中的记录位置和行数</li>
 <li>维护可用空间指针</li>
@@ -272,11 +272,11 @@ if (false) {
 <li>维护页在索引树中的位置，0x00代表叶节点，即第0层</li>
 <li>记录当前页属于哪个索引</li>
 </ul>
-<h3 id="Infimum和Supremum-Record"><a href="#Infimum和Supremum-Record" class="headerlink" title="Infimum和Supremum Record"></a>Infimum和Supremum Record</h3><p><img src="img/25626.png" alt="image"></p>
+<h3 id="Infimum和Supremum-Record"><a href="#Infimum和Supremum-Record" class="headerlink" title="Infimum和Supremum Record"></a>Infimum和Supremum Record</h3><p><img src="/img/25626.png" alt="image"></p>
 <p>本质就是索引节点的标记数据，对应了最小和最大索引值</p>
 <h3 id="User-Record-和-Free-Space"><a href="#User-Record-和-Free-Space" class="headerlink" title="User Record 和 Free Space"></a>User Record 和 Free Space</h3><p>就是用户的记录（链表）和空闲可用的空间（用链表维护，被删除的空间也会加入到链表中）</p>
 <h3 id="Page-Directory"><a href="#Page-Directory" class="headerlink" title="Page Directory"></a>Page Directory</h3><p>将页中的数据指针（每个指针称为槽）进行存放，这里是一个稀疏目录，一个槽中可能有多个指针，查询将页加载到内存之后，在内存中进行二叉查找，这个过程很快所以一般都忽略掉了</p>
-<h2 id="Named-File-Formats机制"><a href="#Named-File-Formats机制" class="headerlink" title="Named File Formats机制"></a>Named File Formats机制</h2><p>InnoDB会不断的对页的存储格式进行更新，新的文件格式总数包含之前的文件格式，InnoDB已经通过a-z动物名的方式预留了很多的格式名称，以后会挨个进行实现<img src="img/25663.png" alt="image"></p>
+<h2 id="Named-File-Formats机制"><a href="#Named-File-Formats机制" class="headerlink" title="Named File Formats机制"></a>Named File Formats机制</h2><p>InnoDB会不断的对页的存储格式进行更新，新的文件格式总数包含之前的文件格式，InnoDB已经通过a-z动物名的方式预留了很多的格式名称，以后会挨个进行实现<img src="/img/25663.png" alt="image"></p>
 <p>查看方式<code>show VARIABLES like &#39;innodb_file_format&#39;</code></p>
 <h2 id="约束-constraint"><a href="#约束-constraint" class="headerlink" title="约束 constraint"></a>约束 constraint</h2><h3 id="完整性约束"><a href="#完整性约束" class="headerlink" title="完整性约束"></a>完整性约束</h3><p>实现的几种方式：</p>
 <ul>
