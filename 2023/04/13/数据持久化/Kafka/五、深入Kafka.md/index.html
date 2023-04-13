@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
 <meta property="article:published_time" content="2023-04-13T03:20:48.055Z">
-<meta property="article:modified_time" content="2023-04-13T10:37:52.777Z">
+<meta property="article:modified_time" content="2023-04-13T13:19:31.615Z">
 <meta property="article:author" content="南山山">
 <meta property="article:tag" content="数据持久化">
 <meta property="article:tag" content="Kafka">
@@ -58,7 +58,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2023-04-13 18:37:52'
+  postUpdate: '2023-04-13 21:19:31'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -179,7 +179,7 @@ window.addEventListener('load',()=> { preloader.endLoading() })
 if (false) {
   document.addEventListener('pjax:send', () => { preloader.initLoading() })
   document.addEventListener('pjax:complete', () => { preloader.endLoading() })
-}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Kafka -- 五、深入Kafka</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:48.055Z" title="发表于 2023-04-13 11:20:48">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T10:37:52.777Z" title="更新于 2023-04-13 18:37:52">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/">Kafka</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Kafka -- 五、深入Kafka"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[toc]</p>
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Kafka -- 五、深入Kafka</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:48.055Z" title="发表于 2023-04-13 11:20:48">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T13:19:31.615Z" title="更新于 2023-04-13 21:19:31">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/Kafka/">Kafka</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Kafka -- 五、深入Kafka"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[toc]</p>
 <h1 id="深入Kafka"><a href="#深入Kafka" class="headerlink" title="深入Kafka"></a>深入Kafka</h1><p>这里主要讨论以下三个话题</p>
 <ul>
 <li>Kafka如何进行复制</li>
@@ -220,7 +220,7 @@ if (false) {
 <li><p>生产请求：生产者发送的写入请求</p>
 </li>
 <li><p>获取请求：消费者发送和跟随者副本发送的读请求</p>
-<p><img src="https://gitee.com/liuxulu/img/raw/master/md_img/16387901463811638790146296.png"></p>
+<p><img src="img/16387901463811638790146296.png"></p>
 </li>
 </ul>
 </li>
@@ -229,7 +229,7 @@ if (false) {
 <li>Kafka客户端通过一个元数据缓存（类似路由表）来确定该往哪个broker发起请求，这个缓存是会定时更新的</li>
 <li>当然也可能在更新之前首领已经发生了变更，请求被发送到一个错误的broker，这个时候会得到一个‘非分区首领’的错误响应，这个时候客户端会先刷新缓存再重试请求</li>
 </ul>
-<p><img src="https://gitee.com/liuxulu/img/raw/master/md_img/16387901908301638790190813.png"></p>
+<p><img src="img/16387901908301638790190813.png"></p>
 </li>
 </ul>
 <h3 id="生产请求"><a href="#生产请求" class="headerlink" title="生产请求"></a>生产请求</h3><p>之前说过生产请求可以设定acks（0、1、all），来定义消息写入成功策略，首领收到生产请求时会做一些验证</p>
@@ -247,9 +247,9 @@ if (false) {
 <li><p>客户端指定broker最多可以从一个分区里返回多少数据，避免大量数据耗尽客户端分配的内存</p>
 </li>
 <li><p>同样客户端还可以指定数据返回的下限，这样通过消息累积来减少发送次数（当然还有超时策略，避免一直不响应）</p>
-<p><img src="https://gitee.com/liuxulu/img/raw/master/md_img/16387910606451638791060635.png"></p>
+<p><img src="img/16387910606451638791060635.png"></p>
 </li>
-<li><p>另外不是所有数据都可以被消费，必须被足够多的副本复制的消息才认为是安全的才可以被消费，从而避免消费端的不一致（a消费了，首领崩了新的首领上没有这个数据，b无法消费到这个数据）        <img src="https://gitee.com/liuxulu/img/raw/master/md_img/16387912194471638791219436.png"></p>
+<li><p>另外不是所有数据都可以被消费，必须被足够多的副本复制的消息才认为是安全的才可以被消费，从而避免消费端的不一致（a消费了，首领崩了新的首领上没有这个数据，b无法消费到这个数据）        <img src="img/16387912194471638791219436.png"></p>
 </li>
 </ul>
 <h3 id="其他请求"><a href="#其他请求" class="headerlink" title="其他请求"></a>其他请求</h3><p>还有一些broker内部使用的请求，这里不展开</p>

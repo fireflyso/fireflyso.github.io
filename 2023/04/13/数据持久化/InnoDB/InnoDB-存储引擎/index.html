@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
 <meta property="article:published_time" content="2023-04-13T03:20:55.971Z">
-<meta property="article:modified_time" content="2023-04-13T10:37:52.789Z">
+<meta property="article:modified_time" content="2023-04-13T13:19:31.624Z">
 <meta property="article:author" content="南山山">
 <meta property="article:tag" content="数据持久化">
 <meta property="article:tag" content="InnoDB">
@@ -58,7 +58,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2023-04-13 18:37:52'
+  postUpdate: '2023-04-13 21:19:31'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -179,15 +179,15 @@ window.addEventListener('load',()=> { preloader.endLoading() })
 if (false) {
   document.addEventListener('pjax:send', () => { preloader.initLoading() })
   document.addEventListener('pjax:complete', () => { preloader.endLoading() })
-}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">InnoDB -- InnoDB-存储引擎</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:55.971Z" title="发表于 2023-04-13 11:20:55">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T10:37:52.789Z" title="更新于 2023-04-13 18:37:52">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/">InnoDB</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="InnoDB -- InnoDB-存储引擎"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[toc]</p>
-<h1 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h1><h2 id="体系架构"><a href="#体系架构" class="headerlink" title="体系架构"></a>体系架构</h2><p><img src="/img/24417.octet-stream" alt="image"><br>上图为InnoDB存储引擎的架构，下面会对各个模块进行拆解</p>
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">InnoDB -- InnoDB-存储引擎</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:55.971Z" title="发表于 2023-04-13 11:20:55">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T13:19:31.624Z" title="更新于 2023-04-13 21:19:31">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/InnoDB/">InnoDB</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="InnoDB -- InnoDB-存储引擎"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>[toc]</p>
+<h1 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h1><h2 id="体系架构"><a href="#体系架构" class="headerlink" title="体系架构"></a>体系架构</h2><p><img src="img/24417.png" alt="image"><br>上图为InnoDB存储引擎的架构，下面会对各个模块进行拆解</p>
 <h3 id="1-1-后台线程"><a href="#1-1-后台线程" class="headerlink" title="1.1 后台线程"></a>1.1 后台线程</h3><ul>
 <li>master Thread：负责将缓冲池中的数据异步的刷新到磁盘上，维护数据一致性</li>
 <li>IO Thread：进行异步IO管理线程</li>
 <li>Purge Thread：负责对undo页进行回收，在InnoDB1.0版本之前这个工作是放到master线程上进行处理的</li>
 <li>Page Cleaner Thread：负责处理脏页的刷新工作</li>
 </ul>
-<h3 id="1-2-内存"><a href="#1-2-内存" class="headerlink" title="1.2 内存"></a>1.2 内存</h3><p><img src="/img/24420.octet-stream" alt="image"></p>
+<h3 id="1-2-内存"><a href="#1-2-内存" class="headerlink" title="1.2 内存"></a>1.2 内存</h3><p><img src="img/24420.png" alt="image"></p>
 <h4 id="1-2-1-缓冲池"><a href="#1-2-1-缓冲池" class="headerlink" title="1.2.1 缓冲池"></a>1.2.1 缓冲池</h4><ul>
 <li>本质就是一个缓存机制，帮助解决磁盘和CPU之间读写速度差距过大的问题，我们来具体看看InnoDB的缓存机制是怎么样的</li>
 <li>大体的流程是通用的，CPU只面向内存进行读写，数据需要先加载到缓冲池中，如果数据页已经在缓冲池中那就可以直接使用这个叫做缓冲池命中，而缓冲池和磁盘的同步并不是每次页数据发生更改就会进行同步，而是依赖一种叫Checkpoint的机制</li>
@@ -201,7 +201,7 @@ if (false) {
 <li>InnoDB中对LRU进行了一些优化，加入了一个midpoint位置，新读取到的页不是直接放到LRU的首部，而是放在这个midpoint位置，这个策略就是为了避免大量的读取页的时候将之前的热度页全给冲掉了（说的就是那种性能糟糕的查询或者全表查询读取了大量的页），默认情况下这个midpoint是LRU列表长度的3/8处（可以进行设置），InnoDB中将midpoint之后的列表成为old列表，之前的叫new列表，这里就和JVM命名思路相反了，这里的new才是热度数据  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 查看midpoint参数，默认值是37，即37%差不多3/8</span><br><span class="line">show variables like &#x27;innodb_old_blocks_pct&#x27;</span><br><span class="line"># 设置</span><br><span class="line">set global innodb_old_blocks_pct=38</span><br></pre></td></tr></table></figure></li>
 <li>这里还有一个参数叫做innodb_old_blocks_time，表示页被放到mid后多久也就是old列表页中的数据存活多久之后会被放到new中，很有JVM分代的感觉了，具体的设置方法  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 这里书上没有说这个1000的时间单位是什么</span><br><span class="line">set global innodb_old_blocks_time=1000;</span><br></pre></td></tr></table></figure></li>
 <li>页从old部分加入到new的操作叫page made young，设置了innodb_old_blocks_time导致页没有从old部分转移到new的操作叫page not made young  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 通过这个命令可以看到数据库中页的信息以及一段时间内made young的操作次数（得往下拉）</span><br><span class="line">show engine innodb status</span><br></pre></td></tr></table></figure>
-  <img src="/img/24369.octet-stream" alt="image"><br>  这里也简单的介绍一下：<ul>
+  <img src="img/24369.png" alt="image"><br>  这里也简单的介绍一下：<ul>
 <li>Buffer pool size表示共有多少个页x16k（默认每个页是16k）即缓冲池的总大小1.5G</li>
 <li>这里的database pages就是上面图里面的data page，以及下面的old列表，之后还有pages made young的操作次数</li>
 <li>Buffer pool hit rate就是指命中率，低于95%就可能是出现了LRU列表污染问题了</li>
@@ -227,7 +227,7 @@ if (false) {
 <li>缓冲池不够用是，将脏页刷新到磁盘：LRU算法中的会溢出最近最少使用的页，如果溢出的是脏页，需要强制执行CheckPoint将脏页刷新到磁盘（这里是溢出的脏页还是所有脏页）</li>
 <li>重做日志不可用时，刷新脏页：数据库对重做日志是循环的去写入的，当新的日志要去做覆盖的时候，如果被覆盖的日志内容还没有被刷新到磁盘，那必须强制CheckPoint</li>
 </ul>
-<h3 id="2-3-LSN"><a href="#2-3-LSN" class="headerlink" title="2.3 LSN"></a>2.3 LSN</h3><p><img src="/img/24397.octet-stream" alt="image"></p>
+<h3 id="2-3-LSN"><a href="#2-3-LSN" class="headerlink" title="2.3 LSN"></a>2.3 LSN</h3><p><img src="img/24397.png" alt="image"></p>
 <p>通过Log Sequence Number来标记版本，仍然是在show engine innodb status命令中可以看到版本信息</p>
 <h3 id="2-4-CheckPoint的详细机制"><a href="#2-4-CheckPoint的详细机制" class="headerlink" title="2.4 CheckPoint的详细机制"></a>2.4 CheckPoint的详细机制</h3><p>在上面的笔记中就提出了一些问题，CheckPoint到底是全量的将脏页刷新到磁盘还是局部的，这里来详细的说明，CheckPoint在InnoDB中有两种类型：</p>
 <ul>
@@ -283,8 +283,8 @@ if (false) {
 </li>
 <li><p>Change Buffer</p>
 <p>  本质是Insert Buffer的升级版，在Innodb 1.0.x中给update、delete操作也加入了缓存，分为了Insert、delete、purge，delete是将数据标记为删除，而purge是真正将记录删除</p>
-<p>  <img src="/img/24578.octet-stream" alt="image"><br>  这里merged operations里面展示了insert、delete、purge的次数；而下面的discarded operations表示数据</p>
-<h3 id="4-2-两次写"><a href="#4-2-两次写" class="headerlink" title="4.2 两次写"></a>4.2 两次写</h3><p>如果服务器在脏页刷新到磁盘的过程中出现了宕机，对应页的数据会被损坏（），这个时候通过重做日志无法修复（没有完整的页信息，只有操作信息），两次写即是为了解决这个问题<br><img src="/img/24910.octet-stream" alt="image"></p>
+<p>  <img src="img/24578.png" alt="image"><br>  这里merged operations里面展示了insert、delete、purge的次数；而下面的discarded operations表示数据</p>
+<h3 id="4-2-两次写"><a href="#4-2-两次写" class="headerlink" title="4.2 两次写"></a>4.2 两次写</h3><p>如果服务器在脏页刷新到磁盘的过程中出现了宕机，对应页的数据会被损坏（），这个时候通过重做日志无法修复（没有完整的页信息，只有操作信息），两次写即是为了解决这个问题<br><img src="img/24910.png" alt="image"></p>
 </li>
 </ul>
 <p>具体实现是：中内存和磁盘中开辟两个2M的空间作为缓存，先将脏页放到doublewrite buffer中，再刷新到磁盘（1M），注意这个时候由于着1M的空间是连续的顺序写入效率很高，如果发生宕机还可以用doublewrite中的数据进行恢复（内存中别的数据可以通过重做日志进行恢复）</p>
@@ -297,7 +297,7 @@ if (false) {
 <li>页通过该模式访问了N次，N=页中记录*1/16</li>
 </ul>
 </li>
-<li><p>启用后读取和写入速度提升2倍，负责索引的连接操作性能提高5倍<br><img src="/img/24980.octet-stream" alt="image"></p>
+<li><p>启用后读取和写入速度提升2倍，负责索引的连接操作性能提高5倍<br><img src="img/24980.png" alt="image"></p>
 </li>
 <li><p>同样可以通过<code>show engine innidb status</code>来查看AHI的工作情况，这里可以看到目前数据库中AHI的使用不是很好</p>
 <h3 id="4-4-异步IO"><a href="#4-4-异步IO" class="headerlink" title="4.4 异步IO"></a>4.4 异步IO</h3><p>用户需进行数据查询时可能需要扫描磁盘上多个页的数据，这个时候只要发出一个页的IO请求后不必等待响应直接发出下一个IO请求，这就叫做异步IO，一看原理就知道很省时间</p>
