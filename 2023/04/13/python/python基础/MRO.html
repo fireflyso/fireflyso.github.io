@@ -1,0 +1,88 @@
+<hr>
+<p>title: python基础 – MRO<br>categories:</p>
+<ul>
+<li>python</li>
+<li>python基础<br>tags:</li>
+<li>python</li>
+<li>python基础</li>
+</ul>
+<hr>
+<pre><code>class A:
+    def method(self):
+        print(&quot;CommonA&quot;)
+
+
+class B(A):
+    pass
+
+
+class C(A):
+    def method(self):
+        print(&quot;CommonC&quot;)
+
+
+class D(B, C):
+    pass
+
+
+print(&quot;test : {}&quot;.format(D().method()))
+# python2输出
+CommonA
+test : None
+
+# python3输出
+CommonC
+test : None
+
+import inspect
+inspect.getmro(D)
+# python2需要inspect模块
+(&lt;class __main__.D at 0x101ebab48&gt;, &lt;class __main__.B at 0x101ebaa78&gt;, &lt;class __main__.A at 0x101ebaa10&gt;, &lt;class __main__.C at 0x101ebaae0&gt;)
+
+print(D.__mro__)
+# python3输出
+(&lt;class &#39;__main__.D&#39;&gt;, &lt;class &#39;__main__.B&#39;&gt;, &lt;class &#39;__main__.C&#39;&gt;, &lt;class &#39;__main__.A&#39;&gt;, &lt;class &#39;object&#39;&gt;)
+</code></pre>
+<ul>
+<li>python作为一个多继承的语言，方法解析顺序就变得复杂了</li>
+<li>python一共提供过三个版本的MRO<ul>
+<li>第一种MRO：深度遍历，也就是python2输出的结果<code>D-&gt;B-&gt;A-&gt;C-&gt;A</code></li>
+<li>第二种MRO：在第一版的基础上重复出现的类只会保留最后一个<code>D-&gt;B-&gt;C-&gt;A</code>，核心的逻辑是，既然C是A的子类那么C中重写的方法自然优先级应该高于A中的基础方法，也就是子类优先级高于父类</li>
+<li>第三种MRO：第二种MRO思想是对的，但是存在问题，看下面的案例</li>
+</ul>
+</li>
+</ul>
+<pre><code class="python">class X(object):
+    pass
+
+
+class Y(object):
+    pass
+
+
+class A(X, Y):
+    pass
+
+
+class B(Y, X):
+    pass
+
+
+class C(A, B):
+    pass
+
+print(C.__mro__)
+# 输出
+TypeError: Cannot create a consistent method resolution
+order (MRO) for bases X, Y
+</code></pre>
+<ul>
+<li>如果使用第二种MRO<ul>
+<li>对于 A，其搜索顺序为 <code>A-&gt;X-&gt;Y-&gt;object</code></li>
+<li>对于 B，其搜索顺序为 <code>B-&gt;Y-&gt;X-&gt;object</code></li>
+<li>对于 C，其搜索顺序为 <code>C-&gt;A-&gt;B-&gt;X-&gt;Y-&gt;object</code></li>
+<li>对于B和C中对XY的解析顺序出现了冲突，违反了单调性</li>
+</ul>
+</li>
+<li>第三种MRO的算法还挺复杂的，但目前python就是使用第三种MRO，也不用去记，基本还是通过第二种来做大致的判断即可，对于第二种会出现冲突的情况，第三版的MRO会报错</li>
+</ul>

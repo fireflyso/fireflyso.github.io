@@ -1,0 +1,45 @@
+<hr>
+<p>title: python基础 – 访问限制<br>categories:</p>
+<ul>
+<li>python</li>
+<li>python基础<br>tags:</li>
+<li>python</li>
+<li>python基础</li>
+</ul>
+<hr>
+<pre><code>
+class Student:
+    # 类属性
+    __count = 0
+
+    def __init__(self, name) -&gt; None:
+        # 实例属性
+        self.name = name
+        Student.__count += 1
+        self.__age = 100
+        self._score = 1000
+
+
+s1 = Student(&#39;haha&#39;)
+print(s1._score)    # 1000
+# print(s1.__age)     # AttributeError: &#39;Student&#39; object has no attribute &#39;__age&#39;
+print(dir(s1))      # [&#39;_Student__age&#39;, &#39;_Student__count&#39;, &#39;__class__&#39;, ... &#39;name&#39;]
+print(&#39;age : {}, count: {}&#39;.format(s1._Student__age, s1._Student__count))   # age : 100, count: 1
+
+for i in range(5):
+    s = Student(i)
+    print(&#39;name : {}, count : {}&#39;.format(s.name, s._Student__count))
+
+# 打印结果
+name : 0, count : 2
+name : 1, count : 3
+name : 2, count : 4
+name : 3, count : 5
+name : 4, count : 6
+</code></pre>
+<ul>
+<li>python并不像Java那样有明确的public、private之类的关键字来对属性做访问限制，但也有一套自己的实现</li>
+<li>_score,一个下划线开头是可以被访问到的，这个是开发者约定俗成的私有变量，不推荐去使用，但没有做语法保护</li>
+<li>__age和__count，这两个属性是不能被直接访问到的，但是通过dir可以看到实际是生成了对应的_Student__age和_Student__count，所以硬要访问也可以通过这样的方式实现</li>
+<li>私有变量只要通过set和get来进行安全的访问即可</li>
+</ul>

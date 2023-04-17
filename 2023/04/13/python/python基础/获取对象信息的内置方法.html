@@ -1,0 +1,123 @@
+<hr>
+<p>title: python基础 – 获取对象信息的内置方法<br>categories:</p>
+<ul>
+<li>python</li>
+<li>python基础<br>tags:</li>
+<li>python</li>
+<li>python基础</li>
+</ul>
+<hr>
+<h1 id="issubclass"><a href="#issubclass" class="headerlink" title="issubclass"></a>issubclass</h1><pre><code class="python">class A(object):
+    pass
+
+
+class B(object):
+    pass
+
+
+class C(object):
+    pass
+
+
+class D(A):
+    pass
+
+
+print(issubclass(D, A))  # True
+print(issubclass(D, B))  # False
+
+print(issubclass(D, (B, A, C)))  # True
+print(issubclass(D, (B, C)))  # False
+
+print(issubclass(bool, int))  # True
+print(issubclass(bool, str))  # False
+
+print(issubclass(bool, (str, int, dict)))  # True
+print(issubclass(bool, (str, list, dict)))  # False
+
+print(isinstance(D(), D))  # True
+print(isinstance(D(), A))  # True
+
+print(isinstance(D(), (D, B, C)))  # True
+print(isinstance(D(), (B, A, C)))  # True
+</code></pre>
+<ul>
+<li>issubclass用于判断是否是子类</li>
+<li>第一个参数是类对象，第二个参数是类对象或者元组，如果第二个参数是元组的时候，第一个类对象如果是元组中任意一个元素的子类的时候就会返回True</li>
+<li>isinstance方法于上面类似</li>
+</ul>
+<h1 id="type"><a href="#type" class="headerlink" title="type"></a>type</h1><pre><code class="python">class MyClass(object):
+    pass
+
+
+mc = MyClass()
+
+print(type(mc))  # &lt;class &#39;__main__.MyClass&#39;&gt;
+
+print(type(18))  # &lt;class &#39;int&#39;&gt;
+
+print(type(&#39;abc&#39;))  # &lt;class &#39;str&#39;&gt;
+
+print(type(MyClass))  # &lt;class &#39;type&#39;&gt;
+
+print(type(int))  # &lt;class &#39;type&#39;&gt;
+
+print(type(str))  # &lt;class &#39;type&#39;&gt;
+
+
+def do_sth():
+    pass
+
+
+print(type(do_sth))  # &lt;class &#39;function&#39;&gt;
+
+print(type(print))  # &lt;class &#39;builtin_function_or_method&#39;&gt;
+
+print(type(18) == int)  # True
+print(type(&#39;abc&#39;) == str)  # True
+
+# print(type(do_sth) == function)
+# print(type(print) == builtin_function_or_method)
+# 不能直接判断，这两个类型中types里面有定义
+
+import types
+
+print(type(do_sth) == types.FunctionType)  # True
+print(type(print) == types.BuiltinFunctionType)  # True
+</code></pre>
+<ul>
+<li>type用来查看对象类型</li>
+<li>类对象的类型是type，也就是说类对象是type的一个实例</li>
+<li>自定义方法的类型是FunctionType</li>
+<li>内置方法的类型是BuiltinFunctionType</li>
+</ul>
+<h1 id="dir"><a href="#dir" class="headerlink" title="dir"></a>dir</h1><pre><code>
+class MyClass(object):
+    ca = &quot;ca&quot;
+
+    def __init__(self):
+        self.ia = &quot;ia&quot;
+
+    def im(self):
+        pass
+
+    @classmethod
+    def cm(cls):
+        pass
+
+    @staticmethod
+    def sm():
+        pass
+
+print(dir(MyClass))
+# 输出
+[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39; ... &#39;ca&#39;, &#39;cm&#39;, &#39;im&#39;, &#39;sm&#39;]
+
+print(dir(MyClass()))
+# 输出
+[&#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39; ... &#39;ca&#39;, &#39;cm&#39;, &#39;ia&#39;, &#39;im&#39;, &#39;sm&#39;]
+</code></pre>
+<ul>
+<li>dir可以获取到类对象或者实例对象可访问到的方法和属性（包括父类资源）的列表</li>
+<li>==类对象中不能查看到实例属性，但能看到实例方法，这是为什么呢==</li>
+</ul>

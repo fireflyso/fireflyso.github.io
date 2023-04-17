@@ -1,0 +1,27 @@
+<hr>
+<p>title: python基础 – 工作目录<br>categories:</p>
+<ul>
+<li>python</li>
+<li>python基础<br>tags:</li>
+<li>python</li>
+<li>python基础</li>
+</ul>
+<hr>
+<h2 id="案例目录结构"><a href="#案例目录结构" class="headerlink" title="案例目录结构"></a>案例目录结构</h2><pre><code># 目录结构示意图
+# project/
+# ├── task
+# │   ├── main.py
+# │   └── ....
+# ├── util
+# │   ├── xx_util.py
+# │   └── ....
+# └──  .... 
+
+
+$ python task/main.py
+</code></pre>
+<p>sys.path 就会进入到task 目录中，这样main.py 想要 import main 目录外的模块就会出问题，例如import util.xx_util 就会出现 ModuleNotFoundError, 就算本目录下的文件 import task.xxx 也会出现错误，因为sys.path 不对，在task目录下就没有那些文件。</p>
+<h2 id="处理方案"><a href="#处理方案" class="headerlink" title="处理方案"></a>处理方案</h2><p>这种情况怎么办呢？我看到过几种做法：</p>
+<h3 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h3><p>sys.path.append(‘..’) 将上一级目录 append 进来<br>非常不推荐这种做法，动态改变sys.path会使静态分析工具失效，例如pycharm 等IDE的代码提示。这在大型项目中会极大降低代码的可阅读性、增加开发难度<br>这是软件开发的灾难<br>（补充：通过环境变量PYTHONPATH 指定目录本质上也是sys.path 上append）</p>
+<h3 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h3><p>使用相对路径import .task.xxx ，from .. import util<br>同样非常不推荐这样做，特别是我们只是想临时debug一下子模块中的包的时候，修改好后还需要改回去，十分繁琐，还有可能带来不一致的问题<br>这是软件开发的灾难</p>
+<h3 id="方案三-推荐做法"><a href="#方案三-推荐做法" class="headerlink" title="方案三[ 推荐做法 ]"></a>方案三[ 推荐做法 ]</h3><p>使用python -m task.main 执行程序<br>此时sys.path就在执行这行代码时所在的目录，也就是working directory, 而不会进入main所在的位置，这是十分简单的解决方法，不会带来新的问题</p>

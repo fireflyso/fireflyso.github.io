@@ -1,0 +1,130 @@
+<hr>
+<p>title: python基础 – 异常处理<br>categories:</p>
+<ul>
+<li>python</li>
+<li>python基础<br>tags:</li>
+<li>python</li>
+<li>python基础</li>
+</ul>
+<hr>
+<h1 id="try…except"><a href="#try…except" class="headerlink" title="try…except"></a>try…except</h1><pre><code>try:
+    result = 1 / 0
+    print(result)
+except ArithmeticError:
+    print(&quot;数学错误&quot;)   # 数学错误
+</code></pre>
+<ul>
+<li>基础的一个处理方式</li>
+</ul>
+<pre><code>try:
+    result = 1 / 0
+    print(result)
+except ArithmeticError as e:
+    print(&quot;数学错误&quot;)   # 数学错误
+    print(type(e))  # &lt;class &#39;ZeroDivisionError&#39;&gt;
+    print(e)    # division by zero
+</code></pre>
+<ul>
+<li>可以通过as关键字拿到异常对象做处理</li>
+</ul>
+<pre><code>try:
+    result = 1 / 0
+    print(result)
+except ZeroDivisionError:
+    print(&quot;0不能作为除数&quot;)
+except ArithmeticError:
+    print(&quot;数学错误&quot;)
+print(&quot;结束&quot;)
+
+try:
+    result = 1 / 0
+    print(result)
+except ArithmeticError:
+    print(&quot;数学错误&quot;)
+except ZeroDivisionError:
+    print(&quot;0不能作为除数&quot;)
+print(&quot;结束&quot;)
+</code></pre>
+<ul>
+<li>注意异常对象之间的继承关系，子类的异常会被父类捕获</li>
+<li>异常捕获从上到下，被捕获后就跳出了，所以不要把子类异常放到父类异常后面，当然IDE也会有语法提示</li>
+</ul>
+<pre><code>try:
+    result = 1 / 0
+    print(result)
+except TypeError:
+    print(&quot;运行出错了&quot;)
+except ZeroDivisionError:
+    print(&quot;运行出错了&quot;)
+except ValueError:
+    print(&quot;运行出错了&quot;)
+
+try:
+    result = 1 / 0
+    print(result)
+except (TypeError, ZeroDivisionError, ValueError):
+    print(&quot;运行出错了&quot;)
+</code></pre>
+<ul>
+<li>如果有多个异常的处理方式相同可以直接把异常对象放到元组中</li>
+</ul>
+<pre><code>try:
+    result = 1 / 0
+    print(result)
+except (TypeError, ValueError):
+    print(&quot;类型错误或值错误&quot;)
+# except:
+except Exception:
+    print(&quot;其它错误&quot;)
+</code></pre>
+<ul>
+<li>最后接一个Exception或者直接except来捕获所有异常</li>
+</ul>
+<h1 id="else从句"><a href="#else从句" class="headerlink" title="else从句"></a>else从句</h1><p>如果没有异常发生则会执行的逻辑</p>
+<h1 id="finally从句"><a href="#finally从句" class="headerlink" title="finally从句"></a>finally从句</h1><p>无论什么情况下都需要执行的逻辑</p>
+<h1 id="raise"><a href="#raise" class="headerlink" title="raise"></a>raise</h1><pre><code>try:
+    raise ZeroDivisionError(&#39;0不能作为除数&#39;)
+except ZeroDivisionError as err:
+    print(err)
+</code></pre>
+<ul>
+<li>手动抛出异常</li>
+</ul>
+<h1 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h1><pre><code>class MyException(Exception):
+    def __init__(self, msg1, msg2):
+        self.msg1 = msg1
+        self.msg2 = msg2
+
+
+try:
+    raise MyException(&#39;123&#39;, &#39;abc&#39;)
+except MyException as err:
+    print(err)
+</code></pre>
+<h1 id="获取异常信息"><a href="#获取异常信息" class="headerlink" title="获取异常信息"></a>获取异常信息</h1><pre><code>import sys
+import traceback
+
+def f1():
+    print(1 / 0)
+
+def f2():
+    try:
+        f1()
+    except ZeroDivisionError:
+        ex_type, ex_value, ex_traceback = sys.exc_info()
+
+        print(&#39;异常的类型：%s&#39; % ex_type)
+        print(&#39;异常的错误信息：%s&#39; % ex_value)
+        print(&#39;异常调用堆栈的跟踪信息：%s&#39; % ex_traceback)
+
+        tb = traceback.extract_tb(ex_traceback)
+        print(tb)
+
+        for filename, linenum, funcname, source in tb:
+            print(&#39;文件名：%s&#39; % filename)
+            print(&#39;行数：%s&#39; % linenum)
+            print(&#39;函数名：%s&#39; % funcname)
+            print(&#39;源码：%s&#39; % source)
+
+f2()
+</code></pre>

@@ -1,0 +1,187 @@
+<hr>
+<p>title: python基础 – 特殊方法和属性<br>categories:</p>
+<ul>
+<li>python</li>
+<li>python基础<br>tags:</li>
+<li>python</li>
+<li>python基础</li>
+</ul>
+<hr>
+<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><ul>
+<li>通过dir()查看类对象或者实例时看到的以双下划线开头和结尾的方法和属性就是特殊方法和特殊属性，基本都是继承自object</li>
+<li>通常会去显式的调用特殊资源，除了__init__()以外一般也不会去重写</li>
+</ul>
+<h1 id="dict"><a href="#dict" class="headerlink" title="dict"></a><strong>dict</strong></h1><pre><code class="python">
+class MyClass(object):
+    ca = &quot;ca&quot;
+
+    def __init__(self):
+        self.ia = &quot;ia_value&quot;
+
+    def im(self):
+        pass
+
+    @classmethod
+    def cm(cls):
+        pass
+
+    @staticmethod
+    def sm():
+        pass
+
+MyClass.ca2 = &quot;ca2&quot;
+print(MyClass.__dict__)
+# {&#39;__module__&#39;: &#39;__main__&#39;, &#39;ca&#39;: &#39;ca&#39;, &#39;__init__&#39;: &lt;function MyClass.__init__ at 0x1014293a0&gt;, &#39;im&#39;: &lt;function MyClass.im at 0x1014d34c0&gt;, &#39;cm&#39;: &lt;classmethod object at 0x1013d3cd0&gt;, &#39;sm&#39;: &lt;staticmethod object at 0x10144d880&gt;, &#39;__dict__&#39;: &lt;attribute &#39;__dict__&#39; of &#39;MyClass&#39; objects&gt;, &#39;__weakref__&#39;: &lt;attribute &#39;__weakref__&#39; of &#39;MyClass&#39; objects&gt;, &#39;__doc__&#39;: None, &#39;ca2&#39;: &#39;ca2&#39;}
+
+mc = MyClass()
+mc.ia2 = &quot;ia2&quot;
+print(mc.__dict__)
+# {&#39;ia&#39;: &#39;ia_value&#39;, &#39;ia2&#39;: &#39;ia2&#39;}
+</code></pre>
+<ul>
+<li>特殊属性__dict__，获取到所有的方法和属性组成的字典，key是资源名称</li>
+<li>对象不会显示特殊资源</li>
+</ul>
+<h1 id="类反射"><a href="#类反射" class="headerlink" title="类反射"></a>类反射</h1><pre><code>class MyClass(object):
+    def __init__(self):
+        self.x = 1
+
+    def do_sth(self):
+        print(&quot;do_sth被调用&quot;)
+
+
+mc = MyClass()
+
+print(hasattr(mc, &#39;x&#39;))
+print(hasattr(mc, &#39;do_sth&#39;))
+print(hasattr(mc, &#39;y&#39;))
+
+print(getattr(mc, &#39;x&#39;))
+
+f = getattr(mc, &#39;do_sth&#39;)
+f()
+
+# print(getattr(mc, &#39;y&#39;)) 
+print(getattr(mc, &#39;y&#39;, 2))
+
+setattr(mc, &#39;z&#39;, 3)
+print(getattr(mc, &#39;z&#39;))
+
+setattr(mc, &#39;z&#39;, 4)
+print(getattr(mc, &#39;z&#39;))
+
+delattr(mc, &#39;z&#39;)
+print(hasattr(mc, &#39;z&#39;))
+</code></pre>
+<ul>
+<li>python是个动态语言，本身就支持动态的为类对象或者实例对象进行属性和方法的绑定删除操作</li>
+<li>==getattr()和直接调用方法的区别是什么呢==</li>
+</ul>
+<h1 id="特殊方法-len"><a href="#特殊方法-len" class="headerlink" title="特殊方法__len__()"></a>特殊方法__len__()</h1><ul>
+<li>python有一个内置函数len(),但是它只能对内置类的对象使用</li>
+<li>自定义的对象中只要实现了__len()__方法，即可使用len()</li>
+</ul>
+<h1 id="iter-和-next"><a href="#iter-和-next" class="headerlink" title="iter()和__next__()"></a><strong>iter</strong>()和__next__()</h1><pre><code>class MyClass(object):
+    def __init__(self):
+        self.data = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.data &gt; 5:
+            raise StopIteration()
+        else:
+            self.data += 1
+            return self.data
+
+
+for item in MyClass():
+    print(item)
+</code></pre>
+<ul>
+<li>自定义对象想要使用for-in语句，需要对__iter__()和__next__()进行实现</li>
+</ul>
+<h1 id="str-和-repr"><a href="#str-和-repr" class="headerlink" title="str()和__repr__()"></a><strong>str</strong>()和__repr__()</h1><pre><code>&gt;&gt;&gt; class MyClass(object):
+...     def __str__(self):
+...         return &quot;__str__被调用&quot;
+...     def __repr__(self):
+...         return &quot;__repr__被调用&quot;
+... 
+&gt;&gt;&gt; mc = MyClass()
+&gt;&gt;&gt; mc
+__repr__被调用
+&gt;&gt;&gt; print(mc)
+__str__被调用
+&gt;&gt;&gt; str(mc)
+&#39;__str__被调用&#39;
+&gt;&gt;&gt; repr(mc)
+&#39;__repr__被调用&#39;
+</code></pre>
+<ul>
+<li>对应了两个内置函数str()和repr()</li>
+<li>还得说说两个内置函数的区别，str追求输出内容的可读性，repr追求数据的完整性（适合调试，尽量把信息展示齐全）</li>
+<li>直接打印一个实例对象时，调用__repr__()，如果没有实现，打印类对象信息和实力对象在内存中的地址</li>
+<li>print()，查找__str__() -&gt; <strong>repr</strong>() -&gt;打印内存地址</li>
+<li>str(),调用此方法其实是创建一个字符串，<strong>str</strong>() -&gt; <strong>repr</strong>() -&gt;打印内存地址</li>
+<li>repr(),<strong>repr</strong>() -&gt;打印内存地址</li>
+<li>通常情况下两个特殊方法的实现是一样的，所以实现一个方法后可以赋值给另一个方法<code>__repr__ = __str__</code></li>
+</ul>
+<h1 id="new"><a href="#new" class="headerlink" title="new()"></a><strong>new</strong>()</h1><pre><code>class Parent(object):
+    def __new__(cls, *args, **kwargs):
+        print(&quot;父类的__new__()被调用，其形参cls对应实参的id:%s&quot; % id(cls))
+        obj = super().__new__(cls)
+        print(&quot;创建的实例对象的id:%s&quot; % id(obj))
+        return obj
+
+
+class Child(Parent):
+    def __init__(self, name):
+        print(&quot;子类的__init__()被调用，其形参self对应实参的id：%s&quot; % id(self))
+        self.name = name
+
+
+print(&quot;父类的id：%s&quot; % id(Parent))
+print(&quot;子类的id：%s&quot; % id(Child))
+
+child = Child(&quot;Mike&quot;)
+print(&quot;创建的实例对象的id：%s&quot; % id(child))
+
+# 输出
+父类的id：140308712091888
+子类的id：140308712092832
+父类的__new__()被调用，其形参cls对应实参的id:140308712092832
+创建的实例对象的id:4371497552
+子类的__init__()被调用，其形参self对应实参的id：4371497552
+创建的实例对象的id：4371497552
+</code></pre>
+<ul>
+<li>通过类名()的方式创建实例对象时，执行两个操作<ul>
+<li>执行__new__()方法，自身实现-&gt;父类实现-&gt;object实现，通过__new__()创建对象</li>
+<li>执行__init_()对创建的对象进行初始化</li>
+</ul>
+</li>
+</ul>
+<h1 id="del"><a href="#del" class="headerlink" title="del()"></a><strong>del</strong>()</h1><p>对象被回收前会先调用这个方法，注意del obj也只是告诉回收器进行回收，具体有没有释放掉不确定，不一定是立即进行回收</p>
+<h1 id="getattr"><a href="#getattr" class="headerlink" title="getattr()"></a><strong>getattr</strong>()</h1><pre><code>class SomeClass(object):
+    def __getattr__(self, name):
+        if name == &quot;data&quot;:
+            return 18
+        elif name == &quot;do_sth&quot;:
+            return print
+        raise AttributeError(&quot;&#39;SomeClass&#39; object has no attribute &#39;%s&#39;&quot; % name)
+
+
+sc = SomeClass()
+print(sc.data)  # 18
+sc.do_sth(1, 2, 3)  # 1 2 3
+print(sc.score) # AttributeError: &#39;SomeClass&#39; object has no attribute &#39;score&#39;
+</code></pre>
+<ul>
+<li>访问对象的属性或者方法时，如果资源不存在会抛出AttributeError</li>
+<li>如果实现了__getattr__()，则会调用这个特殊方法</li>
+</ul>
+<h1 id="getitem"><a href="#getitem" class="headerlink" title="getitem()"></a><strong>getitem</strong>()</h1><p>迭代对象时<code>obj[index]</code>会调用此特殊方法</p>
+<h1 id="call"><a href="#call" class="headerlink" title="call()"></a><strong>call</strong>()</h1><p><code>obj()</code>，把对象当方法调用，奇怪的脑洞</p>
+<h1 id="doc"><a href="#doc" class="headerlink" title="doc()"></a><strong>doc</strong>()</h1><p>获取对象的文档字符串，也就是类的注释”””对类的描述说明”””</p>
+<h1 id="slots"><a href="#slots" class="headerlink" title="slots()"></a><strong>slots</strong>()</h1><p>动态绑定的时候说过这个方法，python是一个动态语言，可以给对象动态绑定资源，这个特殊方法是为了限制这一点，只有在这个方法中预留的资源才可以进行动态绑定</p>

@@ -1,0 +1,19 @@
+<hr>
+<p>title: python基础 – 脚本传参<br>categories:</p>
+<ul>
+<li>python</li>
+<li>python基础<br>tags:</li>
+<li>python</li>
+<li>python基础</li>
+</ul>
+<hr>
+<pre><code>import argparse
+
+
+if __name__ == &#39;__main__&#39;:
+    parser = argparse.ArgumentParser(description=&#39;此脚本运行需要输入必要参数&#39;)
+    parser.add_argument(&#39;--pid&#39;, &#39;-p&#39;, help=&#39;产品ID，必要参数&#39;, required=True)
+    args = parser.parse_args()
+    prodcut_id = args.pid
+    
+</code></pre>
