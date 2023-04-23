@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>linux -- Linux命令 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="网络调试ping fping traceroute mtr strace dnspeep  DNS解析Hosts配置hosts 123vim &#x2F;etc&#x2F;hosts123.123.123.123 www.baidu.com124.123.123.123 www.qq.com  配置DNS服务参考博客：Linux配置&#x2F;etc&#x2F;resolv.conf详解 123vim &#x2F;etc&#x2F;resolv.confn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux -- Linux命令">
+<meta property="og:url" content="http://example.com/2023/04/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/linux%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="网络调试ping fping traceroute mtr strace dnspeep  DNS解析Hosts配置hosts 123vim &#x2F;etc&#x2F;hosts123.123.123.123 www.baidu.com124.123.123.123 www.qq.com  配置DNS服务参考博客：Linux配置&#x2F;etc&#x2F;resolv.conf详解 123vim &#x2F;etc&#x2F;resolv.confn">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/linux-penguin-terminal.png">
+<meta property="article:published_time" content="2023-04-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-23T06:36:18.178Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="计算机操作系统">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/linux-penguin-terminal.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/linux%E5%91%BD%E4%BB%A4/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'linux -- Linux命令',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-23 14:36:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">160</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/linux-penguin-terminal.png')"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">linux -- Linux命令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-19T16:00:00.000Z" title="发表于 2023-04-20 00:00:00">2023-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-23T06:36:18.178Z" title="更新于 2023-04-23 14:36:18">2023-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">计算机操作系统</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="linux -- Linux命令"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="网络调试"><a href="#网络调试" class="headerlink" title="网络调试"></a>网络调试</h2><h3 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h3><ul>
+<li>fping</li>
+<li>traceroute</li>
+<li>mtr</li>
+<li>strace</li>
+<li>dnspeep</li>
+</ul>
+<h2 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h2><h3 id="Hosts"><a href="#Hosts" class="headerlink" title="Hosts"></a>Hosts</h3><p>配置hosts</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line">123.123.123.123 www.baidu.com</span><br><span class="line">124.123.123.123 www.qq.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置DNS服务"><a href="#配置DNS服务" class="headerlink" title="配置DNS服务"></a>配置DNS服务</h3><p>参考博客：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yuhaohao/p/13889240.html">Linux配置/etc/resolv.conf详解</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/resolv.conf</span><br><span class="line">nameserver 114.114.114.114</span><br><span class="line">nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>nameserver定义DNS服务器地址，可以配置多个服务器，按配置顺序查找解析域名（找不到就找下一个解析服务器）</p>
+</li>
+<li><p>关闭本地DNS服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看运行状态</span></span><br><span class="line">systemctl status systemd-resolved.service</span><br><span class="line">systemctl stop systemd-resolved.service</span><br><span class="line"><span class="comment"># 关闭开机自启动</span></span><br><span class="line">systemctl <span class="built_in">disable</span> systemd-resolved.service</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><div style="color:#F56C6C">这个服务没有研究得很明白</div></li>
+</ul>
+</li>
+</ul>
+<h3 id="网卡"><a href="#网卡" class="headerlink" title="网卡"></a>网卡</h3><p>没试过</p>
+<h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><ul>
+<li><p>查看系统版本信息（Ubuntu还是CentOS）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsb_release -a</span><br></pre></td></tr></table></figure></li>
+<li><p>系统版本red hat或者centos</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/redhat-release</span><br></pre></td></tr></table></figure></li>
+<li><p>查看cpu信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/cpuinfo</span><br></pre></td></tr></table></figure></li>
+<li><p>查看当前用户名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whoami</span><br></pre></td></tr></table></figure></li>
+<li><p>新建用户(需要管理员权限)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">adduser firefly</span><br><span class="line">passwd firefly</span><br><span class="line">whereis sudoers</span><br><span class="line">ls -l /etc/sudoers</span><br><span class="line">chmod -v u+w /etc/sudoers</span><br><span class="line"></span><br><span class="line">vi /etc/sudoers</span><br><span class="line">&lt;!--在root配置下面把刚创建的用户加上--&gt;</span><br><span class="line">root	ALL=(ALL) 	ALL</span><br><span class="line">firefly	  ALL=(ALL)       ALL</span><br><span class="line"></span><br><span class="line">chmod -v u-w /etc/sudoers</span><br></pre></td></tr></table></figure></li>
+<li><p>查看用户的系统资源占用状况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 后面的root是用户名</span><br><span class="line">top -u root</span><br></pre></td></tr></table></figure></li>
+<li><p>批量结束进程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep -i chrome | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | xargs <span class="built_in">kill</span></span><br><span class="line"></span><br><span class="line">&lt;!--正常的查看一个服务的运行状况是--&gt;</span><br><span class="line">ps aux | grep chrome    </span><br><span class="line">&lt;!--上面多了一个-i是忽略大小写的意思--&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--将管道传来的数据中的第二个列打印到命令行--&gt;</span><br><span class="line">awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span></span><br><span class="line">&lt;!--也可以打印多个--&gt;</span><br><span class="line">awk <span class="string">&#x27;&#123;print $2,$3&#125;&#x27;</span></span><br><span class="line"></span><br><span class="line">&lt;!--将管道传过来的进程号全部<span class="built_in">kill</span>--&gt;</span><br><span class="line">xargs <span class="built_in">kill</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>修改root密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--前提是在root用户下--&gt;</span><br><span class="line">sudo passwd root</span><br><span class="line">&lt;!--之后将新密码输入两次--&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>查看网络端口使用情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ul>
+<li><p>远程服务器文件传输</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#上传</span><br><span class="line">#文档</span><br><span class="line">scp -P 2222 /home/lnmp0.4.tar.gz root@www.vpser.net:/root/lnmp0.4.tar.gz</span><br><span class="line"></span><br><span class="line">#文件夹</span><br><span class="line">scp -P 2222 -r /home/lnmp0.4/ root@www.vpser.net:/root/lnmp0.4/</span><br><span class="line"></span><br><span class="line">#下载</span><br><span class="line">#文档</span><br><span class="line">scp -P 2222 root@www.vpser.net:/root/lnmp0.4.tar.gz /home/lnmp0.4.tar.gz</span><br><span class="line"></span><br><span class="line">#文件夹</span><br><span class="line">scp -P 2222 -r root@www.vpser.net:/root/lnmp0.4/ /home/lnmp0.4/</span><br></pre></td></tr></table></figure></li>
+<li><p>查看目录占用磁盘空间大小</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#子文件和子文件夹</span><br><span class="line">du -sh folderPaht/*</span><br><span class="line"></span><br><span class="line">#文件夹</span><br><span class="line">du -sh folderPath</span><br></pre></td></tr></table></figure></li>
+<li><p>搜索文件内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 先不记那么多用不到的功能，以后用到再补充</span><br><span class="line"></span><br><span class="line"># 在文件夹下的所有文件中搜索关键字以及他所在的行号</span><br><span class="line">grep -rn keyword ./</span><br><span class="line"></span><br><span class="line"># 使用正则表达式,这里只是一个比较常用的.*表示匹配任意数量的任意字符</span><br><span class="line">grep &#x27;500 .*https://brandfollowers&#x27; access.log</span><br><span class="line"></span><br><span class="line"># 通过-C可以打印出搜索目标前后的行</span><br><span class="line">grep -rn -C 1 &quot;调用API url: http://wan-flow-bps-service&quot; ./resop.log.2021-08-05_16</span><br><span class="line"></span><br><span class="line"># 只显示匹配的内容</span><br><span class="line">grep -o &#x27;if_name.*init_time&#x27; /root/telemetry/test/gpb/log.out</span><br></pre></td></tr></table></figure></li>
+<li><p>压缩文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将文件或者文件夹打包为压缩文件</span></span><br><span class="line"><span class="built_in">zip</span> -r -q test.<span class="built_in">zip</span> /root/user/test</span><br><span class="line"></span><br><span class="line">tar –cvf test.tar /root/user/test</span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">unzip test.<span class="built_in">zip</span></span><br><span class="line"><span class="comment"># 解压tgz文件，file.tgz是要解压的文件，file是解压后的文件或文件夹</span></span><br><span class="line">tar -xzvf file.tgz -C file</span><br></pre></td></tr></table></figure></li>
+<li><p>sed</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--输出文件第10行内容--&gt;</span><br><span class="line">sed -n 10p file</span><br></pre></td></tr></table></figure></li>
+<li><p>less<br>less不会像vi那样将所有数据加载到内存中，但实现了大多数vi操作模式下的功能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--显示行号展示文件--&gt;</span><br><span class="line">less -N file</span><br><span class="line"></span><br><span class="line">&lt;!--打开特定行--&gt;</span><br><span class="line">less +320123 filename</span><br><span class="line"></span><br><span class="line">&lt;!--通过less来展示历史命令，方便查看--&gt;</span><br><span class="line">history | less</span><br><span class="line"></span><br><span class="line">&lt;!--实时刷新，类似tail -f--&gt;</span><br><span class="line">less file.log</span><br><span class="line">打开后按F</span><br><span class="line"></span><br><span class="line">v 可以进行编辑</span><br><span class="line">100g 可以跳转到第100行</span><br><span class="line"></span><br><span class="line">&lt;!--打开另一个文件--&gt;</span><br><span class="line">:e file2</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="开机启动项管理"><a href="#开机启动项管理" class="headerlink" title="开机启动项管理"></a>开机启动项管理</h2><ul>
+<li>查看所有：<code>sudo systemctl list-unit-files</code>会用less的方式对项目进行展示</li>
+<li>指定查看：<code>systemctl is-enabled servicename.service</code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable *.service #开机运行服务</span><br><span class="line">systemctl disable *.service #取消开机运行</span><br><span class="line">systemctl start *.service #启动服务</span><br><span class="line">systemctl stop *.service #停止服务</span><br><span class="line">systemctl restart *.service #重启服务</span><br><span class="line">systemctl reload *.service #重新加载服务配置文件</span><br><span class="line">systemctl status *.service #查询服务运行状态</span><br></pre></td></tr></table></figure></li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">计算机操作系统</a><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post_share"><div class="social-share" data-image="/img/linux-penguin-terminal.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/04/17/python/%E7%89%88%E6%9C%AC%E8%BF%AD%E4%BB%A3/" title="python -- 版本迭代"><img class="cover" src="/img/v2-edd1e6038a34e66458d5ae2877abb456_1440w.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">python -- 版本迭代</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%B0%83%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">网络调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ping"><span class="toc-number">1.1.</span> <span class="toc-text">ping</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS%E8%A7%A3%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">DNS解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hosts"><span class="toc-number">2.1.</span> <span class="toc-text">Hosts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEDNS%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.2.</span> <span class="toc-text">配置DNS服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%8D%A1"><span class="toc-number">2.3.</span> <span class="toc-text">网卡</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.</span> <span class="toc-text">系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%AE%A1%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">开机启动项管理</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/img/linux-penguin-terminal.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
