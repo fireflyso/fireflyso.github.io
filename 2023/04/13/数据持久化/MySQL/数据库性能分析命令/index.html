@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数据持久化 -- 数据库性能分析命令 | 南山山</title><meta name="author" content="南山山"><meta name="copyright" content="南山山"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、查看数据库表占用空间大小1select TABLE_NAME,concat(truncate((DATA_LENGTH+INDEX_LENGTH)&#x2F;1024&#x2F;1024,2),&amp;#x27;M&amp;#x27;),TABLE_ROWS FROM information_schema.TABLES where TABLE_SCHEMA&#x3D;&amp;#x27;ins_rank&amp;#x27; 上面的语句会依次输出ins_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据持久化 -- 数据库性能分析命令">
+<meta property="og:url" content="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/MySQL/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="南山山">
+<meta property="og:description" content="一、查看数据库表占用空间大小1select TABLE_NAME,concat(truncate((DATA_LENGTH+INDEX_LENGTH)&#x2F;1024&#x2F;1024,2),&amp;#x27;M&amp;#x27;),TABLE_ROWS FROM information_schema.TABLES where TABLE_SCHEMA&#x3D;&amp;#x27;ins_rank&amp;#x27; 上面的语句会依次输出ins_">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T03:20:59.634Z">
+<meta property="article:modified_time" content="2023-04-23T06:36:18.010Z">
+<meta property="article:author" content="南山山">
+<meta property="article:tag" content="数据持久化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/MySQL/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%91%BD%E4%BB%A4/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据持久化 -- 数据库性能分析命令',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-23 14:36:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">166</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">35</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="南山山"><span class="site-name">南山山</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据持久化 -- 数据库性能分析命令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T03:20:59.634Z" title="发表于 2023-04-13 11:20:59">2023-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-23T06:36:18.010Z" title="更新于 2023-04-23 14:36:18">2023-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据持久化 -- 数据库性能分析命令"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="一、查看数据库表占用空间大小"><a href="#一、查看数据库表占用空间大小" class="headerlink" title="一、查看数据库表占用空间大小"></a>一、查看数据库表占用空间大小</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select TABLE_NAME,concat(truncate((DATA_LENGTH+INDEX_LENGTH)/1024/1024,2),&#x27;M&#x27;),TABLE_ROWS FROM information_schema.TABLES where TABLE_SCHEMA=&#x27;ins_rank&#x27;</span><br></pre></td></tr></table></figure>
+<p>上面的语句会依次输出ins_rank数据库中表对空间占用的情况，单位是M，来一一解释关键字和函数的意义</p>
+<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><ul>
+<li><p>concat函数–联合字段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--这个函数的作用就是将两个字段拼接到一个字段中做显示--&gt;</span><br><span class="line">select concat(10,&#x27;M&#x27;) as lenge</span><br></pre></td></tr></table></figure></li>
+<li><p>round()–四舍五入，虽然这里没有用到，还是可以留个印象，MySQL里面有这么个函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select <span class="built_in">round</span>(column_name,decimals) <span class="keyword">from</span> table_name</span><br><span class="line"><span class="comment"># 这里decimals表示精确度，返回小数点后几位</span></span><br></pre></td></tr></table></figure></li>
+<li><p>truncate()–截取字段函数，案例中使用了truncate就没有使用round</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">truncate(X,D)</span><br><span class="line"># 这里的X是要做处理的数据</span><br><span class="line"># 这里的D表示对数据处理的方式</span><br><span class="line"># 案例一：D小于0</span><br><span class="line">select truncate(123.456,-2)</span><br><span class="line">结果：100</span><br><span class="line"># 案例二：D等于0</span><br><span class="line">select truncate(123.456,0)</span><br><span class="line">结果：123</span><br><span class="line"># 案例二：D大于0</span><br><span class="line">select truncate(123.456,2)</span><br><span class="line">结果：123.45</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h4><p>在介绍关键字之前说另一个东西，关于数据库表的一些信息像是空间占用、记录行数、更新时间、字段等都在informatioin_schema数据库中的TABLES表里面有记录，所以上面的语句是从这个地方去做的一个查询</p>
+<ul>
+<li>TABLE_SCHEMA : 数据库名</li>
+<li>TABLE_NAME：表名</li>
+<li>ENGINE：所使用的存储引擎</li>
+<li>TABLES_ROWS：记录数，即表的行数</li>
+<li>DATA_LENGTH：数据大小</li>
+<li>INDEX_LENGTH：索引大小</li>
+<li>CREATE_TIME：创建时间</li>
+<li>UPDATE_TIME：最近更新时间</li>
+<li></li>
+</ul>
+<h3 id="二、查看SQL语句执行详情"><a href="#二、查看SQL语句执行详情" class="headerlink" title="二、查看SQL语句执行详情"></a>二、查看SQL语句执行详情</h3><h4 id="EXPLAIN"><a href="#EXPLAIN" class="headerlink" title="EXPLAIN"></a>EXPLAIN</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN select * from ins_kol where id = 100000</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><img src="/img/14552.png" alt="执行结果"></p>
+<ul>
+<li>id是该sql在执行序列中的编号，这里只有一句所以就没什么意义了，id值越大，优先级越高</li>
+<li>select_type：查询类型<ul>
+<li>SIMPLE：简单的 select 查询,不使用 union 及子查询</li>
+<li>PRIMARY：最外层的 select 查询</li>
+<li>UNION：UNION 中的第二个或随后的 select 查询,不 依赖于外部查询的结果集</li>
+<li>DEPENDENT UNION：UNION 中的第二个或随后的 select 查询,依 赖于外部查询的结果集</li>
+<li>SUBQUERY：子查询中的第一个 select 查询,不依赖于外 部查询的结果集</li>
+<li>DEPENDENT SUBQUERY：子查询中的第一个 select 查询,依赖于外部 查询的结果集</li>
+<li>DERIVED：用于 from 子句里有子查询的情况。 MySQL 会 递归执行这些子查询, 把结果放在临时表里。</li>
+<li>UNCACHEABLE SUBQUERY：结果集不能被缓存的子查询,必须重新为外 层查询的每一行进行评估。</li>
+<li>UNCACHEABLE UNION：UNION 中的第二个或随后的 select 查询,属 于不可缓存的子查询 </li>
+</ul>
+</li>
+<li>table：查询指向的表</li>
+<li>partitions：这个应该是由于这里的表做了分区才有了这个参数，表示数据最后是落在哪个分区中的</li>
+<li>type：表的连接类型<ul>
+<li>system：表中只有一行，即常量</li>
+<li>const：单表中最多有一个匹配行，如primary key或unique index</li>
+<li>eq_ref： 对于前面的每一行，在此表中只查询一条记录，也就是多表连接中使用primary key或unique index</li>
+<li>ref： 与eq_ref类似，区别在于不是使用primary key或unique index，而是使用普通索引</li>
+<li>ref_or_null： 与ref类型，区别在于条件中包含对null的查询</li>
+<li>index_merge： 索引合并优化</li>
+<li>unique_subquery： in的后面是一个查询主键字段的子查询</li>
+<li>index_subquery： 与unique_subquery类似，区别在于in的后面是查询非唯一索引字段的子查询  </li>
+<li>range： 单表中的范围查询</li>
+<li>index： 对于前面的每一行，都通过查询索引来得到数据</li>
+<li>all： 对于前面的每一行，都通过扫描全表来得到数据</li>
+<li>(一般来说，得保证查询至少达到range级别，最好能达到ref，否则就可能会出现性能问题)</li>
+<li>possible_keys： 查询时可能用到的索引</li>
+<li>key： 查询时实际使用到的索引，如果没有选择索引，键是NULL</li>
+<li>key-len： 索引字段的长度 如果键是NULL，则长度为NULL。使用的索引的长度。在不损失精确性的情况下，长度越短越好</li>
+<li>rows： 扫描行的数量</li>
+<li>Extra： 执行情况的说明和描述 也是关键参考项之一，但是这里没有遇到再补充</li>
+</ul>
+</li>
+</ul>
+<h4 id="show-profiles查看执行时间"><a href="#show-profiles查看执行时间" class="headerlink" title="show profiles查看执行时间"></a>show profiles查看执行时间</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--查看数据库版本，大概要5.0之后的版本才支持这个功能--&gt;</span><br><span class="line">show variables like &quot;%version%&quot;</span><br><span class="line">&lt;!--功能默认是关闭的，查看状态--&gt;</span><br><span class="line">show variables like &quot;%pro%&quot;</span><br><span class="line">&lt;!--激活这个功能，重启之后会失效，所以最好每次都检查一下状态--&gt;</span><br><span class="line">set profiling = 1</span><br><span class="line">&lt;!--查询语句--&gt;</span><br><span class="line">select * from ins_insight_user where id = 1000</span><br><span class="line">select * from ins_kol where id = 100000</span><br><span class="line">&lt;!--查看刚才执行的SQL用时信息--&gt;</span><br><span class="line">show profiles</span><br><span class="line">&lt;!--查看第一条语句各个操作的用时情况--&gt;</span><br><span class="line">show profile for query 1</span><br></pre></td></tr></table></figure>
+
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/">数据持久化</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/" title="数据持久化 -- 事务原理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数据持久化 -- 事务原理</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/13/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/MySQL/%E7%B4%A2%E5%BC%95%E3%80%81%E5%88%86%E8%A1%A8/" title="数据持久化 -- 索引、分表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据持久化 -- 索引、分表</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E5%8D%A0%E7%94%A8%E7%A9%BA%E9%97%B4%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.</span> <span class="toc-text">一、查看数据库表占用空间大小</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">1.2.</span> <span class="toc-text">关键字</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%9F%A5%E7%9C%8BSQL%E8%AF%AD%E5%8F%A5%E6%89%A7%E8%A1%8C%E8%AF%A6%E6%83%85"><span class="toc-number">2.</span> <span class="toc-text">二、查看SQL语句执行详情</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EXPLAIN"><span class="toc-number">2.1.</span> <span class="toc-text">EXPLAIN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#show-profiles%E6%9F%A5%E7%9C%8B%E6%89%A7%E8%A1%8C%E6%97%B6%E9%97%B4"><span class="toc-number">2.2.</span> <span class="toc-text">show profiles查看执行时间</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 南山山</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">咱是有底线的</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
